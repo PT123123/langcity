@@ -45,13 +45,30 @@
    包名 `com.langcity.nihongostreet`，arm64 + armv7，横屏传感器方向，无需任何权限）
    → Export Project，得到可直接安装的 APK。
 
-- 调试安装：`adb install build/nihongo-street.apk`
+- 调试安装：`just installandroid`（或手动 `adb install build/nihongo-street.apk`）
 - 手机上首次运行请在系统设置里允许安装未知来源应用。
+
+## 常用命令（justfile）
+
+已内置 [just](https://github.com/casey/just) 任务文件，装好 just 后在项目根目录直接跑：
+
+| 命令 | 作用 |
+|---|---|
+| `just` / `just --list` | 列出所有可用任务 |
+| `just installandroid` | 把 `build/nihongo-street.apk` 安装到已连接的安卓设备（仅安装，不启动） |
+| `just download-resource` | 下载外部素材：Poly Haven CC0 贴图（`tools/fetch_textures.py`）+ edge-tts 生成单词发音音频（`tools/gen_audio.py`），增量执行，已有文件自动跳过 |
+| `just clean` | 清理 `.godot` 导入缓存和 `out/` 开发截图；**不会**清理 `assets/` 素材与 `build/` APK |
+
+依赖说明：
+- `installandroid` 需要手机开启 USB 调试并连接电脑，PATH 里有 `adb`。
+- `download-resource` 需要 python3；发音生成依赖 `edge-tts`（`pip install edge-tts`）。
+  全部素材已随仓库提交，**克隆后无需执行**，只有新增贴图材质 / 新增单词补音频时才需要重跑。
 
 ## 项目结构
 
 ```
 project.godot            引擎配置（mobile 渲染器、横屏、触控）
+justfile                 常用任务（安装 APK / 下载素材 / 清理）
 data/
   words.json             ★ 词库：分类 + 单词（ja/kana/romaji/zh/category）
   map.json               ★ 街区地图：物体种类与坐标（像素，1m = 40px）
