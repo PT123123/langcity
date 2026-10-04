@@ -24,6 +24,11 @@ var settings := {
 	"volume": 0.8,          # TTS 音量 0..1
 	"pitch": 1.0,           # TTS 音调
 	"tutorial_done": false, # 是否看过街道引导
+	"cam_sens": 1.0,        # 第三人称相机灵敏度倍率
+	"cam_auto_recenter": true,  # 停手后相机是否回正到猫背后
+	"gfx_tier": -1,         # 画质档位 -1=自动(嗅探机型) 0=低 1=中 2=高
+	"time_phase": 2,        # 0=朝 1=昼 2=夕(默认,最出片) 3=夜
+	"reduce_flicker": false,      # 降低闪烁（光敏性癫痫友好）
 }
 
 var _save_timer: SceneTreeTimer = null
@@ -155,6 +160,31 @@ func set_position(p: Vector2) -> void:
 	last_position = p
 	has_last_position = true
 	save_soon()
+
+
+## 应用画质档位到当前场景的 Environment + 太阳。设置页与自动降级都调它。
+## 规格要求：绝不用「降分辨率」保帧率 —— 砍后处理与阴影，锐化交给 FSRCAS。
+func apply_graphics_tier(tier: int) -> void:
+	settings["gfx_tier"] = tier
+	save_soon()
+	var street := get_tree().current_scene
+	if street == null or not street.has_method("apply_tier"):
+		return
+	street.apply_tier(tier)
+
+
+## 切换时刻。0=朝 1=昼 2=夕 3=夜
+func set_time_phase(p: int) -> void:
+	settings["time_phase"] = clampi(p, 0, 3)
+	save_soon()
+	var street := get_tree().current_scene
+	if street != null and street.has_method("apply_time_phase"):
+		street.apply_time_phase(int(settings["time_phase"]))
+
+
+func current_tier() -> int:
+	var t := int(settings.get("gfx_tier", -1))
+	return t if t >= 0 else GraphicsTier.detect()
 
 
 # ---------------- 存档 ----------------

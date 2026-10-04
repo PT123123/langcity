@@ -29,6 +29,11 @@
       "id": "food",
       "name": "食物",
       "color": "#d64541"
+    },
+    {
+      "id": "furniture",
+      "name": "家具",
+      "color": "#9c89b8"
     }
   ],
   "words": [
@@ -382,6 +387,87 @@
       "zh": "面包",
       "category": "food",
       "audio": "res://assets/audio/bread.mp3"
+    },
+    {
+      "id": "kagu",
+      "ja": "家具",
+      "kana": "かぐ",
+      "romaji": "kagu",
+      "zh": "家具",
+      "category": "furniture",
+      "audio": "res://assets/audio/kagu.mp3"
+    },
+    {
+      "id": "table",
+      "ja": "テーブル",
+      "kana": "てーぶる",
+      "romaji": "teeburu",
+      "zh": "桌子",
+      "category": "furniture",
+      "audio": "res://assets/audio/table.mp3"
+    },
+    {
+      "id": "chair",
+      "ja": "椅子",
+      "kana": "いす",
+      "romaji": "isu",
+      "zh": "椅子",
+      "category": "furniture",
+      "audio": "res://assets/audio/chair.mp3"
+    },
+    {
+      "id": "bed",
+      "ja": "ベッド",
+      "kana": "べっど",
+      "romaji": "beddo",
+      "zh": "床",
+      "category": "furniture",
+      "audio": "res://assets/audio/bed.mp3"
+    },
+    {
+      "id": "sofa",
+      "ja": "ソファ",
+      "kana": "そふぁ",
+      "romaji": "sofa",
+      "zh": "沙发",
+      "category": "furniture",
+      "audio": "res://assets/audio/sofa.mp3"
+    },
+    {
+      "id": "tv",
+      "ja": "テレビ",
+      "kana": "てれび",
+      "romaji": "terebi",
+      "zh": "电视",
+      "category": "furniture",
+      "audio": "res://assets/audio/tv.mp3"
+    },
+    {
+      "id": "shelf",
+      "ja": "本棚",
+      "kana": "ほんだな",
+      "romaji": "hondana",
+      "zh": "书架",
+      "category": "furniture",
+      "audio": "res://assets/audio/shelf.mp3"
+    },
+    {
+      "id": "lamp",
+      "ja": "ランプ",
+      "kana": "らんぷ",
+      "romaji": "ranpu",
+      "zh": "台灯",
+      "category": "furniture",
+      "audio": "res://assets/audio/lamp.mp3"
+    },
+    {
+      "id": "wash",
+      "ja": "洗濯機",
+      "kana": "せんたくき",
+      "romaji": "sentakuki",
+      "zh": "洗衣机",
+      "category": "furniture",
+      "audio": "res://assets/audio/wash.mp3"
     }
   ]
 }

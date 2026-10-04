@@ -1,6 +1,7 @@
 extends Node3D
-## 街道主场景（3D 第一人称）：低多边形日本小镇、拖动转视角、
+## 街道主场景：低多边形日本小镇、Stray 式第三人称跟拍、
 ## 举起相机对准物体「拍照」学单词（Shashingo 式核心循环）。
+## 批次 1/2：接入 GraphicsTier 画质分档 + TimeOfDay 时间系统。
 
 var map := {}
 var world_m := Vector2(100, 100)
@@ -15,6 +16,14 @@ var hint_panel: Control
 var crosshair: Control
 var flash_rect: ColorRect
 var highlighted: Interactable = null
+
+var env: Environment
+var sun: DirectionalLight3D
+var tod: TimeOfDay
+var grade_layer: CanvasLayer
+var grade_rect: ColorRect
+var grade_mat: ShaderMaterial
+var tier: int = GraphicsTier.Tier.MEDIUM
 
 var _hl_timer := 0.0
 var _last_saved_pos := Vector3.ZERO
@@ -34,6 +43,7 @@ func _ready() -> void:
 	var world_arr: Array = map.get("world", [4000, 4000])
 	world_m = Vector2(world_arr[0] * Interactable.S, world_arr[1] * Interactable.S)
 
+	_setup_grade()
 	_setup_environment()
 	_setup_floor()
 
@@ -66,12 +76,12 @@ func _ready() -> void:
 	# 出生点若卡进建筑碰撞体，逐步外推，避免物理去重把玩家弹飞（瞬移）
 	var space := get_world_3d().direct_space_state
 	var probe := SphereShape3D.new()
-	probe.radius = 0.55
+	probe.radius = 0.3
 	for attempt in 10:
 		var qp := PhysicsShapeQueryParameters3D.new()
 		qp.shape = probe
 		qp.collision_mask = 1
-		qp.transform = Transform3D(Basis(), player.position + Vector3(0, 0.6, 0))
+		qp.transform = Transform3D(Basis(), player.position + Vector3(0, 0.3, 0))
 		if space.intersect_shape(qp, 1).is_empty():
 			break
 		player.position.z += 1.1
@@ -82,46 +92,162 @@ func _ready() -> void:
 
 	_spawn_petals()
 	_build_hud()
+	# 场景搭完后再扫自发光材质 —— 此时所有 Interactable 的 _ready 都跑完了
+	if tod != null:
+		tod.scan_emissives(self)
 	Game.word_discovered.connect(func(_id): _update_counter())
 	_update_counter()
 	_run_debug_hooks()
 
 
 func _setup_environment() -> void:
-	var sky_mat := PanoramaSkyMaterial.new()
-	sky_mat.panorama = ProceduralTex.sky_panorama()
-	var sky := Sky.new()
-	sky.sky_material = sky_mat
-	var env := Environment.new()
+	# 画质档位：设置页可覆盖，否则按机型嗅探
+	tier = int(Game.settings.get("gfx_tier", -1))
+	if tier < 0:
+		tier = GraphicsTier.detect()
+
+	env = Environment.new()
 	env.background_mode = Environment.BG_SKY
-	env.sky = sky
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	env.ambient_light_energy = 0.5
-	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	env.tonemap_exposure = 0.92
-	env.glow_enabled = true
-	env.glow_intensity = 0.35
-	env.glow_bloom = 0.03
-	env.adjustment_enabled = true
-	env.adjustment_saturation = 1.08
-	env.adjustment_contrast = 1.04
-	env.fog_enabled = true
-	env.fog_light_color = Color("dfe8ec")
-	env.fog_density = 0.0045
-	env.fog_sky_affect = 0.0
 	var we := WorldEnvironment.new()
 	we.environment = env
 	add_child(we)
 
-	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-46, -34, 0)
-	sun.light_color = Color(1.0, 0.94, 0.83)
+	# 太阳：唯一投射实时阴影的光源（规格约束：只照地面 + 建筑）
+	sun = DirectionalLight3D.new()
+	sun.rotation_degrees = Vector3(-11, 96, 0)   # 黄昏低角度 → 长影
+	sun.light_color = Color(1.0, 0.66, 0.38)
 	sun.light_energy = 1.15
-	sun.shadow_enabled = true
-	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
-	sun.directional_shadow_max_distance = 60.0
-	sun.shadow_blur = 1.2
+	sun.directional_shadow_fade_start = 0.85
 	add_child(sun)
+
+	# 反向补光：模拟天空/城市 bounced light，避免暗部死黑。不投影。
+	var fill := DirectionalLight3D.new()
+	fill.rotation_degrees = Vector3(-24, 148, 0)
+	fill.light_color = Color(0.72, 0.82, 1.0)
+	fill.light_energy = 0.22
+	fill.light_specular = 0.0
+	fill.shadow_enabled = false
+	add_child(fill)
+
+	# 后处理栈 + 分档
+	GraphicsTier.apply(env, sun, tier)
+
+	# 时间系统驱动全部光影
+	tod = TimeOfDay.new()
+	tod.grade_mat = grade_mat
+	add_child(tod)
+	tod.setup(sun, env, we, fill)
+	# 首次进入用瞬时切换（避免开局 15 秒的过场动画），之后切换走 15s 插值
+	tod.set_phase(int(Game.settings.get("time_phase", TimeOfDay.Phase.DUSK)), true)
+	_register_street_lights()
+
+
+## 批次 2：街道人工光布局。
+## 规格要求 6~10 盏暖光（灯笼/灯箱/窗户）+ 3~5 盏冷光（招牌/贩卖机）。
+## 中档只允许 3 盏 omni 参与光照 —— 所以按距离挑最近的 N 盏，其余只留自发光。
+func _register_street_lights() -> void:
+	var warm_spots: Array[Vector3] = []
+	var cool_spots: Array[Vector3] = []
+
+	for it in objects:
+		match it.kind:
+			# 暖光：拉面店灯箱 / 居酒屋 / 民居窗户 / 咖啡馆
+			"ramen", "cafe", "house", "mansion", "konbini":
+				warm_spots.append(it.position + Vector3(0, 2.4, 2.0))
+			# 冷光：自动贩卖机灯箱 / 便利店招牌 / 信号灯 / 路灯
+			"vending", "traffic", "streetlight", "signboard":
+				cool_spots.append(it.position + Vector3(0, 1.9, 0.9))
+
+	# 均匀取样 + 按档位截断，保证暖冷光在街上分布开而不是挤在一处
+	var warm_n := mini(warm_spots.size(), GraphicsTier.omni_budget(tier) * 2)
+	var cool_n := mini(cool_spots.size(), GraphicsTier.omni_budget(tier))
+	for i in _spread(warm_spots, warm_n):
+		var l := OmniLight3D.new()
+		l.position = warm_spots[i]
+		l.light_color = Color(1.0, 0.75, 0.35)     # 规格指定的暖黄
+		l.omni_range = 6.5
+		l.omni_attenuation = 1.4
+		l.light_energy = 0.0                        # 由 TimeOfDay 按时刻点亮
+		l.shadow_enabled = false                    # 规格：点光不投实时阴影
+		add_child(l)
+		tod.register_warm(l)
+	for i in _spread(cool_spots, cool_n):
+		var c := OmniLight3D.new()
+		c.position = cool_spots[i]
+		c.light_color = Color(0.85, 0.92, 1.0)
+		c.omni_range = 4.5
+		c.omni_attenuation = 1.8
+		c.light_energy = 0.0
+		c.shadow_enabled = false
+		add_child(c)
+		tod.register_cool(c)
+
+	# 夜晚会亮的自发光物体：统一在场景搭完后由 scan_emissives 扫（见 _ready），
+	# 这里只额外处理几个「必须是 UNSHADED 自发光」的关键物件。
+	for it in objects:
+		match it.kind:
+			"vending":
+				pass  # 灯箱已用 m_glow()，会被扫描捕获
+
+
+## 从 n 个位置里均匀取样 count 个（避免灯光全挤在数组开头）
+func _spread(src: Array[Vector3], count: int) -> Array[int]:
+	var out: Array[int] = []
+	if src.is_empty() or count <= 0:
+		return out
+	var n := mini(count, src.size())
+	for i in n:
+		out.append(int(round(float(i) * float(src.size() - 1) / maxf(1.0, float(n - 1)))))
+	return out
+
+
+## 批次 1：全屏调色层（Vignette / 色差 / 颗粒）。
+## Godot 4.4 的 Environment 没有 vignette_* 属性（4.3+ 拆走了），只能自建。
+func _setup_grade() -> void:
+	grade_layer = CanvasLayer.new()
+	grade_layer.layer = 100# 压在 HUD 之上、UI 之下
+	add_child(grade_layer)
+	grade_rect = ColorRect.new()
+	grade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	grade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	grade_mat = ShaderMaterial.new()
+	grade_mat.shader = load("res://assets/shaders/grade.gdshader")
+	# 按档位调强度：低档关色差和颗粒
+	grade_mat.set_shader_parameter("vignette_strength", 0.3)
+	grade_mat.set_shader_parameter("chromatic", 0.08 if tier != GraphicsTier.Tier.LOW else 0.0)
+	grade_mat.set_shader_parameter("grain", 0.02 if tier != GraphicsTier.Tier.LOW else 0.0)
+	grade_rect.material = grade_mat
+	grade_layer.add_child(grade_rect)
+	if tod != null:
+		tod.grade_mat = grade_mat
+
+
+## 供设置页实时切档。灯光点位数变了要重建，环境参数重刷。
+func apply_tier(t: int) -> void:
+	tier = clampi(t, 0, 2)
+	if env != null and sun != null:
+		GraphicsTier.apply(env, sun, tier)
+	if grade_mat != null:
+		grade_mat.set_shader_parameter("chromatic", 0.08 if tier != GraphicsTier.Tier.LOW else 0.0)
+		grade_mat.set_shader_parameter("grain", 0.02 if tier != GraphicsTier.Tier.LOW else 0.0)
+	# 点光数量超预算时把多出来的关掉（保留最靠前的 N 盏）
+	_budget_omni()
+
+
+## 供设置页切换时刻（15 秒插值，不跳变）
+func apply_time_phase(p: int) -> void:
+	if tod != null:
+		tod.set_phase(p, false)
+
+
+## 按档位裁剪 omni 点光数量：高档 6 / 中档 3 / 低档 1
+func _budget_omni() -> void:
+	var cap := GraphicsTier.omni_budget(tier)
+	var idx := 0
+	for c in get_children():
+		if c is OmniLight3D:
+			idx += 1
+			c.visible = idx <= cap
 
 
 func _setup_floor() -> void:
@@ -141,27 +267,54 @@ func _spawn_petals() -> void:
 			sakura_points.append(it.position)
 			if sakura_points.size() >= 4:
 				break
-	var petal_mesh := SphereMesh.new()
-	petal_mesh.radius = 0.045
-	petal_mesh.height = 0.09
+	# 花瓣是薄片不是球：SphereMesh 会变成一颗颗小球
+	var petal_mesh := QuadMesh.new()
+	petal_mesh.size = Vector2(0.055, 0.075)
+	var pmat := StandardMaterial3D.new()
+	pmat.albedo_color = Color(0.97, 0.78, 0.85, 0.92)
+	pmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	pmat.cull_mode = BaseMaterial3D.CULL_DISABLED   # 薄片要双面可见
+	pmat.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	pmat.roughness = 0.9
+	pmat.vertex_color_use_as_albedo = true
+	petal_mesh.material = pmat
 	for p in sakura_points:
 		var pt := CPUParticles3D.new()
 		pt.position = p + Vector3(0, 3.4, 0)
-		pt.amount = 14
-		pt.lifetime = 5.0
-		pt.preprocess = 5.0
+		pt.amount = 22
+		pt.lifetime = 6.5
+		pt.preprocess = 6.5
 		pt.mesh = petal_mesh
 		pt.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
-		pt.emission_sphere_radius = 1.3
-		pt.direction = Vector3(0, -1, 0)
-		pt.spread = 25.0
-		pt.gravity = Vector3(0, -0.6, 0)
-		pt.initial_velocity_min = 0.3
-		pt.initial_velocity_max = 0.9
-		pt.angular_velocity_min = -90.0
-		pt.angular_velocity_max = 90.0
-		pt.color = Color(0.97, 0.72, 0.82, 0.9)
+		pt.emission_sphere_radius = 1.5
+		pt.direction = Vector3(0.15, -1, 0.05)
+		pt.spread = 32.0
+		# 花瓣很轻，下落要慢、要被风推着飘
+		pt.gravity = Vector3(0.12, -0.28, 0.05)
+		pt.initial_velocity_min = 0.2
+		pt.initial_velocity_max = 0.65
+		pt.angular_velocity_min = -140.0
+		pt.angular_velocity_max = 140.0
+		pt.damping_min = 0.4
+		pt.damping_max = 1.1
+		pt.scale_amount_min = 0.7
+		pt.scale_amount_max = 1.15
+		pt.color = Color(0.97, 0.75, 0.84, 0.9)
+		# 尾段淡出，避免花瓣悬在半空突然消失
+		pt.color_ramp = _petal_fade()
 		add_child(pt)
+
+
+## 花瓣渐变：尾段淡出（CPUParticles3D.color_ramp 要的是 Gradient）
+func _petal_fade() -> Gradient:
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 0.75, 0.9, 1.0])
+	g.colors = PackedColorArray([
+		Color(0.98, 0.8, 0.87, 0.95),
+		Color(0.96, 0.74, 0.83, 0.85),
+		Color(0.95, 0.72, 0.81, 0.45),
+		Color(0.95, 0.7, 0.8, 0.0)])
+	return g
 
 
 # ---------------- HUD ----------------
@@ -217,6 +370,45 @@ func _build_hud() -> void:
 	shoot_btn.offset_bottom = -36
 	shoot_btn.pressed.connect(_on_shoot_pressed)
 	layer.add_child(shoot_btn)
+
+	# 右下「跳」按钮：放在拍照键正上方。Stray 的猫能跳上垃圾桶/长椅/窗台，
+	# 这是探索感的一半，所以跳跃必须是屏幕上有独立按钮，不能只靠键盘。
+	var jump_btn := Button.new()
+	jump_btn.text = "跳"
+	jump_btn.focus_mode = Control.FOCUS_NONE
+	jump_btn.add_theme_font_override("font", UiKit.font())
+	jump_btn.add_theme_font_size_override("font_size", 30)
+	jump_btn.add_theme_color_override("font_color", UiKit.WHITE)
+	jump_btn.add_theme_color_override("font_hover_color", UiKit.WHITE)
+	jump_btn.add_theme_color_override("font_pressed_color", UiKit.WHITE)
+	var jn := StyleBoxFlat.new()
+	jn.bg_color = Color(0.24, 0.4, 0.62, 0.9)     # 蓝，与朱红拍照键区分
+	jn.set_corner_radius_all(50)
+	jn.border_color = Color(1, 1, 1, 0.8)
+	jn.set_border_width_all(3)
+	var jp := jn.duplicate()
+	jp.bg_color = Color(0.16, 0.28, 0.46, 0.95)
+	var jh := jn.duplicate()
+	jh.bg_color = Color(0.32, 0.5, 0.74, 0.95)
+	jump_btn.add_theme_stylebox_override("normal", jn)
+	jump_btn.add_theme_stylebox_override("hover", jh)
+	jump_btn.add_theme_stylebox_override("pressed", jp)
+	jump_btn.anchor_left = 1.0
+	jump_btn.anchor_right = 1.0
+	jump_btn.anchor_top = 1.0
+	jump_btn.anchor_bottom = 1.0
+	jump_btn.offset_left = -150
+	jump_btn.offset_top = -280
+	jump_btn.offset_right = -52
+	jump_btn.offset_bottom = -182
+	# button_down / button_up 而不是 pressed：pressed 只在抬起时触发，做可变跳跃高度会失灵
+	jump_btn.button_down.connect(func():
+		player.jump_pressed = true
+		player.jump_held = true)
+	jump_btn.button_up.connect(func():
+		player.jump_held = false
+		player.jump_pressed = false)
+	layer.add_child(jump_btn)
 
 	# 左上菜单
 	var menu_btn := UiKit.icon_button("≡ 菜单", 22)
@@ -278,7 +470,7 @@ func _build_hud() -> void:
 	hint_panel.offset_right = 310
 	hint_panel.offset_bottom = -30
 	hint_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var hint_label := UiKit.label("左下摇杆走路 · 拖动屏幕看四周 · 对准发光的物体按【拍照】", 19, Color(1, 1, 1, 0.95), HORIZONTAL_ALIGNMENT_CENTER)
+	var hint_label := UiKit.label("左下摇杆走路 · 拖动屏幕转视角 · 对准发光的物体按【拍照】", 19, Color(1, 1, 1, 0.95), HORIZONTAL_ALIGNMENT_CENTER)
 	hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hint_panel.add_child(hint_label)
 	hint_panel.visible = not bool(Game.settings.get("tutorial_done", false))
@@ -470,8 +662,11 @@ func _notification(what: int) -> void:
 
 # ---------------- 自动化截图钩子 ----------------
 
+
+
 func _run_debug_hooks() -> void:
-	match ShotTool.shot_action:
+	var action := ShotTool.shot_action
+	match action:
 		"demo_popup":
 			player.teleport(Vector3(56.5, 0.1, 29.5), PI * 0.0)
 			var target: Interactable = null
@@ -495,3 +690,77 @@ func _run_debug_hooks() -> void:
 			player.teleport(Vector3(50, 0.1, 17.5), 0.0)
 		"demo_back":
 			player.teleport(Vector3(50, 0.1, 17.0), PI)
+		# 侧视：检查猫的建模与腿/尾
+		"demo_cat_side":
+			player.teleport(Vector3(82.5, 0.1, 46.0), 0.0)
+			player.look_pitch = -0.06
+			player.look_yaw = PI * 0.5
+			player._apply_cam_rotation()
+		# 行走中：检查步态动画
+		"demo_cat_walk":
+			player.teleport(Vector3(50.0, 0.1, 40.0), 0.0)
+			player.look_yaw = PI * 0.72
+			player._apply_cam_rotation()
+			player.input_vec = Vector2(0.0, -1.0)
+		# 特写：怼到猫脸前看建模细节
+		"demo_cat_face":
+			player.teleport(Vector3(82.5, 0.1, 46.0), 0.0)
+			player.look_pitch = -0.12
+			player._apply_cam_rotation()
+			player._arm.spring_length = 0.62
+		"demo_cat_face_back":
+			player.teleport(Vector3(82.5, 0.1, 46.0), PI)
+			player.look_pitch = -0.12
+			player._apply_cam_rotation()
+			player._arm.spring_length = 0.62
+		# 跳跃验证：站在可跳物件（井盖/长椅/花坛）旁，起跳瞬间抓拍
+		"demo_jump":
+			# 优先找新加的矮物件，它们的台面高度就是猫的跳跃目标
+			var target: Interactable = null
+			for kind in ["pipe", "planter", "lowwall", "bench", "crate", "trash"]:
+				for it in objects:
+					if it.kind == kind:
+						target = it
+						break
+				if target != null:
+					break
+			if target != null:
+				# 站远一点、退一步，相机拉远，才能看清猫和台面的相对高度
+				player.teleport(target.position + Vector3(1.6, 0.1, 1.9), 0.0)
+				player.look_pitch = -0.30
+				player.look_yaw = PI * 0.78
+				player._apply_cam_rotation()
+				player._arm.spring_length = 1.9
+			# 模拟一次跳跃（停在上升途中）
+			player.velocity.y = Player.JUMP_VELOCITY
+			player._coyote = Player.COYOTE
+
+		# 批次 7 道具检视：燃气罐 + 垃圾袋（饮食店后巷）
+		"demo_props_back":
+			player.teleport(Vector3(15.2, 0.1, 53.2), -0.58)
+			player.look_pitch = -0.08
+			player._apply_cam_rotation()
+		# 批次 7 道具检视：晾衣杆 + 盆栽 + 垃圾袋（民宅旁）
+		"demo_props_laundry":
+			player.teleport(Vector3(116.6, 0.1, 49.2), -0.52)
+			player.look_pitch = -0.06
+			player._apply_cam_rotation()
+			player._arm.spring_length = 2.0
+		# 批次 7 道具检视：路锥 + 消火栓 + 水洼 + 井盖（路口西南）
+		"demo_props_road":
+			player.teleport(Vector3(21.0, 0.1, 76.5), 0.28)
+			player.look_pitch = -0.2
+			player._apply_cam_rotation()
+		# 四时刻对照：--shot-action=demo_tod_morning/day/dusk/night
+		"demo_tod_dusk", "demo_tod_night", "demo_tod_day", "demo_tod_morning":
+			player.teleport(Vector3(50.0, 0.1, 30.0), 0.0)
+			player.look_pitch = -0.16
+			player._apply_cam_rotation()
+			var ph := TimeOfDay.Phase.DUSK
+			if action.ends_with("night"):
+				ph = TimeOfDay.Phase.NIGHT
+			elif action.ends_with("day"):
+				ph = TimeOfDay.Phase.DAY
+			elif action.ends_with("morning"):
+				ph = TimeOfDay.Phase.MORNING
+			tod.set_phase(ph, true)   # 瞬时切换，截图用

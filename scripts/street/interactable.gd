@@ -7,13 +7,25 @@ const S := 0.025  # 地图像素 -> 米（4000px 世界 = 100m）
 
 # kind 元数据：
 # click=点击体积(Area3D 盒) solid=碰撞体积(null=不挡路) range=交互距离(米,0=不限)
+# stand=台面层厚度(米)。>0 时碰撞体只在物件顶部生成该厚度的薄层，脚下是通的 ——
+#       猫可以跳上这玩意（Stray 的核心玩法：跳上箱子/长椅/矮墙）。
+#       0 或不填 = 实心障碍（建筑、车辆等不可穿越的）。
+#
+# 【尺度基准】猫肩高 0.23m、碰撞体高 0.36m、跳高 0.66m（1.8 倍体高）。
+# 所以能跳的物件台面必须在 0.66m 以下。建模时按这个标准定尺寸：
+#   能跳：长椅座面 0.42 / 水泥管 0.38 / 花坛 0.5 / 塑料箱 0.4 / 矮墙 0.55
+#   不能跳：窗台 0.9 / 车顶 1.5 / 公交站牌 2.9 —— 猫就是猫，别做超级英雄
 # novis=不生成外形(隐藏标记) door_win=依附建筑正面（map 里用 host 指定建筑类型）
 const META := {
+	# ---- 可跳上去的：台面 ≤ 0.66m ----
+	# 长椅：座面降到 0.42m（真人长椅座高约 0.42m，正好在猫的跳跃极限内）
+	"bench":        {"click": Vector3(2.5, 1.1, 0.95), "solid": Vector3(2.3, 0.42, 0.8), "stand": 0.12, "range": 6.0},
+	"mailbox":      {"click": Vector3(0.75, 0.62, 0.7), "solid": Vector3(0.62, 0.55, 0.55), "stand": 0.12, "range": 6.0},
+	"trash":        {"click": Vector3(0.85, 0.58, 0.85), "solid": Vector3(0.72, 0.52, 0.72), "stand": 0.12, "range": 6.0},
+	"bicycle":      {"click": Vector3(1.9, 1.05, 0.75), "solid": Vector3(1.75, 0.5, 0.55), "stand": 0.1, "range": 6.0},
+	# ---- 不可穿越的实心体 ----
 	"vending":      {"click": Vector3(1.0, 1.95, 0.9), "solid": Vector3(0.95, 1.85, 0.8), "range": 7.0},
 	"pole":         {"click": Vector3(0.6, 7.2, 0.6), "solid": Vector3(0.3, 7.0, 0.3), "range": 6.0},
-	"mailbox":      {"click": Vector3(0.75, 1.15, 0.7), "solid": Vector3(0.62, 1.0, 0.55), "range": 6.0},
-	"trash":        {"click": Vector3(0.85, 0.95, 0.85), "solid": Vector3(0.72, 0.85, 0.72), "range": 6.0},
-	"bicycle":      {"click": Vector3(1.9, 1.15, 0.75), "solid": Vector3(1.75, 0.9, 0.55), "range": 6.0},
 	"car":          {"click": Vector3(4.5, 1.7, 2.0), "solid": Vector3(4.3, 1.5, 1.85), "range": 8.0},
 	"traffic":      {"click": Vector3(0.7, 5.6, 3.2), "solid": Vector3(0.35, 4.5, 0.35), "range": 7.0},
 	"station":      {"click": Vector3(12.6, 5.4, 8.2), "solid": Vector3(12.5, 4.8, 4.5), "range": 14.0},
@@ -27,13 +39,13 @@ const META := {
 	"post_office":  {"click": Vector3(5.9, 4.6, 4.3), "solid": Vector3(5.8, 4.4, 4.2), "range": 10.0},
 	"signboard":    {"click": Vector3(1.1, 2.8, 0.5), "solid": Vector3(0.9, 2.6, 0.35), "range": 6.0},
 	"streetlight":  {"click": Vector3(1.9, 4.5, 0.45), "solid": Vector3(0.25, 4.2, 0.25), "range": 6.0},
-	"bench":        {"click": Vector3(2.5, 1.1, 0.95), "solid": Vector3(2.3, 0.85, 0.8), "range": 6.0},
-	"busstop":      {"click": Vector3(1.4, 3.1, 0.5), "solid": Vector3(1.15, 2.9, 0.3), "range": 6.0},
 	"tree":         {"click": Vector3(2.7, 4.7, 2.7), "solid": Vector3(0.55, 2.6, 0.55), "range": 7.0},
 	"sakura":       {"click": Vector3(3.1, 5.3, 3.1), "solid": Vector3(0.55, 2.6, 0.55), "range": 7.0},
+	"busstop":      {"click": Vector3(1.4, 3.1, 0.5), "solid": Vector3(1.15, 2.9, 0.3), "range": 6.0},
+	"parksign":     {"click": Vector3(1.5, 2.4, 0.45), "solid": Vector3(1.25, 2.2, 0.25), "range": 6.0},
+	# ---- 不可碰撞的装饰 ----
 	"flower":       {"click": Vector3(1.2, 0.8, 1.2), "solid": null, "range": 5.0},
 	"grass":        {"click": Vector3(1.5, 0.6, 1.5), "solid": null, "range": 5.0},
-	"parksign":     {"click": Vector3(1.5, 2.4, 0.45), "solid": Vector3(1.25, 2.2, 0.25), "range": 6.0},
 	"dog":          {"click": Vector3(1.2, 1.0, 0.9), "solid": null, "range": 5.0},
 	"cat":          {"click": Vector3(0.9, 0.9, 0.85), "solid": null, "range": 5.0},
 	"bird":         {"click": Vector3(0.6, 0.6, 0.6), "solid": null, "range": 4.0},
@@ -47,6 +59,45 @@ const META := {
 	"marker_walk":  {"click": Vector3(18.0, 0.5, 4.6), "solid": null, "range": 0.0, "novis": true},
 	"marker_cross": {"click": Vector3(16.2, 0.5, 16.2), "solid": null, "range": 0.0, "novis": true},
 	"crosswalk":    {"click": Vector3(6.7, 0.4, 3.6), "solid": null, "range": 0.0},
+	# ---- 批次 5 新增：专为「猫能跳上去」设计的矮物件 ----
+	# 水泥管（街边排水管盖）：0.38m，猫跳上去是 Stray 里最经典的画面
+	"pipe":         {"click": Vector3(0.7, 0.42, 0.7), "solid": Vector3(0.62, 0.38, 0.62), "stand": 0.1, "range": 5.0},
+	# 塑料周转箱（店铺门口的箱子）：0.4m
+	"crate":        {"click": Vector3(0.8, 0.46, 0.65), "solid": Vector3(0.72, 0.4, 0.58), "stand": 0.1, "range": 5.0},
+	# 花坛矮沿（公园/店铺前）：0.5m
+	"planter":      {"click": Vector3(1.6, 0.56, 1.0), "solid": Vector3(1.5, 0.5, 0.9), "stand": 0.14, "range": 5.0},
+	# 矮墙（巷口/院落）：0.55m
+	"lowwall":      {"click": Vector3(2.4, 0.62, 0.4), "solid": Vector3(2.3, 0.55, 0.32), "stand": 0.14, "range": 5.0},
+	# ---- 批次 6 新增：家具（家具屋门前的展示品，矮件猫可跳） ----
+	"furniture":    {"click": Vector3(7.7, 4.6, 5.5), "solid": Vector3(7.6, 4.4, 5.4), "range": 12.0},
+	"table":        {"click": Vector3(1.6, 0.9, 1.1), "solid": Vector3(1.3, 0.45, 0.85), "stand": 0.12, "range": 5.0},
+	"chair":        {"click": Vector3(0.7, 1.05, 0.7), "solid": Vector3(0.5, 0.44, 0.5), "stand": 0.12, "range": 5.0},
+	"bed":          {"click": Vector3(2.5, 0.8, 1.6), "solid": Vector3(2.2, 0.35, 1.4), "stand": 0.12, "range": 5.0},
+	"sofa":         {"click": Vector3(2.3, 1.0, 1.2), "solid": Vector3(2.0, 0.45, 0.95), "stand": 0.12, "range": 5.0},
+	"tv":           {"click": Vector3(1.7, 1.8, 0.8), "solid": Vector3(1.45, 1.2, 0.6), "range": 5.0},
+	"shelf":        {"click": Vector3(1.5, 2.0, 0.8), "solid": Vector3(1.3, 1.5, 0.6), "range": 5.0},
+	"lamp":         {"click": Vector3(0.7, 1.7, 0.7), "solid": Vector3(0.45, 1.5, 0.45), "range": 5.0},
+	"wash":         {"click": Vector3(0.9, 1.1, 0.9), "solid": Vector3(0.78, 0.92, 0.68), "range": 5.0},
+	# ---- 批次 7：街景杂物（装饰为主，不参与学词；矮件猫可跳） ----
+	# 路牌：map.json 里本来就有 roadsign（还是可学单词「標識」），但 META 漏了
+	# 这个 kind —— 两个路牌一直是隐形的。补上建模。
+	"roadsign":     {"click": Vector3(0.9, 2.7, 0.5), "solid": Vector3(0.12, 2.5, 0.12), "range": 6.0},
+	# 消火栓（柱形）：0.62m，猫能跳上去
+	"fireplug":     {"click": Vector3(0.5, 0.72, 0.5), "solid": Vector3(0.36, 0.62, 0.36), "stand": 0.1, "range": 5.0},
+	# 鉢植え（盆栽）：店铺/家门口标配，0.4m 台面
+	"potplant":     {"click": Vector3(0.85, 0.85, 0.85), "solid": Vector3(0.5, 0.4, 0.5), "stand": 0.08, "range": 5.0},
+	# 物干し竿（晾衣杆）：两根 T 杆 + 下垂电线 + 挂着的毛巾，不挡路
+	"laundry":      {"click": Vector3(2.6, 2.3, 1.0), "solid": null, "range": 6.0},
+	# ゴミ袋（垃圾袋）：清晨收垃圾时段摆在路边，0.4m 可跳
+	"trashbags":    {"click": Vector3(1.1, 0.55, 0.9), "solid": Vector3(0.95, 0.4, 0.75), "stand": 0.08, "range": 5.0},
+	# タイヤ（旧轮胎堆）：店后巷，0.51m 可跳
+	"tires":        {"click": Vector3(0.9, 0.62, 0.9), "solid": Vector3(0.76, 0.51, 0.76), "stand": 0.1, "range": 5.0},
+	# 工事コーン（路锥）：路面施工/驻车禁止，不挡路
+	"cones":        {"click": Vector3(1.2, 0.6, 0.8), "solid": null, "range": 5.0},
+	# ガスボンベ（燃气罐）：拉面店/饮食店后面靠墙一排，实心
+	"gasbottle":    {"click": Vector3(1.0, 1.1, 0.8), "solid": Vector3(0.85, 0.95, 0.6), "range": 5.0},
+	# 水洼：路面半透明反光片（纯装饰，无碰撞）
+	"puddle":       {"click": Vector3(1.6, 0.2, 1.6), "solid": null, "range": 0.0},
 }
 
 var word_id := ""
@@ -69,36 +120,120 @@ static func _tex(path: String) -> Texture2D:
 	return null
 
 
-## 照片级表面材质（Poly Haven CC0 扫描贴图），文件缺失时回退程序纹理
+## 存在哪些贴图套件（自动扫盘，新增贴图无需改代码）
+static var _tex_kinds := {}
+static var _tex_scanned := false
+
+static func _scan_tex() -> void:
+	if _tex_scanned:
+		return
+	_tex_scanned = true
+	var d := DirAccess.open("res://assets/tex")
+	if d == null:
+		return
+	for f in d.get_files():
+		if not f.ends_with("_col.jpg"):
+			continue
+		var kind := f.substr(0, f.length() - 8)
+		# 记下有哪些通道可用
+		var chans := {"col": true}
+		if FileAccess.file_exists("res://assets/tex/%s_nrm.jpg" % kind):
+			chans["nrm"] = true
+		if FileAccess.file_exists("res://assets/tex/%s_rgh.jpg" % kind):
+			chans["rgh"] = true
+		_tex_kinds[kind] = chans
+
+
+static func has_tex(kind: String) -> bool:
+	_scan_tex()
+	return _tex_kinds.has(kind)
+
+
+## 把 tint「软化」成接近白色的乘数。
+## 【为什么需要】albedo_color 是直接乘贴图的，任何明显偏离 1.0 的 tint 都会
+## 把贴图的明暗层次压平 —— 墙面会变成一块纯色。
+## 做法：取 tint 的**平均亮度**作为「保持多少原色」，色相只保留一点点偏移。
+##   strength=0 → 完全用 tint（老行为，会压平贴图）
+##   strength=1 → 纯白（完全保留贴图原色）
+## 实际用的是 0.75~0.9，保留 75~90% 原色，只做轻微的暖/冷、明/暗偏移。
+static func _soft_tint(tint: Color, strength: float) -> Color:
+	var lum := (tint.r + tint.g + tint.b) / 3.0
+	# 目标亮度也归一化：不管调用方传 (0.93,0.9,0.86) 还是 (0.8,0.85,0.95)，
+	# 都只保留其相对明暗关系，映射到 [0.82, 1.0] 这个「几乎不压暗」的区间。
+	var norm := inverse_lerp(0.55, 1.0, clampf(lum, 0.0, 1.0))  # 0..1
+	var target := lerpf(0.82, 1.0, norm)
+	# 色相偏移：把 tint 相对其亮度的偏离量，按 strength 打折后加回去
+	var keep := clampf(strength, 0.0, 1.0)
+	var ratio := 1.0 / maxf(lum, 0.001)
+	return Color(
+		clampf(target * lerpf(1.0, clampf(tint.r * ratio, 0.85, 1.12), keep), 0.0, 1.0),
+		clampf(target * lerpf(1.0, clampf(tint.g * ratio, 0.85, 1.12), keep), 0.0, 1.0),
+		clampf(target * lerpf(1.0, clampf(tint.b * ratio, 0.85, 1.12), keep), 0.0, 1.0),
+		1.0)
+
+
+## 照片级 PBR 表面材质（Poly Haven CC0 扫描贴图）。
+## scale = 每米重复次数（0.5 = 一张贴图铺 2 米）。
+##
+## 【tint 的正确用法 —— 这条之前搞错过，导致所有墙面糊成一片紫灰】
+## `albedo_color` 是**直接乘** albedo_texture 的，不是"调色叠加"。
+## 所以：
+##   tint = 0.93,0.9,0.86 → 贴图被压到 93% 亮度并染上米色，
+##     贴图本身的明暗层次（灰缝、污渍、颗粒）全部被压平 → 看起来像纯色块。
+## 正确做法：**tint 尽量接近白色（0.9~1.0），只做极轻微的明度/色温偏移**，
+## 把"上色"这件事交给不同贴图本身去完成（每种墙用不同的贴图，而不是同一张贴图 × 不同 tint）。
+##
+## scale = 每米重复次数（0.5 = 一张贴图铺 2 米）。
+## detail_scale/detail_amount：叠一层高频细节，打破 1k 贴图在大面上的重复感。
 static func mat_photo(kind: String, tint: Color, tint_amt: float, rough: float, scale: float,
-		fallback_tex: ImageTexture = null, fallback_scale := 0.5) -> StandardMaterial3D:
-	var key := "ph_%s_%s_%f_%f" % [kind, tint.to_html(), rough, scale]
+		fallback_tex: ImageTexture = null, fallback_scale := 0.5,
+		detail_scale := 0.0, detail_amount := 0.35) -> StandardMaterial3D:
+	_scan_tex()
+	# 缓存 key 里带上 tint_amt（之前漏了，导致不同 tint_amt 命中同一缓存）
+	var key := "ph_%s_%s_%f_%f_%f_%f_%f" % [kind, tint.to_html(), tint_amt, rough, scale, detail_scale, detail_amount]
 	if _mats.has(key):
 		return _mats[key]
 	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	# 三平面世界映射：贴图不会因物体 UV 缺失而拉伸
 	m.uv1_triplanar = true
 	m.uv1_world_triplanar = true
 	m.uv1_scale = Vector3.ONE * scale
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
-	var col := _tex("res://assets/tex/%s_col.jpg" % kind)
-	if col != null:
-		m.albedo_texture = col
-		m.albedo_color = tint
-		var nrm := _tex("res://assets/tex/%s_nrm.jpg" % kind)
-		if nrm != null:
+	m.roughness = rough
+	m.metallic = 0.0
+	m.metallic_specular = 0.22
+	m.specular_mode = BaseMaterial3D.SPECULAR_SCHLICK_GGX
+
+	if _tex_kinds.has(kind):
+		m.albedo_texture = _tex("res://assets/tex/%s_col.jpg" % kind)
+		# tint 只做「轻微偏移」：把 tint 归一化到接近白色，保住贴图本身的层次。
+		# tint_amt = 0 → 完全用 tint（原行为）；tint_amt = 1 → 保留贴图原色。
+		# 实用区间是 tint_amt 0.7~1.0。
+		m.albedo_color = _soft_tint(tint, tint_amt)
+		if _tex_kinds[kind].get("nrm", false):
 			m.normal_enabled = true
-			m.normal_texture = nrm
-			m.normal_scale = 0.9
-		var rgh := _tex("res://assets/tex/%s_rgh.jpg" % kind)
-		if rgh != null:
-			m.roughness_texture = rgh
-			m.roughness = rough
-		else:
-			m.roughness = 0.95
+			m.normal_texture = _tex("res://assets/tex/%s_nrm.jpg" % kind)
+			m.normal_scale = 0.75
+		if _tex_kinds[kind].get("rgh", false):
+			m.roughness_texture = _tex("res://assets/tex/%s_rgh.jpg" % kind)
+		# 细节层：同贴图高频叠加，抑制大面积平铺的"壁纸感"
+		# 注意：detail 相关的枚举在 Godot 4 里搬到了 StandardMaterial3D 上，
+		# 不在 BaseMaterial3D（写 BaseMaterial3D.DETAIL_BLEND_* 会编译失败）。
+		# 不要给 detail_mask 赋 roughness 图 —— roughness 的明暗区会当遮罩，
+		# 在地面上表现成一块块水渍/油污斑。纯细节叠加才干净。
+		if detail_scale > 0.0 and m.albedo_texture != null:
+			m.detail_enabled = true
+			m.detail_albedo = m.albedo_texture
+			m.detail_uv_layer = StandardMaterial3D.DETAIL_UV_1
+			m.detail_blend_mode = StandardMaterial3D.BLEND_MODE_MIX
+			m.detail_albedoblend_sharpness = 0.35
+			m.detail_uv_scale = detail_scale
+			m.detail_amount = detail_amount
 	else:
+		# 回退：程序纹理（三平面）
 		m.albedo_texture = fallback_tex
-		m.albedo_color = tint
-		m.roughness = 0.95
+		m.uv1_scale = Vector3.ONE * fallback_scale
+		m.roughness = rough
 	_mats[key] = m
 	return m
 
@@ -151,14 +286,26 @@ static func tex_mat(tex: ImageTexture, tint: Color, scale: float, rough := 0.95,
 	return m
 
 
-static func glass_mat(tint: Color) -> StandardMaterial3D:
-	var key := "g_" + tint.to_html()
+## 玻璃材质：橱窗 / 窗户 / 车窗。
+## 【关键】必须开 TRANSPARENCY_ALPHA，否则橱窗是一块不透明的紫灰板，
+## 里面什么都看不见 —— 这是「便利店橱窗像积木」的根本原因。
+## roughness 0.05 + metallic 0.55 制造「反射天空」的高光，
+## 再给一点自发光让夜里窗户会亮（由 TimeOfDay 调制强度）。
+static func glass_mat(tint: Color, glow := 0.0) -> StandardMaterial3D:
+	var key := "g_%s_%.2f" % [tint.to_html(), glow]
 	if _mats.has(key):
 		return _mats[key]
 	var m := StandardMaterial3D.new()
-	m.albedo_color = tint
-	m.roughness = 0.07
+	m.albedo_color = Color(tint.r, tint.g, tint.b, 0.42)   # 半透明：能看见里面的货架
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.roughness = 0.05# 极光滑 = 镜面反射天空
 	m.metallic = 0.55
+	m.metallic_specular = 0.9
+	m.specular_mode = BaseMaterial3D.SPECULAR_SCHLICK_GGX
+	m.emission_enabled = true
+	m.emission = Color(1.0, 0.85, 0.6)                  # 暖色，夜里像室内灯
+	m.emission_energy_multiplier = glow                   # 0 = 白天不亮
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED            # 双面，从内外都看得到
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
 	_mats[key] = m
 	return m
@@ -176,6 +323,8 @@ static func make(obj: Dictionary) -> Interactable:
 	it.extra = obj
 	var px := Vector2(float(obj.get("x", 0)), float(obj.get("y", 0)))
 	it.position = Vector3(px.x * S, 0, px.y * S)
+	# rot：绕 Y 旋转（度）。晾衣杆/路锥这类有方向性的道具用（门/窗的吸附偏移在旋转前算，不受影响）
+	it.rotation.y = deg_to_rad(float(obj.get("rot", 0.0)))
 	if meta.has("door_win"):
 		var host_meta: Dictionary = META.get(String(obj.get("host", "house")), {})
 		var hs: Vector3 = host_meta.get("click", Vector3(4, 3, 3))
@@ -211,17 +360,39 @@ func _ready() -> void:
 		var body := StaticBody3D.new()
 		body.collision_layer = 1
 		body.collision_mask = 0
-		var ss := CollisionShape3D.new()
-		var sbox := BoxShape3D.new()
-		sbox.size = solid
-		ss.shape = sbox
-		ss.position = Vector3(0, solid.y * 0.5, 0)
-		body.add_child(ss)
+		var sv: Vector3 = solid
+		# 【关键】区分「可站上去的平台」与「实心障碍」。
+		# 之前所有碰撞体都是从地面到顶的整块实心盒 —— 猫撞上只能绕过去，
+		# 跳都跳不上去（垃圾桶 0.85m 高、邮筒 1.0m 高，全都撞墙）。
+		# 现在：矮物件只保留"台面层"（顶面能站），高物件保持实心（建筑/车）。
+		var top_only: bool = float(meta.get("stand", 0.0)) > 0.0
+		var stand_h: float = float(meta.get("stand", 0.0))
+		if top_only:
+			# 只在物件顶部生成一块薄碰撞体：脚下是通的，猫能从旁边跳上去
+			var ss := CollisionShape3D.new()
+			var sbox := BoxShape3D.new()
+			sbox.size = Vector3(sv.x, stand_h, sv.z)
+			# 顶面对齐原 solid 的顶部
+			ss.position = Vector3(0, sv.y - stand_h * 0.5, 0)
+			ss.shape = sbox
+			body.add_child(ss)
+		else:
+			var ss2 := CollisionShape3D.new()
+			var sbox2 := BoxShape3D.new()
+			sbox2.size = sv
+			ss2.shape = sbox2
+			ss2.position = Vector3(0, sv.y * 0.5, 0)
+			body.add_child(ss2)
 		add_child(body)
 
 	if not no_draw:
 		_build_visual()
 		_make_ring(click_size)
+		# 贴地假阴影：太阳落山后（夜里 sun_energy 0.45）实时阴影几乎消失，
+		# 没有这层小物件会"浮"在地上 —— 这是视觉升级文档里挂账的遗留问题。
+		if BLOB_KINDS.has(kind):
+			var br := clampf(maxf(click_size.x, click_size.z) * 0.5 + 0.12, 0.4, 2.4)
+			_blob_shadow(br)
 
 
 func _process(delta: float) -> void:
@@ -265,10 +436,296 @@ func _make_ring(click_size: Vector3) -> void:
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_ring.material_override = m
 	_ring.scale = Vector3(1, 0.22, 1)
-	_ring.position = Vector3(0, 0.07, 0)
+	_ring.position = Vector3(0, 0.1, 0)
 	_ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_ring.visible = false
 	add_child(_ring)
+
+
+## 需要贴地假阴影的 kind。建筑/门/窗除外（有实时阴影，且贴墙）；
+## 花/草丛排除（草地上一团黑斑像枯死）。
+const BLOB_KINDS := ["pole", "streetlight", "signboard", "busstop", "vending",
+	"mailbox", "trash", "bicycle", "traffic", "fireplug", "potplant", "laundry",
+	"trashbags", "tires", "cones", "gasbottle", "crate", "pipe", "bench",
+	"planter", "lowwall", "parksign", "wash", "lamp", "tv", "shelf", "table",
+	"chair", "sofa", "bed", "tree", "sakura", "car", "roadsign",
+	"dog", "cat", "bird", "bowl", "cans", "onigiri", "bread"]
+
+static var _blob_mat: StandardMaterial3D
+
+
+## 程序生成径向渐变圆片：中心 alpha 0.34 → 边缘 0。
+## 压在地面以上 9cm（路面顶 0.07 / 井盖顶 0.087 之上，且低于高亮环 0.1）。
+## UNSHADED + 不投影：纯暗化贴地，任何时刻都稳定。
+func _blob_shadow(radius: float) -> void:
+	if _blob_mat == null:
+		var tex := GradientTexture2D.new()
+		tex.width = 128
+		tex.height = 128
+		tex.fill = GradientTexture2D.FILL_RADIAL
+		tex.fill_from = Vector2(0.5, 0.5)
+		tex.fill_to = Vector2(0.5, 0.0)   # 半径 = 半张图，渐变铺满
+		var g := Gradient.new()
+		g.offsets = PackedFloat32Array([0.0, 0.55, 1.0])
+		g.colors = PackedColorArray([
+			Color(0, 0, 0, 0.34), Color(0, 0, 0, 0.18), Color(0, 0, 0, 0.0)])
+		tex.gradient = g
+		_blob_mat = StandardMaterial3D.new()
+		_blob_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		_blob_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		_blob_mat.albedo_texture = tex
+	var mi := MeshInstance3D.new()
+	var quad := QuadMesh.new()
+	quad.size = Vector2(radius * 2.0, radius * 2.0)
+	mi.mesh = quad
+	mi.material_override = _blob_mat
+	mi.rotation = Vector3(-PI * 0.5, 0, 0)
+	mi.position = Vector3(0, 0.09, 0)
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(mi)
+
+
+# ================================================================
+# 批次 3：材质语义工厂
+#
+# 病根：全场景所有物体都用同一个默认 StandardMaterial3D，
+#       结果满屏同一种塑料反光 —— 这是「demo 感」的第3 大来源。
+# 修法：按「材质语义」分工厂，每个语义有明确的 roughness/metallic/emission 参数。
+#       关键点是 roughness 与 metallic 要拉开档：
+#         塑料 0.35 / 金属 0.4+metallic0.85 / 混凝土 0.85 / 玻璃 0.05 / 和纸 0.95
+#       档位拉开后，即使光照相同也能靠「反光形状不同」区分物体。
+# ================================================================
+
+## 顶点色微差：按世界坐标伪随机，让同一材质的每块砖/每扇窗颜色都不同。
+## 这是 low-poly 不廉价的关键 —— 消除「同一个紫出现 200 次」的塑料感。
+static func _jitter_color(base: Color, pos: Vector3, amount := 0.055) -> Color:
+	var h := int(abs(pos.x * 12.9898 + pos.z * 78.233 + pos.y * 37.719)) % 1000
+	var f := 1.0 + (float(h) / 1000.0 - 0.5) * 2.0 * amount
+	# 轻微的色相偏移，不只是明度 —— 纯明度变化在大片墙面上仍显假
+	var warm := (float(h % 97) / 97.0 - 0.5) * amount * 0.6
+	return Color(
+		clampf(base.r * f + warm, 0, 1),
+		clampf(base.g * f, 0, 1),
+		clampf(base.b * f - warm * 0.5, 0, 1),
+		base.a)
+
+
+## 带微差的工厂包装：缓存 key 含位置哈希，所以每块砖是独立材质实例。
+## 面数代价换「无塑料感」，比加面数划算。
+static func _mat_j(key: String, base: Color, pos: Vector3,
+		rough: float, metal: float, jitter := 0.055) -> StandardMaterial3D:
+	var ck := "%s_%d" % [key, int(abs(pos.x * 12.9898 + pos.z * 78.233)) % 997]
+	if _mats.has(ck):
+		return _mats[ck]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = _jitter_color(base, pos, jitter)
+	m.roughness = rough
+	m.metallic = metal
+	m.metallic_specular = 0.4
+	m.specular_mode = BaseMaterial3D.SPECULAR_SCHLICK_GGX
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats[ck] = m
+	return m
+
+
+## ---- 12 个材质语义 ----
+
+## 自动贩卖机机身：朱红塑料。规格指定 albedo(0.85,0.18,0.18)
+static func m_plastic_red(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	var m := _mat_j("pl_red", Color(0.78, 0.17, 0.16), pos, 0.35, 0.1, 0.04)
+	return m
+
+
+## 贩卖机/招牌面板：白塑料
+static func m_plastic_white(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("pl_white", Color(0.93, 0.93, 0.9), pos, 0.4, 0.0, 0.03)
+
+
+## 电柱/护栏/管道：金属。metallic 0.85 是金属感的铁律（0.3 以下看起来还是塑料）
+static func m_metal_dark(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("mt_dark", Color(0.3, 0.31, 0.34), pos, 0.42, 0.85, 0.05)
+
+
+## 镀锌铁皮：空调外机/铁皮屋/水槽。metallic 高但 roughness 高一些 = 旧铁皮
+static func m_metal_galva(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("mt_galva", Color(0.66, 0.68, 0.7), pos, 0.55, 0.75, 0.07)
+
+
+## 混凝土：建筑外墙/台阶/电线杆。roughness 0.85 吃光不反光
+static func m_concrete(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("concrete", Color(0.74, 0.72, 0.68), pos, 0.88, 0.0, 0.06)
+
+
+## 瓦：青灰。用 roughness 0.7，比混凝土略反光一点才像瓦
+static func m_tile_roof(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("tile", Color(0.33, 0.37, 0.42), pos, 0.68, 0.05, 0.08)
+
+
+## 木材：招牌框/长椅/电线杆箱
+static func m_wood(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("wood", Color(0.52, 0.38, 0.26), pos, 0.76, 0.0, 0.07)
+
+
+## 玻璃：窗户/便利店橱窗。roughness 0.05 + transmission 感（移动端用低 roughness 近似）
+## 夜晚会亮（emission 微暖）由 TimeOfDay 统一调制
+static func m_glass(pos: Vector3 = Vector3.ZERO, warm := true) -> StandardMaterial3D:
+	var ck := "glass%s_%d" % ["w" if warm else "c", int(abs(pos.x * 7.7 + pos.z * 3.3)) % 499]
+	if _mats.has(ck):
+		return _mats[ck]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.62, 0.72, 0.8, 0.55)
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.roughness = 0.06
+	m.metallic = 0.4
+	m.metallic_specular = 0.85
+	m.specular_mode = BaseMaterial3D.SPECULAR_SCHLICK_GGX
+	m.emission_enabled = true
+	m.emission = Color(1.0, 0.82, 0.5) if warm else Color(0.8, 0.9, 1.0)
+	m.emission_energy_multiplier = 0.0   # 由 TimeOfDay 按时刻点亮
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats[ck] = m
+	return m
+
+
+## 橡胶：轮胎/盲道垫/井盖
+static func m_rubber(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("rubber", Color(0.2, 0.2, 0.21), pos, 0.92, 0.0, 0.05)
+
+
+## 植被：樱/树冠。roughness 0.8 + 微透光（用浅色模拟 subsurface）
+static func m_leaf(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	var ck := "leaf_%d" % (int(abs(pos.x * 9.1 + pos.z * 4.7)) % 499)
+	if _mats.has(ck):
+		return _mats[ck]
+	var base := _jitter_color(Color(0.44, 0.62, 0.34), pos, 0.09)
+	var m := StandardMaterial3D.new()
+	m.albedo_color = base
+	m.roughness = 0.82
+	m.metallic = 0.0
+	# 叶片背光透亮：模拟 subsurface scattering
+	m.emission_enabled = true
+	m.emission = base.lightened(0.4)
+	m.emission_energy_multiplier = 0.12
+	m.specular_mode = BaseMaterial3D.SPECULAR_SCHLICK_GGX
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats[ck] = m
+	return m
+
+
+## 樱花瓣：浅粉 + 自发光。emission 让 Bloom 捕获（规格铁律：>1 才被捕获）
+static func m_petal() -> StandardMaterial3D:
+	if _mats.has("petal"):
+		return _mats["petal"]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.96, 0.78, 0.85)
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.roughness = 0.9
+	m.emission_enabled = true
+	m.emission = Color(1.0, 0.85, 0.9)
+	m.emission_energy_multiplier = 0.25
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats["petal"] = m
+	return m
+
+
+## 和纸灯笼：粗糙 0.95 + 自发光（和纸透光）。夜晚是画面亮点
+static func m_paper(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	var ck := "paper_%d" % (int(abs(pos.x * 5.3 + pos.z * 8.1)) % 499)
+	if _mats.has(ck):
+		return _mats[ck]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.96, 0.9, 0.76)
+	m.roughness = 0.95
+	m.metallic = 0.0
+	m.emission_enabled = true
+	m.emission = Color(1.0, 0.72, 0.36)
+	m.emission_energy_multiplier = 0.0   # TimeOfDay 点亮
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats[ck] = m
+	return m
+
+
+## 铺装：人行道砖。顶点色做砖缝明暗交替
+static func m_paving(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	var ck := "pave_%d" % (int(abs(pos.x * 2.1 + pos.z * 3.7)) % 499)
+	if _mats.has(ck):
+		return _mats[ck]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = _jitter_color(Color(0.66, 0.64, 0.6), pos, 0.07)
+	m.roughness = 0.8
+	m.metallic = 0.0
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats[ck] = m
+	return m
+
+
+## 霓虹/招牌发光字：UNSHADED + emission 强度 4.0
+## 【铁律】emission_energy_multiplier 必须 > 1，否则 Bloom 不捕获，看起来就是块白板
+static func m_neon(tint := Color(1.0, 0.45, 0.6), energy := 4.0) -> StandardMaterial3D:
+	var ck := "neon_%s_%.1f" % [tint.to_html(), energy]
+	if _mats.has(ck):
+		return _mats[ck]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = tint
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.emission_enabled = true
+	m.emission = tint
+	m.emission_energy_multiplier = energy
+	_mats[ck] = m
+	return m
+
+
+## 亮着的窗户/灯箱：UNSHADED 自发光，TimeOfDay 调制
+static func m_glow(tint := Color(1.0, 0.78, 0.4), energy := 2.2) -> StandardMaterial3D:
+	var ck := "glow_%s_%.1f" % [tint.to_html(), energy]
+	if _mats.has(ck):
+		return _mats[ck]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = tint
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.emission_enabled = true
+	m.emission = tint
+	m.emission_energy_multiplier = energy
+	_mats[ck] = m
+	return m
+
+
+## 沥青：路面。roughness 高 = 不反光（湿路面才反光，那是另一个材质）
+static func m_asphalt(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("asphalt", Color(0.3, 0.3, 0.32), pos, 0.95, 0.0, 0.05)
+
+
+## 斑马线白漆：粗糙但亮，纯白反光
+static func m_paint_white() -> StandardMaterial3D:
+	if _mats.has("paint_w"):
+		return _mats["paint_w"]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.85, 0.85, 0.82)
+	m.roughness = 0.75
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats["paint_w"] = m
+	return m
+
+
+## 饱和朱红（点缀色，占比 < 5%）：朱红邮筒/消火栓/鸟居
+static func m_vermilion(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("verm", Color(0.79, 0.24, 0.2), pos, 0.45, 0.05, 0.05)
+
+
+## 暖黄（灯笼/灯箱的纸）
+static func m_warm_paper(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return m_paper(pos)
+
+
+## 冷色金属（信号灯杆/护栏）
+static func m_metal_cool(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("mt_cool", Color(0.42, 0.45, 0.5), pos, 0.5, 0.6, 0.06)
+
+
+## 树叶/灌木：比 m_leaf 更深更哑
+static func m_foliage(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
+	return _mat_j("foliage", Color(0.28, 0.44, 0.24), pos, 0.88, 0.0, 0.1)
 
 
 # ---------------- 几何体工具 ----------------
@@ -285,7 +742,7 @@ func box(size: Vector3, pos: Vector3, color: Color, ry := 0.0, rx := 0.0, rz := 
 	return mi
 
 
-func cyl(top_r: float, bottom_r: float, h: float, pos: Vector3, color: Color, axis_z := false) -> MeshInstance3D:
+func cyl(top_r: float, bottom_r: float, h: float, pos: Vector3, color: Color, axis_z := false, material: StandardMaterial3D = null) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
 	var mesh := CylinderMesh.new()
 	mesh.top_radius = top_r
@@ -293,7 +750,7 @@ func cyl(top_r: float, bottom_r: float, h: float, pos: Vector3, color: Color, ax
 	mesh.height = h
 	mesh.radial_segments = 14
 	mi.mesh = mesh
-	mi.material_override = mat(color)
+	mi.material_override = material if material != null else mat(color)
 	mi.position = pos
 	if axis_z:
 		mi.rotation = Vector3(PI * 0.5, 0, 0)
@@ -301,7 +758,7 @@ func cyl(top_r: float, bottom_r: float, h: float, pos: Vector3, color: Color, ax
 	return mi
 
 
-func sph(r: float, pos: Vector3, color: Color) -> MeshInstance3D:
+func sph(r: float, pos: Vector3, color: Color, material: StandardMaterial3D = null) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
 	var mesh := SphereMesh.new()
 	mesh.radius = r
@@ -309,20 +766,20 @@ func sph(r: float, pos: Vector3, color: Color) -> MeshInstance3D:
 	mesh.radial_segments = 16
 	mesh.rings = 10
 	mi.mesh = mesh
-	mi.material_override = mat(color)
+	mi.material_override = material if material != null else mat(color)
 	mi.position = pos
 	add_child(mi)
 	return mi
 
 
-func torus(inner: float, outer: float, pos: Vector3, color: Color, upright := false) -> MeshInstance3D:
+func torus(inner: float, outer: float, pos: Vector3, color: Color, upright := false, material: StandardMaterial3D = null) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
 	var mesh := TorusMesh.new()
 	mesh.inner_radius = inner
 	mesh.outer_radius = outer
 	mesh.rings = 20
 	mi.mesh = mesh
-	mi.material_override = mat(color)
+	mi.material_override = material if material != null else mat(color)
 	mi.position = pos
 	if upright:
 		mi.rotation = Vector3(PI * 0.5, 0, 0)
@@ -358,13 +815,49 @@ func text3d(s: String, px: int, pos: Vector3, color: Color) -> Label3D:
 	return l
 
 
-## 玻璃窗：白框 + 玻璃 + 窗台
-func _window_unit(w: float, h: float, pos: Vector3, frame_col := Color("f2efe6")) -> void:
-	box(Vector3(w + 0.14, h + 0.14, 0.09), pos + Vector3(0, 0, -0.02), frame_col)
-	box(Vector3(w, h, 0.07), pos + Vector3(0, 0, 0.01), Color("b9d2e3"), 0.0, 0.0, 0.0, glass_mat(Color("a9cede")))
-	box(Vector3(w, 0.05, 0.08), pos, Color.WHITE)
-	box(Vector3(0.05, h, 0.08), pos, Color.WHITE)
-	box(Vector3(w + 0.24, 0.09, 0.2), pos + Vector3(0, -h * 0.5 - 0.07, 0.03), Color("c9c2b0"))
+## 玻璃窗：白框 + 玻璃 + 窗台。
+## 批次 3：玻璃用暖色自发光材质，夜晚由 TimeOfDay 点亮 —— 亮着的窗是「街道感」的核心。
+## vary: 同一栋楼的窗给不同亮度，避免整排窗一个样（顶点色微差思路）
+func _window_unit(w: float, h: float, pos: Vector3, frame_col := Color("f2efe6"),
+		lit := true, vary := 0.0) -> void:
+	var frame := m_plastic_white(position)
+	box(Vector3(w + 0.14, h + 0.14, 0.09), pos + Vector3(0, 0, -0.02), Color.WHITE, 0,0,0, frame)
+	# 窗玻璃：暖色自发光，emission 基准值带随机（模拟不同房间的灯亮度）
+	var bright := 1.0 + _var_seed(pos, vary)
+	var glass := m_glass(pos, true) if lit else m_glass(pos, false)
+	if lit:
+		# 每扇窗独立材质实例，才能有不同亮度
+		var ck := "win_%.0f_%.2f" % [int(abs(pos.x * 31.7 + pos.y * 17.3)), bright]
+		if not _mats.has(ck):
+			var gm := StandardMaterial3D.new()
+			gm.albedo_color = Color(0.72, 0.66, 0.54, 0.6)
+			gm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			gm.roughness = 0.08
+			gm.metallic = 0.3
+			gm.emission_enabled = true
+			gm.emission = Color(1.0, 0.84, 0.56)
+			gm.emission_energy_multiplier = 0.0   # TimeOfDay 点亮
+			gm.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+			_mats[ck] = gm
+		glass = _mats[ck]
+		glass.emission_energy_multiplier = 0.0
+		# 记下基准值供 TimeOfDay 调制时读取
+		if not _win_base.has(glass.get_instance_id()):
+			_win_base[glass.get_instance_id()] = bright * 1.8
+	box(Vector3(w, h, 0.07), pos + Vector3(0, 0, 0.01), Color.WHITE, 0,0,0, glass)
+	box(Vector3(w, 0.05, 0.08), pos, Color.WHITE, 0,0,0, frame)
+	box(Vector3(0.05, h, 0.08), pos, Color.WHITE, 0,0,0, frame)
+	# 窗台：混凝土质感
+	box(Vector3(w + 0.24, 0.09, 0.2), pos + Vector3(0, -h * 0.5 - 0.07, 0.03), Color.WHITE, 0,0,0, m_concrete(pos))
+
+
+## 窗户基准亮度表（供 TimeOfDay 查询）
+static var _win_base := {}
+
+## 位置哈希种子：给同类物件做细微差异
+func _var_seed(pos: Vector3, salt := 0.0) -> float:
+	var h := int(abs(pos.x * 12.9898 + pos.z * 78.233 + salt * 37.719)) % 1000
+	return (float(h) / 1000.0 - 0.5) * 0.9
 
 
 ## 墙挂空调外机
@@ -469,6 +962,28 @@ func _build_visual() -> void:
 		"door": _b_door()
 		"window": _b_window()
 		"crosswalk": _b_crosswalk()
+		"pipe": _b_pipe()
+		"crate": _b_crate()
+		"planter": _b_planter()
+		"lowwall": _b_lowwall()
+		"furniture": _b_furniture()
+		"table": _b_table()
+		"chair": _b_chair()
+		"bed": _b_bed()
+		"sofa": _b_sofa()
+		"tv": _b_tv()
+		"shelf": _b_shelf()
+		"lamp": _b_lamp()
+		"wash": _b_wash()
+		"roadsign": _b_roadsign()
+		"fireplug": _b_fireplug()
+		"potplant": _b_potplant()
+		"laundry": _b_laundry()
+		"trashbags": _b_trashbags()
+		"tires": _b_tires()
+		"cones": _b_cones()
+		"gasbottle": _b_gasbottle()
+		"puddle": _b_puddle()
 
 
 ## 商店玻璃门脸（橱窗 + 白框 + 店内货架）
@@ -476,8 +991,9 @@ func _shop_front(width: float, wall_col: Color) -> void:
 	var wall_depth := 5.0 if width > 6 else 4.2
 	var gz := 2.5 if width > 6 else 2.1
 	var wall_c := _var(wall_col)
+	# scale 0.28 = 一张贴图铺 3.5m。墙面比地面需要更密的贴图，否则瓷砖/砖缝全糊掉。
 	box(Vector3(width, 3.4, wall_depth), Vector3(0, 1.7, 0), wall_c, 0.0, 0.0, 0.0,
-		mat_photo("tilewall", _var(Color(0.93, 0.93, 0.9)), 0.04, 1.0, 0.5, ProceduralTex.wall_tiles(11), 1.6))
+		mat_photo("plaster_brick_01", wall_c, 0.85, 0.93, 0.42, ProceduralTex.wall_tiles(11), 1.6, 2.2, 0.45))
 	_downspout(Vector3(width * 0.5 - 0.28, 0, wall_depth * 0.5 - 0.05), 3.3)
 	box(Vector3(width - 1.2, 1.75, 0.08), Vector3(0, 1.02, gz - 0.03), Color("a9cede"), 0.0, 0.0, 0.0, glass_mat(Color("a9cede")))
 	var n := int(width / 1.35)
@@ -489,7 +1005,7 @@ func _shop_front(width: float, wall_col: Color) -> void:
 	for i in 3:
 		box(Vector3(width - 2.0, 0.06, 0.5), Vector3(0, 0.5 + i * 0.45, gz - 0.75), Color("d9d4c6"))
 	box(Vector3(width, 0.16, wall_depth + 0.15), Vector3(0, 0.08, 0), Color("b5aea0"), 0.0, 0.0, 0.0,
-		mat_photo("concrete", Color(0.88, 0.86, 0.82), 0.03, 1.0, 0.45, ProceduralTex.pavers(21), 0.5))
+		mat_photo("pavers", Color(0.82, 0.8, 0.75), 0.0, 0.94, 0.5, ProceduralTex.pavers(21), 0.5, 2.2, 0.35))
 
 
 func _b_konbini() -> void:
@@ -522,15 +1038,15 @@ func _b_house() -> void:
 	var wall_col := _var(Color("f2ead9"))
 	var roof_col := _var(Color("4d5a74"), 0.08)
 	box(Vector3(4.2, 2.7, 3.6), Vector3(0, 1.35, 0), wall_col, 0.0, 0.0, 0.0,
-		mat_photo("plaster", _var(Color(0.95, 0.93, 0.87)), 0.04, 1.0, 0.4, ProceduralTex.plaster(12), 0.55))
+		mat_photo("grey_plaster", _var(Color(0.98, 0.96, 0.92)), 0.9, 0.95, 0.4, ProceduralTex.plaster(12), 0.55, 2.0, 0.4))
 	prism(Vector3(3.9, 1.5, 4.8), Vector3(0, 3.45, 0),
-		mat_photo("roof", _var(Color(0.95, 0.95, 0.97), 0.06), 1.0, 0.85, 0.7, ProceduralTex.roof_tiles(7), 1.1), PI * 0.5)
+		mat_photo("roof", _var(Color(0.8, 0.82, 0.88), 0.06), 0.88, 0.78, 1.3, ProceduralTex.roof_tiles(7), 1.1, 3.2, 0.45), PI * 0.5)
 	box(Vector3(4.75, 0.14, 0.3), Vector3(0, 4.12, 0), roof_col.darkened(0.25))
 	box(Vector3(4.4, 0.1, 0.1), Vector3(0, 2.76, 1.82), Color("d9d2c0"))  # 檐沟
 	_window_unit(1.0, 1.0, Vector3(-1.25, 1.7, 1.81))
 	_window_unit(1.0, 1.0, Vector3(1.25, 1.7, 1.81))
 	# 格子块围墙 + 门柱（前侧留门口）
-	var wtex := mat_photo("block", Color(0.9, 0.89, 0.85), 0.04, 1.0, 0.5, ProceduralTex.pavers(31), 0.55)
+	var wtex := mat_photo("rustic_stone_wall", Color(0.9, 0.87, 0.82), 0.9, 0.96, 0.85, ProceduralTex.pavers(31), 0.55, 2.6, 0.5)
 	box(Vector3(7.4, 1.12, 0.2), Vector3(0, 0.56, -3.0), Color("bdb6a6"), 0.0, 0.0, 0.0, wtex)
 	box(Vector3(0.2, 1.12, 4.2), Vector3(-3.6, 0.56, -0.9), Color("bdb6a6"), 0.0, 0.0, 0.0, wtex)
 	box(Vector3(0.2, 1.12, 4.2), Vector3(3.6, 0.56, -0.9), Color("bdb6a6"), 0.0, 0.0, 0.0, wtex)
@@ -548,7 +1064,7 @@ func _b_house() -> void:
 func _b_mansion() -> void:
 	var wall_col := _var(Color("ddd6c8"))
 	box(Vector3(4.2, 9.5, 3.8), Vector3(0, 4.75, 0), wall_col, 0.0, 0.0, 0.0,
-		mat_photo("tilewall", _var(Color(0.92, 0.9, 0.86)), 0.04, 1.0, 0.55, ProceduralTex.wall_tiles(13), 2.0))
+		mat_photo("plaster_alt", _var(Color(0.97, 0.95, 0.9)), 0.9, 0.93, 0.42, ProceduralTex.wall_tiles(13), 2.0, 2.0, 0.4))
 	_downspout(Vector3(-2.05, 0, 1.85), 9.4)
 	box(Vector3(4.6, 0.4, 4.2), Vector3(0, 9.65, 0), Color("6a6d76"))
 	for f in 5:
@@ -574,9 +1090,9 @@ func _b_mansion() -> void:
 
 func _b_cafe() -> void:
 	box(Vector3(5.2, 1.3, 4.2), Vector3(0, 0.65, 0), Color("b08d5e"), 0.0, 0.0, 0.0,
-		mat_photo("wood", _var(Color(0.85, 0.7, 0.55)), 0.05, 1.0, 0.45, ProceduralTex.wood(15), 0.9))
+		mat_photo("brown_planks_08", _var(Color(0.86, 0.72, 0.56)), 0.88, 0.95, 0.55, ProceduralTex.wood(15), 0.9, 2.2, 0.45))
 	box(Vector3(5.2, 2.3, 4.2), Vector3(0, 2.45, 0), _var(Color("c9a876")), 0.0, 0.0, 0.0,
-		mat_photo("plaster", _var(Color(0.93, 0.85, 0.72)), 0.04, 1.0, 0.4, ProceduralTex.plaster(16), 0.55))
+		mat_photo("plaster_brick_01", _var(Color(0.95, 0.86, 0.7)), 0.88, 0.95, 0.44, ProceduralTex.plaster(16), 0.55, 2.0, 0.4))
 	box(Vector3(5.5, 0.32, 4.5), Vector3(0, 3.7, 0), Color("6b4a2f"))
 	box(Vector3(4.6, 0.95, 0.2), Vector3(0, 3.1, 2.12), Color("6b4a2f"))
 	text3d("喫茶店", 120, Vector3(0, 3.1, 2.26), Color("f2e6cf"))
@@ -597,7 +1113,7 @@ func _b_cafe() -> void:
 
 func _b_ramen() -> void:
 	box(Vector3(6.2, 4.0, 4.6), Vector3(0, 2.0, 0), _var(Color("d9c49a")), 0.0, 0.0, 0.0,
-		mat_photo("wood", _var(Color(0.88, 0.78, 0.62)), 0.05, 1.0, 0.45, ProceduralTex.wood(17), 0.8))
+		mat_photo("dark_planks", _var(Color(0.88, 0.74, 0.58)), 0.85, 0.95, 0.5, ProceduralTex.wood(17), 0.8, 2.2, 0.5))
 	box(Vector3(6.4, 0.4, 4.8), Vector3(0, 4.1, 0), Color("5a4a3a"))
 	box(Vector3(6.2, 0.55, 0.24), Vector3(0, 3.3, 2.28), Color("5a4a3a"))
 	text3d("ラーメン", 110, Vector3(0, 3.3, 2.45), Color("f2e6cf"))
@@ -624,21 +1140,24 @@ func _b_ramen() -> void:
 func _b_post() -> void:
 	var wall_col := _var(Color("f0ede6"))
 	box(Vector3(5.8, 4.4, 4.2), Vector3(0, 2.2, 0), wall_col, 0.0, 0.0, 0.0,
-		mat_photo("plaster", _var(Color(0.95, 0.94, 0.9)), 0.03, 1.0, 0.45, ProceduralTex.wall_tiles(18), 1.6))
+		mat_photo("yellow_brick", _var(Color(0.98, 0.95, 0.88)), 0.9, 0.94, 0.5, ProceduralTex.wall_tiles(18), 1.6, 2.4, 0.5))
 	box(Vector3(5.8, 1.05, 0.26), Vector3(0, 3.85, 2.12), Color("b91c1c"))
 	text3d("〒 郵便局", 110, Vector3(0, 3.85, 2.3), Color.WHITE)
 	_window_unit(1.3, 1.1, Vector3(-1.7, 2.2, 2.12))
 	_window_unit(1.3, 1.1, Vector3(1.7, 2.2, 2.12))
 	box(Vector3(5.8, 0.18, 4.3), Vector3(0, 0.09, 0), Color("c4bcab"), 0.0, 0.0, 0.0,
-		mat_photo("concrete", Color(0.9, 0.88, 0.83), 0.03, 1.0, 0.45, ProceduralTex.pavers(41), 0.5))
+		mat_photo("pavers", Color(0.84, 0.82, 0.77), 0.0, 0.94, 0.5, ProceduralTex.pavers(41), 0.5, 2.2, 0.35))
 
 
 func _b_station() -> void:
 	var wall_col := _var(Color("efe9da"))
 	box(Vector3(12.5, 4.6, 4.5), Vector3(0, 2.3, 0), wall_col, 0.0, 0.0, 0.0,
-		mat_photo("tilewall", _var(Color(0.95, 0.94, 0.91)), 0.03, 1.0, 0.5, ProceduralTex.wall_tiles(19), 1.5))
-	box(Vector3(12.6, 0.9, 4.6), Vector3(0, 0.45, 0), Color("8a95a8"))
-	box(Vector3(12.9, 0.6, 4.9), Vector3(0, 4.8, 0), Color("4a5670"))
+		mat_photo("grey_plaster", _var(Color(0.96, 0.95, 0.93)), 0.92, 0.92, 0.44, ProceduralTex.wall_tiles(19), 1.5, 2.0, 0.35))
+	# 车站基座：混凝土贴图（裸色会在暖光下泛紫蓝，像一条塑料带）
+	box(Vector3(12.6, 0.9, 4.6), Vector3(0, 0.45, 0), Color.WHITE, 0,0,0,
+		mat_photo("concrete_pavers", Color(0.72, 0.73, 0.78), 0.9, 0.9, 0.55, ProceduralTex.pavers(51), 0.5, 2.4, 0.45))
+	# 雨棚檐口：镀锌铁皮
+	box(Vector3(12.9, 0.6, 4.9), Vector3(0, 4.8, 0), Color.WHITE, 0,0,0, m_metal_galva(position))
 	box(Vector3(4.2, 1.4, 0.2), Vector3(-2.6, 4.0, 2.3), Color("2b6cb0"))
 	text3d("駅", 132, Vector3(-2.6, 4.0, 2.44), Color.WHITE)
 	var clock := cyl(0.5, 0.5, 0.07, Vector3(2.8, 3.7, 2.28), Color.WHITE, true)
@@ -649,7 +1168,7 @@ func _b_station() -> void:
 	for i in 7:
 		box(Vector3(0.12, 2.45, 0.16), Vector3(-4.5 + i * 1.5, 1.35, 2.26), Color("d8d2c4"))
 	# 候车亭：站台雨棚 + 立柱 + 长椅 + 售卖机（装饰）
-	box(Vector3(12.0, 0.18, 3.0), Vector3(0, 3.3, -4.6), Color("4a5670"))
+	box(Vector3(12.0, 0.18, 3.0), Vector3(0, 3.3, -4.6), Color.WHITE, 0,0,0, m_metal_galva(position))
 	for px in [-5.0, 0.0, 5.0]:
 		box(Vector3(0.22, 3.2, 0.22), Vector3(px, 1.75, -3.4), Color("8a95a8"))
 	for bx in [-3.0, 1.0]:
@@ -683,60 +1202,168 @@ func _b_train() -> void:
 
 
 func _b_vending() -> void:
-	var body := Color("d64541") if int(abs(position.x * 40.0)) % 2 == 0 else Color("3b6fb5")
-	box(Vector3(0.95, 1.85, 0.8), Vector3(0, 0.925, 0), body)
-	box(Vector3(0.95, 0.16, 0.82), Vector3(0, 1.8, 0), body.darkened(0.3))
-	box(Vector3(0.72, 1.3, 0.07), Vector3(-0.06, 1.0, 0.41), Color("f4efe4"))
-	var drinks := [Color("5b8def"), Color("e6b84c"), Color("7fb069"), Color("d97f7f")]
+	# 规格指定：朱红塑料机身（roughness 0.35）+ 白面板 + 冷白灯箱自发光。
+	# 两种配色交替摆放（红/蓝），是日本街头的真实样貌。
+	var is_red := int(abs(position.x * 40.0)) % 2 == 0
+	var body_col := Color(0.78, 0.17, 0.16) if is_red else Color(0.16, 0.35, 0.62)
+	var body := m_plastic_red(position) if is_red else _mat_j("pl_blue", body_col, position, 0.35, 0.1, 0.04)
+	var panel := m_plastic_white(position)
+	# 机身
+	box(Vector3(0.95, 1.85, 0.8), Vector3(0, 0.925, 0), Color.WHITE, 0,0,0, body)
+	box(Vector3(0.95, 0.16, 0.82), Vector3(0, 1.8, 0), Color.WHITE, 0,0,0, body)
+	# 灯箱：冷白自发光，夜晚会被 Bloom 捕获 —— 街道氛围的重要来源
+	var lit := m_glow(Color(0.86, 0.94, 1.0), 2.6)
+	box(Vector3(0.72, 1.3, 0.07), Vector3(-0.06, 1.0, 0.41), Color.WHITE, 0,0,0, lit)
+	# 饮料格：每排颜色不同，制造"里面有货"的密度感
+	var drinks := [Color(0.35, 0.55, 0.9), Color(0.9, 0.72, 0.3), Color(0.5, 0.7, 0.4), Color(0.85, 0.5, 0.5)]
 	for row in 4:
 		for col in 2:
-			box(Vector3(0.16, 0.26, 0.06), Vector3(-0.22 + col * 0.3, 0.48 + row * 0.32, 0.45), drinks[(row * 2 + col) % 4])
-			box(Vector3(0.16, 0.03, 0.07), Vector3(-0.22 + col * 0.3, 0.36 + row * 0.32, 0.45), Color.WHITE)
-	box(Vector3(0.22, 1.15, 0.06), Vector3(0.33, 1.05, 0.41), Color(0.12, 0.13, 0.18, 0.85))
-	box(Vector3(0.16, 0.4, 0.03), Vector3(0.33, 1.5, 0.44), Color.WHITE)
-	box(Vector3(0.95, 0.1, 0.85), Vector3(0, 0.05, 0), body.darkened(0.4))
+			var ci := (row * 2 + col) % 4
+			box(Vector3(0.16, 0.26, 0.06), Vector3(-0.22 + col * 0.3, 0.48 + row * 0.32, 0.45),
+				Color.WHITE, 0,0,0, _mat_j("drink%d" % ci, drinks[ci], position + Vector3(row, col, 0), 0.45, 0.0, 0.1))
+			box(Vector3(0.16, 0.03, 0.07), Vector3(-0.22 + col * 0.3, 0.36 + row * 0.32, 0.45), Color.WHITE, 0,0,0, panel)
+	# 取物口 + 操作面板
+	box(Vector3(0.22, 1.15, 0.06), Vector3(0.33, 1.05, 0.41), Color(0.1, 0.11, 0.14), 0,0,0, m_rubber(position))
+	box(Vector3(0.16, 0.4, 0.03), Vector3(0.33, 1.5, 0.44), Color.WHITE, 0,0,0, panel)
+	box(Vector3(0.95, 0.1, 0.85), Vector3(0, 0.05, 0), Color.WHITE, 0,0,0, m_metal_dark(position))
 
 
 func _b_pole() -> void:
-	cyl(0.09, 0.12, 7.0, Vector3(0, 3.5, 0), Color("9a9da6"))
-	box(Vector3(0.55, 0.95, 0.55), Vector3(0, 5.3, 0), Color("b0b3bc"))
-	box(Vector3(1.6, 0.13, 0.13), Vector3(0, 6.35, 0), Color("7d8089"))
-	box(Vector3(1.1, 0.1, 0.1), Vector3(0, 5.85, 0), Color("7d8089"))
-	cyl(0.05, 0.05, 0.24, Vector3(-0.65, 6.55, 0), Color("6f727b"))
-	cyl(0.05, 0.05, 0.24, Vector3(0.65, 6.55, 0), Color("6f727b"))
-	cyl(0.05, 0.05, 0.2, Vector3(-0.42, 5.95, 0), Color("6f727b"))
-	cyl(0.05, 0.05, 0.2, Vector3(0.42, 5.95, 0), Color("6f727b"))
-	box(Vector3(0.16, 0.55, 0.16), Vector3(0, 0.27, 0), Color("7d8089"))
+	# 电线杆：混凝土杆（roughness 0.88）+ 镀锌横担（metallic 0.75）
+	# 材质反差是"这看起来像真电线杆"的关键：哑光水泥 + 亮金属横担
+	var cm := mat_photo("concrete", Color(0.6, 0.61, 0.64), 0.0, 0.94, 1.4,
+		null, 0.5, 2.5, 0.4)
+	_cyl_m(Vector3(0.09, 0.12, 7.0), Vector3(0, 3.5, 0), cm)
+	var galva := m_metal_galva(position)
+	var dark := m_metal_dark(position)
+	box(Vector3(0.55, 0.95, 0.55), Vector3(0, 5.3, 0), Color.WHITE, 0,0,0, galva)
+	box(Vector3(1.6, 0.13, 0.13), Vector3(0, 6.35, 0), Color.WHITE, 0,0,0, dark)
+	box(Vector3(1.1, 0.1, 0.1), Vector3(0, 5.85, 0), Color.WHITE, 0,0,0, dark)
+	for ox in [-0.65, 0.65, -0.42, 0.42]:
+		var h := 0.24 if absf(ox) > 0.5 else 0.2
+		cyl(0.05, 0.05, h, Vector3(ox, 6.55 if absf(ox) > 0.5 else 5.95, 0), Color.WHITE, false, m_glass_insulator())
+	box(Vector3(0.16, 0.55, 0.16), Vector3(0, 0.27, 0), Color.WHITE, 0,0,0, dark)
 	box(Vector3(0.16, 0.1, 0.02), Vector3(0, 2.6, 0.1), Color.WHITE)
 
 
+## 绝缘子：白瓷，高光泽（roughness 0.12）
+func m_glass_insulator() -> StandardMaterial3D:
+	if _mats.has("insul"):
+		return _mats["insul"]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(0.88, 0.9, 0.88)
+	m.roughness = 0.14
+	m.metallic = 0.05
+	m.metallic_specular = 0.7
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats["insul"] = m
+	return m
+
+
+## 圆柱（电线杆、树干等）带贴图版本
+func _cyl_m(size: Vector3, pos: Vector3, material: StandardMaterial3D) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = size.x
+	mesh.bottom_radius = size.y
+	mesh.height = size.z
+	mesh.radial_segments = 12
+	mi.mesh = mesh
+	mi.material_override = material
+	mi.position = pos
+	add_child(mi)
+	return mi
+
+
+## 金属/涂装表面材质（铁杆、铁轨、空调外机等）
+func mat_metal(tint: Color, rough := 0.55) -> StandardMaterial3D:
+	var key := "mt_%s_%f" % [tint.to_html(), rough]
+	if _mats.has(key):
+		return _mats[key]
+	var m := StandardMaterial3D.new()
+	m.albedo_color = tint
+	m.roughness = rough
+	m.metallic = 0.35
+	m.metallic_specular = 0.5
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	_mats[key] = m
+	return m
+
+
+## 树皮材质（按 kind 区分树种）
+func mat_bark(kind: String, tint: Color) -> StandardMaterial3D:
+	var key := "bk_%s_%s" % [kind, tint.to_html()]
+	if _mats.has(key):
+		return _mats[key]
+	var m := StandardMaterial3D.new()
+	m.uv1_triplanar = true
+	m.uv1_world_triplanar = true
+	# 树皮是竖纹，拉伸的 UV 更像真树皮
+	m.uv1_scale = Vector3(2.5, 0.35, 2.5)
+	m.albedo_color = tint
+	m.roughness = 0.98
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	var col := _tex("res://assets/tex/%s_col.jpg" % kind)
+	if col != null:
+		m.albedo_texture = col
+		var nrm := _tex("res://assets/tex/%s_nrm.jpg" % kind)
+		if nrm != null:
+			m.normal_enabled = true
+			m.normal_texture = nrm
+			m.normal_scale = 1.0
+	_mats[key] = m
+	return m
+
+
 func _b_mailbox() -> void:
-	box(Vector3(0.5, 0.28, 0.4), Vector3(0, 0.36, 0), Color("8f3333"))
-	box(Vector3(0.62, 0.78, 0.55), Vector3(0, 0.9, 0), Color("c94f4f"))
-	box(Vector3(0.4, 0.07, 0.06), Vector3(0, 1.16, 0.24), Color(0.15, 0.1, 0.1, 0.7))
-	text3d("〒", 90, Vector3(0, 0.9, 0.29), Color.WHITE)
-	box(Vector3(0.62, 0.14, 0.56), Vector3(0, 1.26, 0), Color("d96363"))
-	box(Vector3(0.62, 0.06, 0.2), Vector3(0, 1.24, 0.2), Color("9a3a3a"))
-
-
+	# 【尺度】0.55m —— 矮型邮筒（日本街头常见的那种圆筒矮邮筒）。
+	# 朱红点缀色（规格：画面占比 <5% 但吸走 80% 注意力），猫可以跳上去。
+	var red := m_vermilion(position)
+	var red_dark := _mat_j("verm_d", Color(0.62, 0.18, 0.15), position, 0.5, 0.05, 0.04)
+	var metal := m_metal_galva(position)
+	# 圆筒形（经典日式邮筒），比方形矮墩更适合猫尺度
+	cyl(0.24, 0.26, 0.44, Vector3(0, 0.22, 0), Color.WHITE, false, red)
+	# 顶盖：平顶圆盘，不要半球 —— 半球直径 0.5m 会在近景里大得离谱，
+	# 而且猫踩半球不方便（曲面站不稳）。平顶也更像真实邮筒。
+	cyl(0.27, 0.27, 0.06, Vector3(0, 0.465, 0), Color.WHITE, false, red_dark)
+	cyl(0.1, 0.1, 0.04, Vector3(0, 0.51, 0), Color.WHITE, false, red_dark)
+	# 投信口
+	box(Vector3(0.3, 0.05, 0.05), Vector3(0, 0.36, -0.23), Color(0.1, 0.08, 0.08), 0,0,0, m_rubber(position))
+	text3d("〒", 76, Vector3(0, 0.24, -0.26), Color.WHITE)
+	# 底座
+	cyl(0.27, 0.27, 0.05, Vector3(0, 0.025, 0), Color.WHITE, false, metal)
 func _b_trash() -> void:
-	cyl(0.33, 0.28, 0.8, Vector3(0, 0.4, 0), Color("6b7f74"))
-	cyl(0.37, 0.35, 0.13, Vector3(0, 0.87, 0), Color("49584f"))
-	torus(0.12, 0.2, Vector3(0, 0.5, 0.29), Color(1, 1, 1, 0.85), true)
-	cyl(0.12, 0.12, 0.02, Vector3(0, 0.01, 0), Color("55575e"))
-
-
+	# 【尺度】0.52m —— 街边小型分类垃圾桶的真实高度，猫跳得上去。
+	# 之前做成 0.85m（大号市政桶），猫跳不上，只能撞墙。
+	var galva := m_metal_galva(position)
+	var dark := m_metal_dark(position)
+	cyl(0.3, 0.26, 0.42, Vector3(0, 0.21, 0), Color.WHITE, false, galva)
+	# 桶盖（猫踩的地方，做成微微凸起以便看清是台面）
+	cyl(0.33, 0.31, 0.07, Vector3(0, 0.465, 0), Color.WHITE, false, dark)
+	cyl(0.1, 0.1, 0.03, Vector3(0, 0.51, 0), Color.WHITE, false, dark)
+	# 投口
+	torus(0.1, 0.15, Vector3(0, 0.36, 0.27), Color(0.1, 0.1, 0.11), true)
+	# 底部环
+	cyl(0.28, 0.28, 0.04, Vector3(0, 0.02, 0), Color(0.14, 0.14, 0.15), false, dark)
 func _b_bicycle() -> void:
-	var frame := Color("c94f4f")
-	torus(0.24, 0.32, Vector3(-0.55, 0.32, 0), Color("33363d"), true)
-	torus(0.24, 0.32, Vector3(0.55, 0.32, 0), Color("33363d"), true)
-	box(Vector3(1.0, 0.05, 0.05), Vector3(0, 0.55, 0), frame, 0.0, 0.25)
-	box(Vector3(0.62, 0.05, 0.05), Vector3(0.18, 0.82, 0), frame, 0.0, -0.5)
-	box(Vector3(0.05, 0.5, 0.05), Vector3(-0.15, 0.72, 0), frame)
-	box(Vector3(0.3, 0.05, 0.08), Vector3(-0.2, 0.97, 0), Color("33363d"))
-	box(Vector3(0.05, 0.28, 0.05), Vector3(0.5, 0.86, 0), frame)
-	box(Vector3(0.42, 0.05, 0.06), Vector3(0.55, 0.98, 0), Color("33363d"))
-	box(Vector3(0.32, 0.2, 0.24), Vector3(0.55, 0.85, 0), Color("8a8d96"))
+	# 橡胶轮胎(rough 0.92) vs 金属车架(metal 0.8) —— 两种反光形状拉开车轮与车架
+	var frame := m_vermilion(position)
+	var rubber := m_rubber(position)
+	var steel := m_metal_galva(position)
+	torus(0.24, 0.32, Vector3(-0.55, 0.32, 0), Color.WHITE, true, rubber)
+	torus(0.24, 0.32, Vector3(0.55, 0.32, 0), Color.WHITE, true, rubber)
+	# 轮辐
+	for i in 6:
+		var a := float(i) / 6.0 * TAU
+		box(Vector3(0.025, 0.58, 0.025), Vector3(-0.55, 0.32, 0), Color.WHITE, 0, 0, a, steel)
+		box(Vector3(0.025, 0.58, 0.025), Vector3(0.55, 0.32, 0), Color.WHITE, 0, 0, a, steel)
+	box(Vector3(1.0, 0.05, 0.05), Vector3(0, 0.55, 0), Color.WHITE, 0, 0.25, 0, frame)
+	box(Vector3(0.62, 0.05, 0.05), Vector3(0.18, 0.82, 0), Color.WHITE, 0, -0.5, 0, frame)
+	box(Vector3(0.05, 0.5, 0.05), Vector3(-0.15, 0.72, 0), Color.WHITE, 0,0,0, frame)
+	box(Vector3(0.3, 0.05, 0.08), Vector3(-0.2, 0.97, 0), Color.WHITE, 0,0,0, rubber)
+	box(Vector3(0.05, 0.28, 0.05), Vector3(0.5, 0.86, 0), Color.WHITE, 0,0,0, frame)
+	box(Vector3(0.42, 0.05, 0.06), Vector3(0.55, 0.98, 0), Color.WHITE, 0,0,0, steel)
+	box(Vector3(0.32, 0.2, 0.24), Vector3(0.55, 0.85, 0), Color.WHITE, 0,0,0, m_metal_cool(position))
 
 
 func _b_car() -> void:
@@ -764,22 +1391,17 @@ func _b_car() -> void:
 
 
 func _b_traffic() -> void:
-	cyl(0.08, 0.11, 4.5, Vector3(0, 2.25, 0), Color("6a6d76"))
-	box(Vector3(0.14, 0.14, 2.6), Vector3(0, 5.35, 1.3), Color("6a6d76"))
-	box(Vector3(0.42, 1.15, 0.5), Vector3(0, 5.1, 2.45), Color("3a3f4a"))
-	var emissive := StandardMaterial3D.new()
-	emissive.albedo_color = Color("e74c3c")
-	emissive.emission_enabled = true
-	emissive.emission = Color("e74c3c")
-	emissive.emission_energy_multiplier = 1.4
-	var red := sph(0.14, Vector3(0, 5.5, 2.15), Color("e74c3c"))
-	red.material_override = emissive
-	sph(0.13, Vector3(0, 5.1, 2.15), Color(0.65, 0.55, 0.15))
-	sph(0.13, Vector3(0, 4.72, 2.15), Color(0.2, 0.5, 0.28))
-	box(Vector3(0.45, 1.2, 0.4), Vector3(0, 5.1, 0), Color("3a3f4a"))
-	box(Vector3(0.3, 0.3, 0.3), Vector3(0, 0.15, 0), Color("6a6d76"))
-
-
+	# 金属杆(metal 0.85) + 三色信号灯(UNSHADED 自发光，Bloom 会捕获)
+	var dark := m_metal_dark(position)
+	cyl(0.08, 0.11, 4.5, Vector3(0, 2.25, 0), Color.WHITE, false, dark)
+	box(Vector3(0.14, 0.14, 2.6), Vector3(0, 5.35, 1.3), Color.WHITE, 0,0,0, dark)
+	box(Vector3(0.42, 1.15, 0.5), Vector3(0, 5.1, 2.45), Color.WHITE, 0,0,0, m_metal_cool(position))
+	# 红(停) 黄(待) 绿(行)：只点亮当前相位，夜景里是街道的节奏点
+	box(Vector3(0.34, 0.32, 0.1), Vector3(0, 5.1, 2.72), Color.WHITE, 0,0,0, m_glow(Color(0.95, 0.22, 0.18), 3.0))
+	box(Vector3(0.34, 0.32, 0.1), Vector3(0, 5.42, 2.72), Color.WHITE, 0,0,0, m_glow(Color(0.95, 0.75, 0.2), 0.5))
+	box(Vector3(0.34, 0.32, 0.1), Vector3(0, 4.78, 2.72), Color.WHITE, 0,0,0, m_glow(Color(0.3, 0.95, 0.4), 0.5))
+	box(Vector3(0.45, 1.2, 0.4), Vector3(0, 5.1, 0), Color.WHITE, 0,0,0, dark)
+	box(Vector3(0.3, 0.3, 0.3), Vector3(0, 0.15, 0), Color.WHITE, 0,0,0, m_rubber(position))
 func _b_signboard() -> void:
 	box(Vector3(0.15, 1.5, 0.15), Vector3(0, 0.75, 0), Color("6b5d4a"))
 	box(Vector3(0.95, 1.7, 0.12), Vector3(0, 2.2, 0), Color("f2e6cf"), 0.0, 0.0, 0.0,
@@ -790,68 +1412,73 @@ func _b_signboard() -> void:
 
 
 func _b_streetlight() -> void:
-	cyl(0.07, 0.1, 4.2, Vector3(0, 2.1, 0), Color("6a6d76"))
-	box(Vector3(1.15, 0.09, 0.09), Vector3(0.48, 4.15, 0), Color("6a6d76"))
-	box(Vector3(0.6, 0.16, 0.24), Vector3(1.0, 4.05, 0), Color("e8e2c8"))
-	var lamp := box(Vector3(0.5, 0.05, 0.18), Vector3(1.0, 3.97, 0), Color("f5eec8"))
-	var lm := StandardMaterial3D.new()
-	lm.albedo_color = Color("f5eec8")
-	lm.emission_enabled = true
-	lm.emission = Color("f5e6a8")
-	lm.emission_energy_multiplier = 0.5
-	lamp.material_override = lm
-	box(Vector3(0.42, 0.32, 0.42), Vector3(0, 0.16, 0), Color("5f626b"))
-
-
+	# 金属杆 + 暖白灯箱。灯箱是 UNSHADED 自发光，Bloom 会捕获 → 夜里街道的锚点
+	var dark := m_metal_dark(position)
+	cyl(0.07, 0.1, 4.2, Vector3(0, 2.1, 0), Color.WHITE, false, dark)
+	box(Vector3(1.15, 0.09, 0.09), Vector3(0.48, 4.15, 0), Color.WHITE, 0,0,0, dark)
+	# 灯罩：金属外壳
+	box(Vector3(0.6, 0.16, 0.24), Vector3(1.0, 4.05, 0), Color.WHITE, 0,0,0, m_metal_galva(position))
+	# 发光面（朝下，路面会被照亮 —— 配合 OmniLight 效果更真）
+	box(Vector3(0.5, 0.05, 0.18), Vector3(1.0, 3.97, 0), Color.WHITE, 0,0,0, m_glow(Color(1.0, 0.85, 0.6), 3.2))
+	box(Vector3(0.42, 0.32, 0.42), Vector3(0, 0.16, 0), Color.WHITE, 0,0,0, m_concrete(position))
 func _b_bench() -> void:
-	var wm := tex_mat(ProceduralTex.wood(25), Color("a8794e"), 1.1, 0.9, "bw")
-	box(Vector3(2.2, 0.09, 0.55), Vector3(0, 0.45, 0), Color("a8794e"), 0.0, 0.0, 0.0, wm)
-	box(Vector3(2.2, 0.45, 0.08), Vector3(0, 0.72, -0.24), Color("b5855a"), 0.0, 0.0, 0.0, wm)
-	box(Vector3(0.09, 0.45, 0.5), Vector3(-0.95, 0.22, 0), Color("6b5d4a"))
-	box(Vector3(0.09, 0.45, 0.5), Vector3(0.95, 0.22, 0), Color("6b5d4a"))
-
-
+	# 【尺度】座面 0.42m —— 真人长椅座高标准，也刚好在猫的 0.66m 跳跃极限内。
+	# 靠背单独一块（不参与碰撞），猫可以跳上座面从靠背上方看街景。
+	var wm := tex_mat(ProceduralTex.wood(25), Color(0.62, 0.44, 0.28), 1.1, 0.9, "bw")
+	var frame := m_metal_dark(position)
+	# 座面
+	box(Vector3(2.2, 0.09, 0.55), Vector3(0, 0.38, 0), Color.WHITE, 0,0,0, wm)
+	# 靠背（在座面后方，猫能跳过去）
+	box(Vector3(2.2, 0.4, 0.08), Vector3(0, 0.62, -0.24), Color(0.68, 0.5, 0.32), 0,0,0, wm)
+	# 腿（细金属，视觉上让座面显得悬空，猫跳上去更有「台」的感觉）
+	for lx in [-0.92, 0.92]:
+		box(Vector3(0.07, 0.38, 0.07), Vector3(lx, 0.19, 0.18), Color.WHITE, 0,0,0, frame)
+		box(Vector3(0.07, 0.42, 0.07), Vector3(lx, 0.21, -0.2), Color.WHITE, 0,0,0, frame)
+	box(Vector3(1.9, 0.06, 0.06), Vector3(0, 0.12, 0), Color.WHITE, 0,0,0, frame)
 func _b_busstop() -> void:
-	cyl(0.05, 0.07, 2.7, Vector3(0, 1.35, 0), Color("6a6d76"))
-	box(Vector3(0.85, 0.85, 0.08), Vector3(0, 2.45, 0), Color("2b6cb0"))
-	box(Vector3(0.45, 0.24, 0.03), Vector3(0, 2.56, 0.06), Color.WHITE)
-	box(Vector3(0.1, 0.1, 0.03), Vector3(-0.12, 2.42, 0.06), Color("2b6cb0"))
-	box(Vector3(0.1, 0.1, 0.03), Vector3(0.12, 2.42, 0.06), Color("2b6cb0"))
+	var dark := m_metal_cool(position)
+	cyl(0.05, 0.07, 2.7, Vector3(0, 1.35, 0), Color.WHITE, false, dark)
+	# 站牌灯箱：蓝色自发光，夜晚是街边的一个光点
+	box(Vector3(0.85, 0.85, 0.08), Vector3(0, 2.45, 0), Color.WHITE, 0,0,0, m_glow(Color(0.25, 0.5, 0.8), 2.0))
+	box(Vector3(0.45, 0.24, 0.03), Vector3(0, 2.56, 0.06), Color.WHITE, 0,0,0, m_plastic_white(position))
+	box(Vector3(0.1, 0.1, 0.03), Vector3(-0.12, 2.42, 0.06), Color(0.1,0.2,0.4), 0,0,0, m_rubber(position))
+	box(Vector3(0.1, 0.1, 0.03), Vector3(0.12, 2.42, 0.06), Color(0.1,0.2,0.4), 0,0,0, m_rubber(position))
 	text3d("バス", 52, Vector3(0, 2.16, 0.06), Color.WHITE)
-	box(Vector3(0.5, 0.65, 0.04), Vector3(0, 1.45, 0.06), Color("f2efe6"))
+	# 时刻表：纸张质感
+	box(Vector3(0.5, 0.65, 0.04), Vector3(0, 1.45, 0.06), Color.WHITE, 0,0,0, m_paper(position))
 	for i in 4:
-		box(Vector3(0.36, 0.04, 0.05), Vector3(0, 1.62 - i * 0.13, 0.07), Color("b5aea0"))
-
-
+		box(Vector3(0.36, 0.04, 0.05), Vector3(0, 1.62 - i * 0.13, 0.07), Color(0.35,0.33,0.3), 0,0,0, m_plastic_white(position))
 func _b_tree() -> void:
-	cyl(0.15, 0.22, 2.4, Vector3(0, 1.2, 0), Color("6b4f3a"))
-	cyl(0.06, 0.08, 1.1, Vector3(-0.35, 2.3, 0.1), Color("6b4f3a"))
-	var g1 := Color("5e9c54")
-	var g2 := Color("6faf5f")
-	var g3 := Color("4f8b4a")
-	sph(1.1, Vector3(0, 3.2, 0), g1)
-	sph(0.8, Vector3(-0.85, 2.6, 0.2), g2)
-	sph(0.78, Vector3(0.8, 2.7, -0.15), g3)
-	sph(0.6, Vector3(0.1, 3.95, 0.05), g2)
-	sph(0.5, Vector3(-0.45, 3.6, -0.35), g1)
-
-
+	# 树干换树皮贴图（japanese_cedar_bark = 杉木，日本街道的树基本就是杉/槭）
+	var bark := mat_bark("bark", Color(0.72, 0.58, 0.48))
+	_cyl_m(Vector3(0.15, 0.22, 2.4), Vector3(0, 1.2, 0), bark)
+	_cyl_m(Vector3(0.06, 0.08, 1.1), Vector3(-0.35, 2.3, 0.1), bark)
+	# 树冠：每团球用不同深浅的叶材质，破掉"一团纯绿"
+	var lv := m_leaf(position)
+	var lv2 := m_foliage(position)
+	sph(1.1, Vector3(0, 3.2, 0), Color.WHITE, lv)
+	sph(0.8, Vector3(-0.85, 2.6, 0.2), Color.WHITE, lv2)
+	sph(0.78, Vector3(0.8, 2.7, -0.15), Color.WHITE, lv)
+	sph(0.6, Vector3(0.1, 3.95, 0.05), Color.WHITE, lv2)
+	sph(0.5, Vector3(-0.45, 3.6, -0.35), Color.WHITE, lv)
 func _b_sakura() -> void:
-	cyl(0.14, 0.2, 2.2, Vector3(0, 1.1, 0), Color("6b4a3a"))
-	box(Vector3(0.1, 1.2, 0.1), Vector3(-0.45, 2.2, 0.1), Color("6b4a3a"), 0.0, 0.0, 0.55)
-	box(Vector3(0.1, 1.3, 0.1), Vector3(0.5, 2.3, -0.1), Color("6b4a3a"), 0.0, 0.0, -0.6)
-	var p1 := Color("f5a8c6")
-	var p2 := Color("f7c6d9")
-	var p3 := Color("efa3c4")
-	sph(1.25, Vector3(0, 3.4, 0), p1)
-	sph(0.9, Vector3(-0.9, 2.85, 0.3), p2)
-	sph(0.92, Vector3(0.9, 2.95, -0.25), p3)
-	sph(0.68, Vector3(0.1, 4.35, 0.05), p2)
-	sph(0.5, Vector3(-0.55, 3.8, -0.4), p1)
-	var disc := cyl(1.3, 1.3, 0.012, Vector3(0.3, 0.085, 0.3), Color("f5c3d6"))
+	# 樱花树干：深色树皮贴图（bark_brown_02）
+	var bark := mat_bark("bark", Color(0.46, 0.36, 0.32))
+	_cyl_m(Vector3(0.14, 0.2, 2.2), Vector3(0, 1.1, 0), bark)
+	box(Vector3(0.1, 1.2, 0.1), Vector3(-0.45, 2.2, 0.1), Color.WHITE, 0.0, 0.0, 0.55, bark)
+	box(Vector3(0.1, 1.3, 0.1), Vector3(0.5, 2.3, -0.1), Color.WHITE, 0.0, 0.0, -0.6, bark)
+	# 花冠：三档粉（深/中/浅），比单一粉色有层次
+	var p1 := _mat_j("sak1", Color(0.94, 0.66, 0.78), position, 0.85, 0.0, 0.07)
+	var p2 := _mat_j("sak2", Color(0.97, 0.78, 0.85), position + Vector3(1,0,0), 0.85, 0.0, 0.07)
+	var p3 := _mat_j("sak3", Color(0.9, 0.58, 0.72), position + Vector3(0,0,1), 0.85, 0.0, 0.07)
+	sph(1.25, Vector3(0, 3.4, 0), Color.WHITE, p1)
+	sph(0.9, Vector3(-0.9, 2.85, 0.3), Color.WHITE, p2)
+	sph(0.92, Vector3(0.9, 2.95, -0.25), Color.WHITE, p3)
+	sph(0.68, Vector3(0.1, 4.35, 0.05), Color.WHITE, p2)
+	sph(0.5, Vector3(-0.55, 3.8, -0.4), Color.WHITE, p1)
+	# 落樱的地面圆盘：淡粉半透明
+	var disc := cyl(1.3, 1.3, 0.012, Vector3(0.3, 0.085, 0.3), Color.WHITE, false, m_petal())
 	disc.scale = Vector3(1.0, 1.0, 0.8)
-
-
 func _b_flower() -> void:
 	box(Vector3(0.9, 0.3, 0.5), Vector3(0, 0.15, 0), Color("9a8f7a"), 0.0, 0.0, 0.0,
 		tex_mat(ProceduralTex.wood(27), Color("9a8f7a"), 1.1, 0.9, "fp"))
@@ -881,31 +1508,32 @@ func _b_parksign() -> void:
 
 
 func _b_dog() -> void:
-	var fur := Color("b08968")
-	var dark := Color("96745c")
-	box(Vector3(0.72, 0.38, 0.3), Vector3(-0.05, 0.5, 0), fur)
+	# 皮毛质感：高 roughness + 位置微差（裸 Color 会和塑料件混成一档）
+	var fur := _mat_j("fur_d", Color("b08968"), position, 0.92, 0.0, 0.06)
+	var dark := _mat_j("fur_dd", Color("96745c"), position + Vector3(1, 0, 0), 0.92, 0.0, 0.06)
+	box(Vector3(0.72, 0.38, 0.3), Vector3(-0.05, 0.5, 0), Color.WHITE, 0,0,0, fur)
 	for lx in [-0.3, 0.12]:
-		box(Vector3(0.09, 0.32, 0.09), Vector3(lx, 0.16, 0.1), dark)
-		box(Vector3(0.09, 0.32, 0.09), Vector3(lx, 0.16, -0.1), dark)
-	box(Vector3(0.3, 0.3, 0.28), Vector3(0.4, 0.72, 0), fur)
-	box(Vector3(0.08, 0.16, 0.05), Vector3(0.32, 0.92, 0.09), dark, 0.0, 0.3)
-	box(Vector3(0.08, 0.16, 0.05), Vector3(0.32, 0.92, -0.09), dark, 0.0, 0.3)
-	box(Vector3(0.09, 0.09, 0.12), Vector3(0.58, 0.68, 0), Color("3a3230"))
-	box(Vector3(0.05, 0.28, 0.05), Vector3(-0.45, 0.68, 0), dark, 0.0, 0.0, 0.6)
-	box(Vector3(0.03, 0.06, 0.28), Vector3(0.22, 0.62, 0), Color("c94f4f"))
+		box(Vector3(0.09, 0.32, 0.09), Vector3(lx, 0.16, 0.1), Color.WHITE, 0,0,0, dark)
+		box(Vector3(0.09, 0.32, 0.09), Vector3(lx, 0.16, -0.1), Color.WHITE, 0,0,0, dark)
+	box(Vector3(0.3, 0.3, 0.28), Vector3(0.4, 0.72, 0), Color.WHITE, 0,0,0, fur)
+	box(Vector3(0.08, 0.16, 0.05), Vector3(0.32, 0.92, 0.09), Color.WHITE, 0.0, 0.3, 0, dark)
+	box(Vector3(0.08, 0.16, 0.05), Vector3(0.32, 0.92, -0.09), Color.WHITE, 0.0, 0.3, 0, dark)
+	box(Vector3(0.09, 0.09, 0.12), Vector3(0.58, 0.68, 0), Color.WHITE, 0,0,0, _mat_j("nose", Color("3a3230"), position, 0.4, 0.0, 0.03))
+	box(Vector3(0.05, 0.28, 0.05), Vector3(-0.45, 0.68, 0), Color.WHITE, 0.0, 0.0, 0.6, dark)
+	box(Vector3(0.03, 0.06, 0.28), Vector3(0.22, 0.62, 0), Color.WHITE, 0,0,0, m_vermilion(position + Vector3(2, 0, 0)))
 
 
 func _b_cat() -> void:
-	var fur := Color("9aa0ab")
-	var dark := Color("878d99")
-	box(Vector3(0.34, 0.4, 0.24), Vector3(0, 0.3, 0), fur)
-	box(Vector3(0.28, 0.26, 0.25), Vector3(0.02, 0.62, 0), fur)
-	box(Vector3(0.07, 0.12, 0.04), Vector3(-0.07, 0.79, 0.06), dark, 0.0, 0.25)
-	box(Vector3(0.07, 0.12, 0.04), Vector3(0.11, 0.79, 0.06), dark, 0.0, 0.25)
-	box(Vector3(0.3, 0.05, 0.05), Vector3(-0.12, 0.35, 0.1), dark, 0.0, 0.6)
-	box(Vector3(0.06, 0.18, 0.05), Vector3(-0.24, 0.62, 0.1), dark, 0.0, 0.0, 0.5)
-	sph(0.025, Vector3(0.1, 0.64, 0.13), Color("3a4a3a"))
-	sph(0.025, Vector3(-0.04, 0.64, 0.13), Color("3a4a3a"))
+	var fur := _mat_j("fur_c", Color("9aa0ab"), position, 0.9, 0.0, 0.06)
+	var dark := _mat_j("fur_cd", Color("878d99"), position + Vector3(1, 0, 0), 0.9, 0.0, 0.06)
+	box(Vector3(0.34, 0.4, 0.24), Vector3(0, 0.3, 0), Color.WHITE, 0,0,0, fur)
+	box(Vector3(0.28, 0.26, 0.25), Vector3(0.02, 0.62, 0), Color.WHITE, 0,0,0, fur)
+	box(Vector3(0.07, 0.12, 0.04), Vector3(-0.07, 0.79, 0.06), Color.WHITE, 0.0, 0.25, 0, dark)
+	box(Vector3(0.07, 0.12, 0.04), Vector3(0.11, 0.79, 0.06), Color.WHITE, 0.0, 0.25, 0, dark)
+	box(Vector3(0.3, 0.05, 0.05), Vector3(-0.12, 0.35, 0.1), Color.WHITE, 0.0, 0.6, 0, dark)
+	box(Vector3(0.06, 0.18, 0.05), Vector3(-0.24, 0.62, 0.1), Color.WHITE, 0.0, 0.0, 0.5, dark)
+	sph(0.025, Vector3(0.1, 0.64, 0.13), Color.WHITE, m_vermilion(position))
+	sph(0.025, Vector3(-0.04, 0.64, 0.13), Color.WHITE, m_vermilion(position))
 
 
 func _b_bird() -> void:
@@ -918,20 +1546,24 @@ func _b_bird() -> void:
 
 
 func _b_bowl() -> void:
-	cyl(0.34, 0.2, 0.24, Vector3(0, 0.14, 0), Color("c94f4f"))
-	cyl(0.3, 0.3, 0.05, Vector3(0, 0.26, 0), Color("f2ede2"))
-	torus(0.2, 0.28, Vector3(0, 0.3, 0), Color("f0d878"))
-	cyl(0.012, 0.012, 0.42, Vector3(-0.1, 0.34, 0.12), Color("b5855a"))
-	cyl(0.012, 0.012, 0.42, Vector3(-0.06, 0.34, 0.16), Color("b5855a"))
+	# 陶瓷碗：低 roughness（0.2）出高光，跟塑料拉开档
+	var cera := _mat_j("bowl_c", Color("c94f4f"), position, 0.2, 0.0, 0.04)
+	cyl(0.34, 0.2, 0.24, Vector3(0, 0.14, 0), Color.WHITE, false, cera)
+	cyl(0.3, 0.3, 0.05, Vector3(0, 0.26, 0), Color.WHITE, false, m_plastic_white(position))
+	torus(0.2, 0.28, Vector3(0, 0.3, 0), Color.WHITE, false, _mat_j("bowl_rim", Color("f0d878"), position, 0.35, 0.0, 0.04))
+	cyl(0.012, 0.012, 0.42, Vector3(-0.1, 0.34, 0.12), Color.WHITE, false, _mat_j("chop", Color("b5855a"), position, 0.6, 0.0, 0.05))
+	cyl(0.012, 0.012, 0.42, Vector3(-0.06, 0.34, 0.16), Color.WHITE, false, _mat_j("chop2", Color("b5855a"), position + Vector3(1, 0, 0), 0.6, 0.0, 0.05))
 	sph(0.07, Vector3(0.1, 0.32, -0.05), Color("a06a4a"))
 	sph(0.05, Vector3(-0.12, 0.33, 0.06), Color("8fb069"))
 
 
 func _b_cans() -> void:
+	# 易拉罐：金属罐身（metallic 0.6）+ 拉环银顶
 	var cols := [Color("d64541"), Color("5b8def"), Color("7fb069")]
 	for i in 3:
-		cyl(0.075, 0.075, 0.26, Vector3(-0.2 + i * 0.2, 0.13, float(i % 2) * 0.08), cols[i])
-		cyl(0.075, 0.075, 0.03, Vector3(-0.2 + i * 0.2, 0.27, float(i % 2) * 0.08), Color("c8ccd4"))
+		var can := _mat_j("can%d" % i, cols[i], position + Vector3(i, 0, 0), 0.32, 0.6, 0.05)
+		cyl(0.075, 0.075, 0.26, Vector3(-0.2 + i * 0.2, 0.13, float(i % 2) * 0.08), Color.WHITE, false, can)
+		cyl(0.075, 0.075, 0.03, Vector3(-0.2 + i * 0.2, 0.27, float(i % 2) * 0.08), Color.WHITE, false, m_metal_galva(position))
 
 
 func _b_onigiri() -> void:
@@ -973,3 +1605,394 @@ func _b_crosswalk() -> void:
 			box(Vector3(0.5, 0.03, 2.9), Vector3(off, 0.075, 0), Color(1, 1, 1, 0.9))
 		else:
 			box(Vector3(2.9, 0.03, 0.5), Vector3(0, 0.075, off), Color(1, 1, 1, 0.9))
+
+
+# ================================================================
+# 批次 5 前置：专为「猫能跳上去」设计的矮物件
+# 尺度基准：猫跳高 0.66m，所以台面全部 ≤ 0.5m。
+# 这些是 Stray 里「猫在城市里钻来钻去」的主要落脚点。
+# ================================================================
+
+## 街边窨井盖（水泥井盖）：0.38m 高的凸台。Stray 里猫最爱跳的东西之一。
+## 【坑】CylinderMesh 是开口的，横放时能直接看进内壁 → 变成一个黑洞。
+## 做法：竖放 + 顶盖盖住口 + 井盖花纹。做实心的最稳。
+func _b_pipe() -> void:
+	var conc := m_concrete(position)
+	var dark := m_metal_dark(position)
+	# 井壁（竖放圆筒，不用 axis_z）
+	cyl(0.3, 0.32, 0.34, Vector3(0, 0.17, 0), Color.WHITE, false, conc)
+	# 井盖（顶面，猫踩这里）—— 略微凸出 + 深色金属
+	cyl(0.31, 0.31, 0.06, Vector3(0, 0.35, 0), Color.WHITE, false, dark)
+	# 盖面花纹（十字筋，让井盖一眼可认）
+	for a in [0.0, PI * 0.5]:
+		box(Vector3(0.52, 0.025, 0.05), Vector3(0, 0.385, 0), Color(0.16, 0.16, 0.17), a, 0, 0)
+	# 提手小孔
+	_sph2(0.035, Vector3(0, 0.39, 0), Color(0.1, 0.1, 0.11))
+	# 井壁竖向裂纹（打破水泥的平整感）
+	for i in 3:
+		var an := float(i) * 2.1
+		box(Vector3(0.02, 0.2, 0.02), Vector3(cos(an) * 0.3, 0.16, sin(an) * 0.3),
+			Color(0.56, 0.54, 0.5), an, 0, 0)
+
+
+## 纯色球（不接材质工厂的简版，用于小装饰）
+func _sph2(r: float, pos: Vector3, color: Color) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	var mesh := SphereMesh.new()
+	mesh.radius = r
+	mesh.height = r * 2.0
+	mesh.radial_segments = 10
+	mesh.rings = 6
+	mi.mesh = mesh
+	mi.material_override = mat(color)
+	mi.position = pos
+	add_child(mi)
+	return mi
+
+
+## 店铺门口的塑料周转箱：0.4m。猫跳上去可以俯瞰街面。
+func _b_crate() -> void:
+	# 三种颜色随机，跟街道色调协调（不是纯蓝塑料）
+	var cols := [Color(0.42, 0.5, 0.56), Color(0.56, 0.44, 0.36), Color(0.4, 0.52, 0.44)]
+	var c: Color = cols[int(abs(position.x * 7.3 + position.z * 3.1)) % 3]
+	var m := _mat_j("crate", c, position, 0.5, 0.0, 0.07)
+	# 箱体（略微收口，像真的周转箱）
+	box(Vector3(0.72, 0.34, 0.58), Vector3(0, 0.17, 0), Color.WHITE, 0,0,0, m)
+	box(Vector3(0.68, 0.06, 0.54), Vector3(0, 0.36, 0), Color.WHITE, 0,0,0, m)
+	# 边缘加强筋
+	for ex in [-0.34, 0.34]:
+		box(Vector3(0.05, 0.3, 0.6), Vector3(ex, 0.17, 0), Color.WHITE, 0,0,0, m)
+	# 里面露一点东西（空箱子太假）
+	box(Vector3(0.4, 0.1, 0.3), Vector3(0.05, 0.33, 0.05), Color(0.7, 0.68, 0.6), 0,0,0.3, m)
+
+
+## 花坛矮沿（公园/店铺前）：0.5m。混凝土 + 泥土 + 小植物。
+func _b_planter() -> void:
+	var conc := m_concrete(position)
+	var soil := Color(0.28, 0.2, 0.14)
+	# 沿体（四面矮墙，中空）
+	for sz in [-0.42, 0.42]:
+		box(Vector3(1.5, 0.5, 0.14), Vector3(0, 0.25, sz), Color.WHITE, 0,0,0, conc)
+	for sx in [-0.68, 0.68]:
+		box(Vector3(0.14, 0.5, 0.7), Vector3(sx, 0.25, 0), Color.WHITE, 0,0,0, conc)
+	# 泥土面（略低于沿口，猫踩沿不踩土）
+	box(Vector3(1.36, 0.06, 0.68), Vector3(0, 0.4, 0), Color.WHITE, 0,0,0, tex_mat(ProceduralTex.grass(33), soil, 1.2, 0.98, "soil"))
+	# 几株小草
+	for i in 5:
+		var fx := -0.5 + i * 0.25
+		for j in 2:
+			cyl(0.0, 0.03, 0.22, Vector3(fx, 0.52, -0.2 + j * 0.4), Color(0.34, 0.52, 0.26))
+			cyl(0.0, 0.025, 0.18, Vector3(fx + 0.06, 0.5, -0.14 + j * 0.4), Color(0.42, 0.6, 0.3))
+
+
+## 巷口矮墙：0.55m。猫能跳上去看过去，Stray 里爬墙是标志性动作。
+func _b_lowwall() -> void:
+	var conc := m_concrete(position)
+	# 墙帽（顶面比墙体略宽，猫踩着有 overhang 的感觉）
+	box(Vector3(2.3, 0.1, 0.4), Vector3(0, 0.5, 0), Color(0.66, 0.64, 0.6), 0,0,0, conc)
+	# 墙体
+	box(Vector3(2.2, 0.45, 0.32), Vector3(0, 0.225, 0), Color(0.72, 0.7, 0.66), 0,0,0, conc)
+	# 压顶纹（横向凹槽，让大面积水泥不那么平）
+	for i in 3:
+		box(Vector3(2.24, 0.02, 0.34), Vector3(0, 0.12 + i * 0.13, 0), Color(0.64, 0.62, 0.58), 0,0,0, conc)
+
+
+# ================================================================
+# 批次 6：家具（家具屋门口的沿街展示品）
+# 尺度沿用批次 5 的铁律：能跳的台面 ≤ 0.5m（桌子 0.45 / 椅子 0.44 /
+# 沙发座 0.45 / 床台 0.33），柜子电视这种高的保持实心不可跳。
+# ================================================================
+
+## 家具屋：木色门脸 + 橱窗里透出店内家具的剪影
+func _b_furniture() -> void:
+	_shop_front(7.0, Color("e8dcc4"))
+	box(Vector3(7.0, 1.0, 0.3), Vector3(0, 3.9, 2.6), Color("8b5e3c"))
+	text3d("家具屋", 130, Vector3(0, 3.9, 2.78), Color("f2e6cf"))
+	var awn := box(Vector3(6.8, 0.1, 1.5), Vector3(0, 3.15, 3.1), Color("8b5e3c"))
+	awn.rotation = Vector3(-0.26, 0, 0)
+	box(Vector3(6.8, 0.07, 0.2), Vector3(0, 2.9, 3.8), Color.WHITE)
+	# 店内剪影：透过橱窗能看见本棚 + 桌子，暗示「这里面卖家具」
+	var in_wood := tex_mat(ProceduralTex.wood(43), Color(0.55, 0.4, 0.28), 1.1, 0.9, "fw")
+	box(Vector3(1.3, 1.4, 0.5), Vector3(-2.2, 0.7, 1.4), Color.WHITE, 0,0,0, in_wood)
+	for i in 3:
+		box(Vector3(1.16, 0.035, 0.44), Vector3(-2.2, 0.35 + i * 0.42, 1.4), Color.WHITE, 0,0,0, in_wood)
+		for b in 4:
+			box(Vector3(0.08, 0.24, 0.26), Vector3(-2.6 + b * 0.2, 0.52 + i * 0.42, 1.42),
+				Color.WHITE, 0,0,0, _mat_j("fib%d%d" % [i, b],
+				[Color("c94f4f"), Color("4a6fa5"), Color("5e9c54"), Color("e6b84c")][(i + b) % 4],
+				position + Vector3(i, b, 0), 0.85, 0.0, 0.1))
+	box(Vector3(1.1, 0.05, 0.7), Vector3(2.1, 0.43, 1.4), Color.WHITE, 0,0,0, in_wood)
+	for lx in [-0.45, 0.45]:
+		for lz in [-0.25, 0.25]:
+			box(Vector3(0.06, 0.41, 0.06), Vector3(2.1 + lx, 0.21, 1.4 + lz), Color.WHITE, 0,0,0, in_wood)
+
+
+## 木桌：0.45m 台面（猫可跳），四条腿留出可以钻的桌底
+func _b_table() -> void:
+	var wm := tex_mat(ProceduralTex.wood(45), Color(0.72, 0.55, 0.38), 1.2, 0.8, "tb")
+	box(Vector3(1.3, 0.07, 0.85), Vector3(0, 0.445, 0), Color.WHITE, 0,0,0, wm)
+	for lx in [-0.55, 0.55]:
+		for lz in [-0.32, 0.32]:
+			box(Vector3(0.07, 0.42, 0.07), Vector3(lx, 0.21, lz), Color.WHITE, 0,0,0, m_wood(position))
+
+
+## 木椅：座面 0.44m + 靠背，四条腿
+func _b_chair() -> void:
+	var wm := tex_mat(ProceduralTex.wood(47), Color(0.65, 0.46, 0.3), 1.3, 0.8, "ch")
+	box(Vector3(0.5, 0.06, 0.5), Vector3(0, 0.44, 0), Color.WHITE, 0,0,0, wm)
+	box(Vector3(0.5, 0.55, 0.06), Vector3(0, 0.72, -0.22), Color.WHITE, 0,0,0, wm)
+	for lx in [-0.2, 0.2]:
+		for lz in [-0.2, 0.2]:
+			box(Vector3(0.05, 0.42, 0.05), Vector3(lx, 0.22, lz), Color.WHITE, 0,0,0, m_wood(position))
+
+
+## 和式矮床：木台 + 布団 + 枕头 —— 猫最爱卧的那种
+func _b_bed() -> void:
+	var wm := tex_mat(ProceduralTex.wood(49), Color(0.6, 0.45, 0.32), 1.1, 0.85, "bd")
+	box(Vector3(2.2, 0.22, 1.4), Vector3(0, 0.11, 0), Color.WHITE, 0,0,0, wm)
+	var fut := _mat_j("futon", Color(0.85, 0.88, 0.92), position, 0.85, 0.0, 0.05)
+	var fut2 := _mat_j("futon2", Color(0.9, 0.92, 0.95), position + Vector3(1, 0, 0), 0.85, 0.0, 0.05)
+	box(Vector3(2.0, 0.16, 1.2), Vector3(-0.08, 0.3, 0), Color.WHITE, 0,0,0, fut)
+	box(Vector3(2.02, 0.04, 1.22), Vector3(-0.08, 0.39, 0), Color.WHITE, 0,0,0, fut2)
+	box(Vector3(0.45, 0.1, 0.3), Vector3(0.8, 0.43, 0), Color.WHITE, 0,0,0, fut2)
+
+
+## 布艺沙发：灰绿底座 + 靠背扶手 + 米色坐垫
+func _b_sofa() -> void:
+	var fm := _mat_j("sofa", Color(0.55, 0.62, 0.58), position, 0.85, 0.0, 0.06)
+	box(Vector3(2.0, 0.28, 0.9), Vector3(0, 0.24, 0), Color.WHITE, 0,0,0, fm)
+	box(Vector3(2.0, 0.35, 0.25), Vector3(0, 0.55, -0.33), Color.WHITE, 0,0,0, fm)
+	for ax in [-0.95, 0.95]:
+		box(Vector3(0.22, 0.32, 0.85), Vector3(ax, 0.5, -0.02), Color.WHITE, 0,0,0, fm)
+	for i in 2:
+		var cx := -0.5 + i * 1.0
+		box(Vector3(0.85, 0.14, 0.75), Vector3(cx, 0.45, 0.03), Color.WHITE, 0,0,0,
+			_mat_j("cushion%d" % i, Color(0.78, 0.72, 0.62), position + Vector3(i, 0, 0), 0.9, 0.0, 0.08))
+
+
+## 电视机：木电视柜 + 深色屏（玻璃反射天空）
+func _b_tv() -> void:
+	box(Vector3(1.4, 0.45, 0.55), Vector3(0, 0.225, 0), Color.WHITE, 0,0,0, m_wood(position))
+	box(Vector3(1.45, 0.06, 0.6), Vector3(0, 0.48, 0), Color.WHITE, 0,0,0, m_metal_dark(position))
+	box(Vector3(0.32, 0.12, 0.32), Vector3(0, 0.56, 0), Color.WHITE, 0,0,0, m_metal_dark(position))
+	box(Vector3(1.5, 0.88, 0.08), Vector3(0, 1.1, 0), Color("2b2d33"))
+	box(Vector3(1.38, 0.76, 0.02), Vector3(0, 1.1, 0.045), Color.WHITE, 0,0,0, glass_mat(Color(0.1, 0.11, 0.15), 0.0))
+
+
+## 本棚：四层隔板 + 彩色书脊
+func _b_shelf() -> void:
+	var wm := tex_mat(ProceduralTex.wood(51), Color(0.62, 0.47, 0.33), 1.2, 0.85, "sf")
+	for sx in [-0.62, 0.62]:
+		box(Vector3(0.05, 1.5, 0.55), Vector3(sx, 0.75, 0), Color.WHITE, 0,0,0, wm)
+	box(Vector3(1.3, 1.5, 0.04), Vector3(0, 0.75, -0.25), Color.WHITE, 0,0,0, wm)
+	box(Vector3(1.3, 0.05, 0.55), Vector3(0, 0.025, 0), Color.WHITE, 0,0,0, wm)
+	var bcols := [Color("c94f4f"), Color("4a6fa5"), Color("5e9c54"), Color("e6b84c"), Color("8a6bb5")]
+	for i in 4:
+		box(Vector3(1.24, 0.04, 0.5), Vector3(0, 0.3 + i * 0.4, 0), Color.WHITE, 0,0,0, wm)
+		for b in 5:
+			if (i + b) % 4 == 3:
+				continue
+			box(Vector3(0.09, 0.26, 0.3), Vector3(-0.45 + b * 0.2 + (i % 2) * 0.05, 0.46 + i * 0.4, -0.02),
+				Color.WHITE, 0,0,0, _mat_j("bk%d%d" % [i, b], bcols[(i + b) % 5],
+				position + Vector3(i, b, 0), 0.85, 0.0, 0.1))
+
+
+## 落地灯：金属杆 + 米色和纸灯罩（m_paper 的 emission 由 TimeOfDay 点亮，白天不发假光）
+func _b_lamp() -> void:
+	var dark := m_metal_dark(position)
+	cyl(0.16, 0.2, 0.04, Vector3(0, 0.02, 0), Color.WHITE, false, dark)
+	cyl(0.025, 0.025, 1.2, Vector3(0, 0.62, 0), Color.WHITE, false, dark)
+	cyl(0.16, 0.24, 0.32, Vector3(0, 1.36, 0), Color.WHITE, false, m_paper(position))
+	sph(0.03, Vector3(0, 1.2, 0.05), Color("e6b84c"))
+
+
+## 洗濯機：日本人家门口的标配。白机身 + 圆窗 + 控制面板
+func _b_wash() -> void:
+	var wm := _mat_j("wash", Color(0.92, 0.92, 0.9), position, 0.45, 0.05, 0.03)
+	box(Vector3(0.75, 0.88, 0.65), Vector3(0, 0.44, 0), Color.WHITE, 0,0,0, wm)
+	box(Vector3(0.77, 0.07, 0.67), Vector3(0, 0.905, 0), Color.WHITE, 0,0,0, m_plastic_white(position))
+	# 圆窗：外圈塑料环 + 深色玻璃
+	torus(0.17, 0.22, Vector3(0, 0.48, 0.3), Color(0.72, 0.72, 0.7), true, m_plastic_white(position))
+	cyl(0.17, 0.17, 0.03, Vector3(0, 0.48, 0.31), Color.WHITE, true, glass_mat(Color(0.12, 0.14, 0.16), 0.0))
+	# 控制面板 + 排水管
+	box(Vector3(0.6, 0.08, 0.12), Vector3(0, 0.88, 0.24), Color(0.62, 0.66, 0.68))
+	cyl(0.025, 0.025, 0.4, Vector3(0.3, 0.2, 0.28), Color("b8b0a4"))
+
+
+# ================================================================
+# 批次 7：街景杂物
+# 定位：不参与学词的「生活痕迹」道具。日式街道的质感一半靠这些
+# 零碎：消火栓、盆栽、晾衣杆、垃圾袋、旧轮胎、路锥、燃气罐、水洼。
+# 矮件台面全部 ≤ 0.66m（猫的跳跃极限），沿袭批次 5 铁律。
+# ================================================================
+
+## 道路標識：灰色杆 + 板面。修复 map.json 里 roadsign 无 META 的隐形 bug。
+## 两种板面（止まれ 红色 / 一方通行 蓝色）按位置哈希交替。
+func _b_roadsign() -> void:
+	var dark := m_metal_dark(position)
+	cyl(0.05, 0.065, 2.4, Vector3(0, 1.2, 0), Color.WHITE, false, dark)
+	cyl(0.1, 0.12, 0.3, Vector3(0, 0.15, 0), Color.WHITE, false, m_concrete(position))
+	var is_stop := int(abs(position.x * 13.7 + position.z * 5.1)) % 2 == 0
+	var board_col := Color("c23a3a") if is_stop else Color("2b6cb0")
+	var board := _mat_j("rsign", board_col, position, 0.42, 0.05, 0.04)
+	# 白边框 + 板面
+	box(Vector3(0.84, 0.84, 0.06), Vector3(0, 2.42, 0), Color.WHITE, 0, 0, 0, m_plastic_white(position))
+	box(Vector3(0.76, 0.76, 0.07), Vector3(0, 2.42, 0), Color.WHITE, 0, 0, 0, board)
+	if is_stop:
+		text3d("止まれ", 88, Vector3(0, 2.42, 0.06), Color.WHITE)
+	else:
+		text3d("一方\n通行", 62, Vector3(0, 2.42, 0.06), Color.WHITE)
+
+
+## 消火栓（柱形）：朱红点缀色 + 金属底座。0.62m，猫可跳。
+func _b_fireplug() -> void:
+	var red := m_vermilion(position)
+	var red_dark := _mat_j("fire_d", Color(0.62, 0.18, 0.15), position, 0.5, 0.1, 0.04)
+	# 底座 + 主体 + 顶盖 + 顶螺帽
+	cyl(0.19, 0.2, 0.06, Vector3(0, 0.03, 0), Color.WHITE, false, m_metal_dark(position))
+	cyl(0.13, 0.16, 0.44, Vector3(0, 0.3, 0), Color.WHITE, false, red)
+	cyl(0.16, 0.16, 0.08, Vector3(0, 0.57, 0), Color.WHITE, false, red_dark)
+	cyl(0.055, 0.055, 0.07, Vector3(0, 0.635, 0), Color.WHITE, false, red)
+	# 左右出水口盖
+	box(Vector3(0.11, 0.11, 0.1), Vector3(0.16, 0.4, 0), Color.WHITE, 0, 0, 0, red_dark)
+	box(Vector3(0.11, 0.11, 0.1), Vector3(-0.16, 0.4, 0), Color.WHITE, 0, 0, 0, red_dark)
+	# 前面的标识牌
+	box(Vector3(0.1, 0.09, 0.02), Vector3(0, 0.4, 0.15), Color.WHITE, 0, 0, 0, m_plastic_white(position))
+
+
+## 鉢植え：陶盆 + 土面 + 两种植物（灌木 / 开花）按位置哈希。
+func _b_potplant() -> void:
+	var pot := _mat_j("pot", Color(0.64, 0.4, 0.3), position, 0.75, 0.0, 0.08)
+	cyl(0.23, 0.16, 0.28, Vector3(0, 0.14, 0), Color.WHITE, false, pot)
+	cyl(0.25, 0.25, 0.05, Vector3(0, 0.295, 0), Color.WHITE, false, pot)
+	cyl(0.21, 0.21, 0.02, Vector3(0, 0.315, 0), Color.WHITE, false, m_rubber(position + Vector3(0, 9, 0)))
+	if int(abs(position.x * 11.3 + position.z * 7.7)) % 2 == 0:
+		# 灌木：两团圆叶
+		sph(0.26, Vector3(0, 0.56, 0), Color.WHITE, m_foliage(position))
+		sph(0.18, Vector3(0.14, 0.44, 0.08), Color.WHITE, m_leaf(position))
+	else:
+		# 开花：三根茎 + 花球
+		var fcols := [Color("e86a92"), Color("e6b84c"), Color("d97fb0")]
+		for i in 3:
+			var fx := -0.09 + i * 0.09
+			cyl(0.012, 0.012, 0.3, Vector3(fx, 0.47, 0.05 - i * 0.05), Color("5e9c54"))
+			sph(0.06, Vector3(fx, 0.64, 0.05 - i * 0.05), Color.WHITE,
+				_mat_j("pfl%d" % i, fcols[i], position + Vector3(i, 0, 0), 0.8, 0.0, 0.08))
+
+
+## 物干し竿：两根镀锌 T 杆 + 3 条下垂电线 + 4 条毛巾 + 1 张床单。
+## solid = null：杆太细不值得碰撞，布是布（猫穿过去也算钻晾衣杆）。
+func _b_laundry() -> void:
+	var pole_m := m_metal_galva(position)
+	for px in [-1.15, 1.15]:
+		cyl(0.03, 0.042, 1.9, Vector3(px, 0.95, 0), Color.WHITE, false, pole_m)
+		box(Vector3(0.52, 0.045, 0.045), Vector3(px, 1.87, 0), Color.WHITE, 0, 0, 0, pole_m)
+	for lz in [-0.14, 0.0, 0.14]:
+		_wire(self, Vector3(-1.15, 1.85, lz), Vector3(1.15, 1.85, lz), 0.008, Color("3a3d44"))
+	# 毛巾：四种颜色，微差明度
+	var tcols := [Color("e8e2d4"), Color("9fc2d6"), Color("e6b84c"), Color("d97fb0")]
+	for i in 4:
+		var tx := -0.75 + i * 0.5
+		box(Vector3(0.4, 0.5, 0.02), Vector3(tx, 1.58, 0.0), Color.WHITE, 0, 0, 0,
+			_mat_j("towel%d" % i, tcols[i], position + Vector3(i, 0, 0), 0.9, 0.0, 0.07))
+	# 床单：更大更白，挂中间偏后
+	box(Vector3(0.62, 0.72, 0.02), Vector3(-0.35, 1.47, 0.12), Color.WHITE, 0, 0, 0,
+		_mat_j("sheet", Color(0.94, 0.94, 0.96), position + Vector3(5, 0, 0), 0.92, 0.0, 0.04))
+
+
+## ゴミ袋：半透明乙烯基袋（清晨收垃圾堆在路边）。
+## 材质要带一点 alpha（0.9）+ 低 roughness，才有「塑料袋反光」的感觉。
+func _b_trashbags() -> void:
+	if not _mats.has("gbag"):
+		var bm := StandardMaterial3D.new()
+		bm.albedo_color = Color(0.87, 0.89, 0.92, 0.9)
+		bm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		bm.roughness = 0.28
+		bm.metallic = 0.05
+		bm.metallic_specular = 0.6
+		bm.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+		_mats["gbag"] = bm
+	if not _mats.has("gbag_b"):
+		var bb := StandardMaterial3D.new()
+		bb.albedo_color = Color(0.55, 0.68, 0.8, 0.9)
+		bb.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		bb.roughness = 0.28
+		bb.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+		_mats["gbag_b"] = bb
+	var bag_m: StandardMaterial3D = _mats["gbag"]
+	var bag_b: StandardMaterial3D = _mats["gbag_b"]
+	# 大袋 + 小袋 + 蓝袋，扁球形（装满垃圾的下坠感）
+	var b1 := sph(0.28, Vector3(-0.2, 0.22, 0.05), Color.WHITE, bag_m)
+	b1.scale = Vector3(1.0, 0.75, 0.95)
+	var b2 := sph(0.22, Vector3(0.16, 0.17, -0.1), Color.WHITE, bag_m)
+	b2.scale = Vector3(1.0, 0.72, 1.0)
+	var b3 := sph(0.24, Vector3(0.1, 0.19, 0.22), Color.WHITE, bag_b)
+	b3.scale = Vector3(1.0, 0.75, 0.9)
+	# 扎口：袋顶一小节深色结
+	cyl(0.05, 0.07, 0.09, Vector3(-0.2, 0.46, 0.05), Color.WHITE, false, m_rubber(position))
+	cyl(0.045, 0.06, 0.08, Vector3(0.16, 0.35, -0.1), Color.WHITE, false, m_rubber(position))
+
+
+## 旧轮胎堆：店后巷/修车铺门口。三层 torus 叠放，0.51m 可跳。
+func _b_tires() -> void:
+	var rubber := m_rubber(position)
+	for i in 3:
+		# 每层稍微错位 + 微倾，堆过的轮胎不会齐得像烤架
+		var t := torus(0.26, 0.37, Vector3(0.02 * (i - 1), 0.09 + i * 0.17, -0.01 * i), Color.WHITE, false, rubber)
+		t.rotation = Vector3(0.03 * (i % 2 - 1), float(i) * 0.7, 0.02 * i)
+	# 顶上放一盆野草（久置的轮胎会长草——生活痕迹）
+	cyl(0.1, 0.13, 0.09, Vector3(0.02, 0.55, -0.01), Color.WHITE, false, _mat_j("tpot", Color(0.4, 0.36, 0.3), position, 0.85, 0.0, 0.1))
+	sph(0.12, Vector3(0.02, 0.66, -0.01), Color.WHITE, m_foliage(position + Vector3(1, 0, 0)))
+
+
+## 工事コーン：橙色路锥 ×2 + 白反光圈。不挡路（施工边缘警示）。
+func _b_cones() -> void:
+	var orange := _mat_j("cone", Color(0.88, 0.34, 0.1), position, 0.5, 0.0, 0.05)
+	for cd in [[-0.25, 0.0, 0.0], [0.3, 0.12, 0.5]]:
+		var p := Vector3(cd[0], 0, cd[1])
+		var ry: float = cd[2]
+		box(Vector3(0.3, 0.03, 0.3), p + Vector3(0, 0.015, 0), Color.WHITE, ry, 0, 0, orange)
+		cyl(0.025, 0.15, 0.48, p + Vector3(0, 0.27, 0), Color.WHITE, false, orange)
+		# 白反光圈：锥身中部的环
+		torus(0.062, 0.1, p + Vector3(0, 0.32, 0), Color.WHITE, false, m_plastic_white(position))
+
+
+## ガスボンベ：饮食店后面靠墙的蓝色液化气罐 ×3 + 黄铜阀门。
+func _b_gasbottle() -> void:
+	var blue := _mat_j("gas", Color(0.16, 0.35, 0.62), position, 0.42, 0.35, 0.05)
+	var brass := _mat_j("brass", Color(0.72, 0.6, 0.3), position + Vector3(3, 0, 0), 0.35, 0.7, 0.05)
+	for i in 3:
+		var bx := -0.26 + (i % 2) * 0.52
+		var bz := -0.12 + float(i / 2) * 0.24
+		cyl(0.105, 0.105, 0.72, Vector3(bx, 0.37, bz), Color.WHITE, false, blue)
+		# 罐肩（顶部收口）
+		cyl(0.05, 0.105, 0.09, Vector3(bx, 0.775, bz), Color.WHITE, false, blue)
+		cyl(0.028, 0.028, 0.1, Vector3(bx, 0.86, bz), Color.WHITE, false, brass)
+	# 中间的横箍带（两罐一组捆着的样子）
+	box(Vector3(0.62, 0.06, 0.62), Vector3(0, 0.45, 0.0), Color.WHITE, 0, 0, 0, m_metal_dark(position))
+
+
+## 水洼：路面的半透明反光片。roughness 0.06 + metallic 0.4 ——
+## 白天反射天空发亮、夜里反射灯光，是「雨后街道」最便宜的假象。
+func _b_puddle() -> void:
+	if not _mats.has("puddle"):
+		var pm := StandardMaterial3D.new()
+		pm.albedo_color = Color(0.3, 0.34, 0.4, 0.38)
+		pm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		pm.roughness = 0.06
+		pm.metallic = 0.4
+		pm.metallic_specular = 0.85
+		pm.cull_mode = BaseMaterial3D.CULL_DISABLED
+		pm.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+		_mats["puddle"] = pm
+	var h := int(abs(position.x * 3.3 + position.z * 9.7)) % 1000
+	var s := 0.9 + float(h % 40) / 40.0 * 1.1   # 0.9~2.0m
+	var mi := MeshInstance3D.new()
+	var quad := QuadMesh.new()
+	quad.size = Vector2(s, s * (0.55 + float(h % 20) / 20.0 * 0.3))
+	mi.mesh = quad
+	mi.material_override = _mats["puddle"]
+	mi.rotation = Vector3(-PI * 0.5, 0, float(h) / 1000.0 * TAU)
+	mi.position = Vector3(0, 0.078, 0)
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(mi)

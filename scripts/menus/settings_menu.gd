@@ -34,8 +34,14 @@ func _ready() -> void:
 
 	var card := PanelContainer.new()
 	card.add_theme_stylebox_override("panel", UiKit.panel_style(UiKit.WHITE, 20))
+	card.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	# 【修复】ScrollContainer 默认不撑开，内容区高度会算成 0 → 整页空白。
+	# 必须给它 vertical expand + 最小高度，PanelContainer 才会把剩余空间分给它。
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.custom_minimum_size = Vector2(0, 520)
 	card.add_child(scroll)
 	var inner := VBoxContainer.new()
 	inner.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -45,9 +51,25 @@ func _ready() -> void:
 	scroll.add_child(inner)
 	root.add_child(card)
 
+	# ---- 画质档位 / 时刻（批次 1、2）----
+	var tier_row := _tier_row()
+	inner.add_child(tier_row)
+	var tod_row := _time_row()
+	inner.add_child(tod_row[0])
+
 	# ---- 开关 ----
 	inner.add_child(_toggle_row("发现新词时自动发音", "auto_speak"))
 	inner.add_child(_toggle_row("弹窗中显示罗马音", "show_romaji"))
+	inner.add_child(_toggle_row("停手后相机回正到猫背后", "cam_auto_recenter", true))
+	inner.add_child(_toggle_row("降低闪烁（光敏性癫痫友好）", "reduce_flicker", false))
+
+	# ---- 相机灵敏度 ----
+	var sens := _slider_row("相机灵敏度", 0.3, 2.5, 0.1, float(Game.settings.get("cam_sens", 1.0)))
+	sens[1].value_changed.connect(func(v: float):
+		Game.settings["cam_sens"] = v
+		Game.save_soon()
+	)
+	inner.add_child(sens[0])
 
 	# ---- 音量 / 音调 ----
 	var vol := _slider_row("发音音量", 0.0, 1.0, 0.05, float(Game.settings.get("volume", 0.8)))
@@ -104,7 +126,61 @@ func _ready() -> void:
 	inner.add_child(about)
 
 
-func _toggle_row(text: String, key: String) -> Control:
+## 画质档位：自动 / 低 / 中 / 高。切换立即生效（走 Game.apply_graphics_tier）。
+func _tier_row() -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 16)
+	var l := UiKit.label("画质", 22, UiKit.INK)
+	l.custom_minimum_size = Vector2(300, 0)
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(l)
+	var opt := OptionButton.new()
+	opt.focus_mode = Control.FOCUS_NONE
+	opt.add_theme_font_override("font", UiKit.font())
+	opt.add_theme_font_size_override("font_size", 20)
+	# -1 = 自动（按机型嗅探）
+	opt.add_item("自动", -1)
+	opt.add_item("低（省电 / 旧机）", 0)
+	opt.add_item("中（推荐）", 1)
+	opt.add_item("高（旗舰 / 桌面）", 2)
+	opt.selected = maxi(0, opt.get_item_index(int(Game.settings.get("gfx_tier", -1))))
+	opt.item_selected.connect(func(idx: int):
+		Game.play_sfx("click")
+		Game.apply_graphics_tier(opt.get_item_id(idx))
+	)
+	row.add_child(opt)
+	return row
+
+
+## 时刻：朝 / 昼 / 夕 / 夜。切换后回街道场景生效（15 秒插值过渡）。
+func _time_row() -> Array:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 16)
+	var l := UiKit.label("时刻", 22, UiKit.INK)
+	l.custom_minimum_size = Vector2(300, 0)
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(l)
+	var opt := OptionButton.new()
+	opt.focus_mode = Control.FOCUS_NONE
+	opt.add_theme_font_override("font", UiKit.font())
+	opt.add_theme_font_size_override("font_size", 20)
+	var names := ["朝 6:30", "昼 12:30", "夕 18:00（最出片）", "夜 21:30"]
+	for i in names.size():
+		opt.add_item(names[i], i)
+	opt.selected = clampi(int(Game.settings.get("time_phase", 2)), 0, 3)
+	opt.item_selected.connect(func(idx: int):
+		Game.play_sfx("click")
+		Game.set_time_phase(idx)
+	)
+	row.add_child(opt)
+
+	var hint := UiKit.label("切到街道场景后生效", 16, Color("a09a88"))
+	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(hint)
+	return [row]
+
+
+func _toggle_row(text: String, key: String, def := true) -> Control:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 16)
 	var l := UiKit.label(text, 22, UiKit.INK)
@@ -112,7 +188,7 @@ func _toggle_row(text: String, key: String) -> Control:
 	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	row.add_child(l)
 	var cb := CheckBox.new()
-	cb.button_pressed = bool(Game.settings.get(key, true))
+	cb.button_pressed = bool(Game.settings.get(key, def))
 	cb.focus_mode = Control.FOCUS_NONE
 	cb.toggled.connect(func(v: bool):
 		Game.settings[key] = v

@@ -23,15 +23,42 @@ var _base_m: StandardMaterial3D
 var _grass_m: StandardMaterial3D
 var _plat_m: StandardMaterial3D
 var _env_m: StandardMaterial3D
+var _gravel_m: StandardMaterial3D
 
 
 func setup(ground_cfg: Dictionary, world_m: Vector2, objects: Array) -> void:
-	_asphalt_m = Interactable.mat_photo("road", Color(0.82, 0.83, 0.85), 0.02, 1.0, 0.33, ProceduralTex.asphalt(3))
-	_walk_m = Interactable.mat_photo("pavers", Color(0.92, 0.9, 0.86), 0.03, 1.0, 0.45, ProceduralTex.pavers(5))
-	_base_m = Interactable.mat_photo("concrete", Color(0.85, 0.83, 0.78), 0.03, 1.0, 0.28, ProceduralTex.pavers(9))
-	_grass_m = Interactable.mat_photo("grass", Color(0.72, 0.92, 0.68), 0.06, 1.0, 0.4, ProceduralTex.grass(13))
-	_plat_m = Interactable.mat_photo("concrete", Color(0.93, 0.91, 0.86), 0.02, 1.0, 0.4, ProceduralTex.pavers(15))
-	_env_m = Interactable.mat_photo("grass", Color(0.7, 0.9, 0.66), 0.06, 1.0, 0.5, ProceduralTex.grass(21))
+	# 选贴图靠量化，不靠肉眼。三个指标：
+	#   色度(max-min of RGB) 越小越中性 —— 决定"马路会不会泛粉"
+	#   灰度方差 var 越小越均匀 —— 决定"放大后会不会显出大特征"
+	#   dark% 越低越没水渍
+	# 实测对比：
+	#   road(aerial_asphalt_01) 色度5.9 var=58  <- 最中性，回退到它
+	#   pavement 色度23.4 var=41  <- 均匀但暖米色，铺装偏粉像泳池砖
+	#   pavers   色度20.2 var=123 <- 花纹太明显
+	#   road_alt(worn_asphalt) 色度23.2    <- 有水渍
+	# 之前换掉 road 是误判：它的问题（大裂缝）靠把 scale 提到 1.5 就能压掉，
+	# 不该因此换到偏色的图。色度 5.9 才是马路的正确颜色。
+	_asphalt_m = Interactable.mat_photo("road", Color(0.8, 0.81, 0.84), 0.9, 0.96, 1.5,
+		ProceduralTex.asphalt(3), 0.5, 4.0, 0.6)
+	# 人行道：pavers(105) 有足够细节。用浅色 tint 保持"人行道比马路亮"的明度关系。
+	_walk_m = Interactable.mat_photo("pavers", Color(0.95, 0.94, 0.91), 0.9, 0.92, 0.75,
+		ProceduralTex.pavers(5), 0.5, 3.2, 0.5)
+	# 世界基底（铺满整张地图的底层）。要「低存在感」——它只在物件缝隙里露一点，
+	# 用高对比贴图会在车站/铁轨区整片透出来，看起来像泥地。
+	# concrete_pavers(var=104) 刚够，且压暗压灰。
+	_base_m = Interactable.mat_photo("concrete_pavers", Color(0.6, 0.59, 0.56), 0.9, 0.96, 0.5,
+		ProceduralTex.pavers(9), 0.5, 2.2, 0.4)
+	# 草地：G 分量不能写 1.0 以上（会被钳到 1.0，写了等于没写）。
+	# 想要更绿更亮靠两件事：tint_amt 高（保住贴图原色）+ detail_amount 大。
+	_grass_m = Interactable.mat_photo("grass", Color(0.86, 1.0, 0.78), 0.9, 0.98, 0.6,
+		ProceduralTex.grass(13), 0.5, 4.0, 0.6)
+	_plat_m = Interactable.mat_photo("pavers", Color(0.96, 0.95, 0.92), 0.92, 0.9, 0.85,
+		ProceduralTex.pavers(15), 0.5, 3.0, 0.45)
+	_env_m = Interactable.mat_photo("grass", Color(0.74, 0.96, 0.64), 0.9, 0.98, 0.3,
+		ProceduralTex.grass(21), 0.5, 2.0, 0.55)
+	# 铁轨道砟
+	_gravel_m = Interactable.mat_photo("concrete_pavers", Color(0.8, 0.76, 0.7), 0.9, 1.0, 0.9,
+		ProceduralTex.pavers(25), 0.5, 3.0, 0.6)
 
 	# 基底大平面 + 周边环境草地（消除世界边缘的虚空）
 	_box(Vector3(500.0, 0.1, 500.0), Vector3(world_m.x * 0.5, -0.07, world_m.y * 0.5), _env_m)
@@ -45,7 +72,8 @@ func setup(ground_cfg: Dictionary, world_m: Vector2, objects: Array) -> void:
 
 		# 公园小径
 		_box(Vector3(pr.size.x - 3.0, 0.078, 1.7), Vector3(pr.position.x + pr.size.x * 0.5, 0.075, pr.position.y + pr.size.y * 0.55),
-			Interactable.mat_photo("concrete", Color(0.92, 0.88, 0.78), 0.03, 1.0, 0.4, ProceduralTex.pavers(17)))
+			Interactable.mat_photo("dirt_path", Color(0.82, 0.78, 0.7), 0.0, 0.98, 0.7,
+				ProceduralTex.pavers(17), 0.5, 2.2, 0.4))
 
 	var sw := float(ground_cfg.get("sidewalk", 90)) * S
 	var cross_pos: Array = []
@@ -90,19 +118,19 @@ func setup(ground_cfg: Dictionary, world_m: Vector2, objects: Array) -> void:
 			_box_c(Vector3(0.32, 0.012, 3.2), Vector3(cp.x + 2.4, 0.08, cp.y + 1.6), Color(1, 1, 1, 0.9))
 			var tx := cp.x - 2.5 if cp.x < 30.0 else cp.x + 2.5
 			_box_c(Vector3(0.5, 0.012, 1.4), Vector3(tx, 0.068, cp.y), Color("d8a927"))
-	# 井盖
+	# 井盖：外圈 + 内芯 + 十字筋 + 螺栓点（之前的纯色圆片太「贴纸」了）
 	var man_spots := [Vector3(18, 30, 0), Vector3(45, 30, 0), Vector3(66, 30, 0), Vector3(88, 30, 0),
 		Vector3(30, 47, 0), Vector3(30, 62, 0), Vector3(70, 47, 0), Vector3(70, 62, 0),
 		Vector3(24, 70, 0), Vector3(52, 70, 0), Vector3(80, 70, 0), Vector3(50, 15, 0)]
 	for spot: Vector3 in man_spots:
-		_disc(Vector3(spot.x, 0.08, spot.y), Color("3a3d44"))
+		_manhole(Vector3(spot.x, 0.08, spot.y))
 	# 铁路 + 站台
 	var rail: Dictionary = ground_cfg.get("rail", {})
 	if rail.has("y"):
 		var ry := float(rail["y"]) * S
 		var rh := float(rail["h"]) * S
 		var rmid := ry + rh * 0.5
-		_box_c(Vector3(world_m.x, 0.06, rh), Vector3(world_m.x * 0.5, 0.03, rmid), GRAVEL)
+		_box(Vector3(world_m.x, 0.06, rh), Vector3(world_m.x * 0.5, 0.03, rmid), _gravel_m)
 		var x := 0.5
 		while x < world_m.x:
 			_box_c(Vector3(0.16, 0.04, rh - 0.6), Vector3(x, 0.05, rmid), TIE)
@@ -157,6 +185,31 @@ func _disc(pos: Vector3, color: Color) -> void:
 	mesh.top_radius = 0.34
 	mesh.bottom_radius = 0.34
 	mesh.height = 0.014
+	mesh.radial_segments = 16
+	mi.mesh = mesh
+	mi.material_override = Interactable.mat(color)
+	mi.position = pos
+	add_child(mi)
+
+
+## 细节版井盖：深色外圈 + 略亮内芯 + 十字筋 + 四颗螺栓点。
+## 全部轴对齐/圆柱，无旋转开销；一眼可认出是「井盖」而不是灰圆片。
+func _manhole(pos: Vector3) -> void:
+	_disc(pos, Color("34373e"))                       # 外圈（最深）
+	_disc2(pos, 0.27, Color("41454e"))                # 内芯
+	_box_c(Vector3(0.5, 0.014, 0.05), pos + Vector3(0, 0.006, 0), Color("2c2f36"))
+	_box_c(Vector3(0.05, 0.014, 0.5), pos + Vector3(0, 0.006, 0), Color("2c2f36"))
+	for dx in [-0.2, 0.2]:
+		for dz in [-0.2, 0.2]:
+			_flat_disc(0.02, pos + Vector3(dx, 0.008, dz), Color("555a63"))
+
+
+func _disc2(pos: Vector3, r: float, color: Color) -> void:
+	var mi := MeshInstance3D.new()
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = r
+	mesh.bottom_radius = r
+	mesh.height = 0.012
 	mesh.radial_segments = 16
 	mi.mesh = mesh
 	mi.material_override = Interactable.mat(color)
