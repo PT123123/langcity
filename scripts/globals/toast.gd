@@ -15,7 +15,6 @@ static func show_once(host: Node, text: String, duration := 2.4) -> void:
 	var tree := host.get_tree()
 	var layer := CanvasLayer.new()
 	layer.layer = 90
-	layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var anchor := Control.new()
 	anchor.set_anchors_preset(Control.PRESET_FULL_RECT)
 	anchor.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -33,11 +32,12 @@ static func show_once(host: Node, text: String, duration := 2.4) -> void:
 	anchor.add_child(box)
 	layer.add_child(anchor)
 	tree.root.add_child(layer)
-	layer.modulate.a = 0.0
+	# CanvasLayer 没有 modulate，淡入淡出必须作用在内部的 Control 上
+	anchor.modulate.a = 0.0
 	_current = layer
 
 	var tw := host.create_tween()
-	tw.tween_property(layer, "modulate:a", 1.0, 0.15)
+	tw.tween_property(anchor, "modulate:a", 1.0, 0.15)
 	tw.tween_interval(duration)
-	tw.tween_property(layer, "modulate:a", 0.0, 0.3)
+	tw.tween_property(anchor, "modulate:a", 0.0, 0.3)
 	tw.tween_callback(layer.queue_free)

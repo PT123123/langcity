@@ -25,6 +25,7 @@ general/text_to_speech=true
 [autoload]
 
 Game="*res://scripts/globals/game_state.gd"
+Quests="*res://scripts/globals/quest_system.gd"
 Tts="*res://scripts/globals/tts_manager.gd"
 ShotTool="*res://scripts/globals/shot_tool.gd"
 

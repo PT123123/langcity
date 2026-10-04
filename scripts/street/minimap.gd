@@ -14,6 +14,17 @@ var _player: Player
 var expanded := false
 var _t := 0.0
 
+var _waypoint := Vector3.ZERO   # 当前追踪任务的航点（世界坐标）
+var _has_waypoint := false
+
+
+## 设置/清除航点（传 null 清除）。street 在 tracking_changed 时调用。
+func set_waypoint(pos: Variant) -> void:
+	_has_waypoint = pos != null
+	if _has_waypoint:
+		_waypoint = pos
+	queue_redraw()
+
 
 func setup(world: Vector2, objects: Array, player: Player) -> void:
 	world_m = world
@@ -96,6 +107,15 @@ func _draw() -> void:
 		c.a = 0.95 if Game.is_discovered(wid) else 0.45
 		draw_circle(Vector2(it.position.x, it.position.z) * sc + off, dot_r, c)
 
+	# 航点：金色脉动目标点 + 从玩家出发的虚线路线
+	if _has_waypoint and _player != null:
+		var wp := Vector2(_waypoint.x, _waypoint.z) * sc + off
+		var pw := Vector2(_player.position.x, _player.position.z) * sc + off
+		_dashed_line(pw, wp, Color(UiKit.GOLD, 0.85), 2.0, 5.0, 4.0)
+		var pulse := 1.0 + 0.25 * sin(Time.get_ticks_msec() / 220.0)
+		draw_circle(wp, dot_r * 1.5 * pulse, Color(UiKit.GOLD, 0.28))
+		draw_circle(wp, dot_r * 0.95, Color("ffd977"))
+
 	# 玩家：白色三角箭头，指向面朝方向
 	if _player != null:
 		var pp := Vector2(_player.position.x, _player.position.z) * sc + off
@@ -120,3 +140,17 @@ func _draw() -> void:
 			draw_circle(p, 4.0, Game.category_color(cid))
 			draw_string(font, p + Vector2(9.0, 4.5), str(Game.category_name(cid)),
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1, 1, 1, 0.85))
+
+
+## 画虚线（a→b，按 dash/gap 交替），用于玩家到航点的路线
+func _dashed_line(a: Vector2, b: Vector2, color: Color, width: float, dash: float, gap: float) -> void:
+	var total := a.distance_to(b)
+	if total < 1.0:
+		return
+	var dir := (b - a) / total
+	var step := dash + gap
+	var t := 0.0
+	while t < total:
+		var e := minf(t + dash, total)
+		draw_line(a + dir * t, a + dir * e, color, width)
+		t += step

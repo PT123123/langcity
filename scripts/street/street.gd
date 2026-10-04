@@ -17,6 +17,9 @@ var hint_panel: Control
 var crosshair: Control
 var flash_rect: ColorRect
 var highlighted: Interactable = null
+var quest_btn: Button
+var quest_panel: QuestPanel
+var quest_tracker: QuestTracker
 
 var env: Environment
 var sun: DirectionalLight3D
@@ -97,7 +100,10 @@ func _ready() -> void:
 	if tod != null:
 		tod.scan_emissives(self)
 	Game.word_discovered.connect(func(_id): _update_counter())
+	Game.xp_changed.connect(func(_t, _l): _update_counter())
+	Quests.tracking_changed.connect(_refresh_quest_tracking)
 	_update_counter()
+	_refresh_quest_tracking()
 	_run_debug_hooks()
 
 
@@ -420,6 +426,15 @@ func _build_hud() -> void:
 	menu_btn.pressed.connect(_on_menu_pressed)
 	layer.add_child(menu_btn)
 
+	# 左上「任务」按钮（在菜单下方）：打开任务面板，可接取 / 追踪
+	quest_btn = UiKit.icon_button("任务", 22)
+	quest_btn.anchor_left = 0.0
+	quest_btn.anchor_right = 0.0
+	quest_btn.offset_left = 18
+	quest_btn.offset_top = 62
+	quest_btn.pressed.connect(_on_quest_pressed)
+	layer.add_child(quest_btn)
+
 	# 右上进度
 	var chip := PanelContainer.new()
 	var chip_style := StyleBoxFlat.new()
@@ -451,6 +466,11 @@ func _build_hud() -> void:
 	minimap.offset_top = 60.0
 	minimap.offset_bottom = 60.0 + MiniMap.SMALL_SIZE.y
 	layer.add_child(minimap)
+
+	# 追踪条（左上）：当前任务目标 + 距离 + 指向航点的罗盘箭头
+	quest_tracker = QuestTracker.new()
+	quest_tracker.player = player
+	layer.add_child(quest_tracker)
 
 	# 中央十字准星
 	crosshair = Control.new()
@@ -497,6 +517,10 @@ func _build_hud() -> void:
 		player.input_vec = Vector2.ZERO
 	)
 
+	# 任务面板：压在最上层（打开时暂停移动）
+	quest_panel = QuestPanel.new()
+	layer.add_child(quest_panel)
+
 
 func _draw_crosshair() -> void:
 	var c := crosshair.size * 0.5
@@ -508,7 +532,7 @@ func _draw_crosshair() -> void:
 # ---------------- 每帧逻辑 ----------------
 
 func _process(delta: float) -> void:
-	player.input_locked = popup.visible
+	player.input_locked = popup.visible or quest_panel.visible
 	_shoot_cd = maxf(0.0, _shoot_cd - delta)
 	_hl_timer += delta
 	if _hl_timer >= 0.12:
@@ -552,7 +576,7 @@ func _in_minimap_zone(p: Vector2) -> bool:
 
 
 func _input(event: InputEvent) -> void:
-	if popup.visible:
+	if popup.visible or quest_panel.visible:
 		return
 	if event is InputEventScreenTouch:
 		if event.pressed:
@@ -583,6 +607,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	Quests.tick(player.position)
 	if _pending_tap.x != INF:
 		var tp := _pending_tap
 		_pending_tap = Vector2.INF
@@ -662,7 +687,33 @@ func open_word(it: Interactable) -> void:
 
 
 func _update_counter() -> void:
-	counter_label.text = "单词 %d / %d" % [Game.discovered_count(), Game.total_words()]
+	counter_label.text = "单词 %d / %d   Lv.%d" % [
+		Game.discovered_count(), Game.total_words(), Game.player_level()]
+	_refresh_quest_button()
+
+
+func _refresh_quest_button() -> void:
+	if quest_btn == null:
+		return
+	var n := Quests.active_count()
+	quest_btn.text = "任务 %d" % n if n > 0 else "任务"
+
+
+## 刷新 HUD 追踪条 + 小地图航点（追踪目标或跑腿步进变化时调用）
+func _refresh_quest_tracking() -> void:
+	if quest_tracker == null:
+		return
+	var q := Quests.tracked_quest()
+	var wp: Variant = Quests.tracked_waypoint()
+	quest_tracker.set_quest(String(q.get("title_zh", "")), Quests.objective_text(), wp)
+	if minimap != null:
+		minimap.set_waypoint(wp)
+	_refresh_quest_button()
+
+
+func _on_quest_pressed() -> void:
+	player.input_vec = Vector2.ZERO
+	quest_panel.open()
 
 
 func _on_menu_pressed() -> void:

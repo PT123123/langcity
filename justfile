@@ -5,6 +5,10 @@
 default:
     @just --list
 
+# 在电脑端运行游戏做测试（用仓库自带的便携版 Godot 4.4.1，无需另装引擎）
+run:
+    "{{justfile_directory()}}/_tools/Godot_v4.4.1-stable_win64.exe" --path "{{justfile_directory()}}"
+
 # 安装 APK 到已连接的安卓设备（仅安装，不启动；需先在 Godot 里导出 APK）
 installandroid:
     adb install -r build/nihongo-street.apk

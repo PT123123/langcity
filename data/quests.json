@@ -1,0 +1,113 @@
+{
+	"_comment": "任务数据。type=collect 收集类（在街区里发现 N 个某分类的单词）；type=errand 跑腿类（按顺序走到目标地点，带路线指引）。坐标/目标全部按 kind 从 map.json 里查，不写死位置。",
+	"quests": [
+		{
+			"id": "collect_transport",
+			"type": "collect",
+			"title": "交通マスター",
+			"title_zh": "交通达人",
+			"desc": "找到 5 个「交通」类单词",
+			"category": "transport",
+			"count": 5,
+			"xp": 150
+		},
+		{
+			"id": "collect_food",
+			"type": "collect",
+			"title": "食べものハンター",
+			"title_zh": "美食猎手",
+			"desc": "找到 3 个「食物」类单词",
+			"category": "food",
+			"count": 3,
+			"xp": 100
+		},
+		{
+			"id": "collect_animal",
+			"type": "collect",
+			"title": "動物の友だち",
+			"title_zh": "动物之友",
+			"desc": "找到 3 个「動物」类单词",
+			"category": "animal",
+			"count": 3,
+			"xp": 120
+		},
+		{
+			"id": "collect_nature",
+			"type": "collect",
+			"title": "自然をさがそう",
+			"title_zh": "亲近自然",
+			"desc": "找到 4 个「自然」类单词",
+			"category": "nature",
+			"count": 4,
+			"xp": 130
+		},
+		{
+			"id": "collect_building",
+			"type": "collect",
+			"title": "建物めぐり",
+			"title_zh": "建筑巡礼",
+			"desc": "找到 4 个「建物」类单词",
+			"category": "building",
+			"count": 4,
+			"xp": 140
+		},
+		{
+			"id": "collect_street",
+			"type": "collect",
+			"title": "街のたからもの",
+			"title_zh": "街头寻宝",
+			"desc": "找到 6 个「街道」类单词",
+			"category": "street",
+			"count": 6,
+			"xp": 180
+		},
+		{
+			"id": "errand_letter",
+			"type": "errand",
+			"title": "お使い・手紙",
+			"title_zh": "跑腿：送信",
+			"desc": "帮邮局把信送到车站",
+			"xp": 200,
+			"steps": [
+				{"text": "去郵便局取信", "kind": "post_office", "radius": 10.0},
+				{"text": "把信送到駅", "kind": "station", "radius": 11.0}
+			]
+		},
+		{
+			"id": "errand_konbini",
+			"type": "errand",
+			"title": "お使い・コンビニ",
+			"title_zh": "跑腿：便利店",
+			"desc": "去便利店买东西再送回家",
+			"xp": 180,
+			"steps": [
+				{"text": "去コンビニ买东西", "kind": "konbini", "radius": 9.0},
+				{"text": "把东西送回家", "kind": "house", "radius": 8.0}
+			]
+		},
+		{
+			"id": "errand_ramen",
+			"type": "errand",
+			"title": "出前・ラーメン",
+			"title_zh": "跑腿：送拉面",
+			"desc": "去拉面店取餐送到家",
+			"xp": 180,
+			"steps": [
+				{"text": "去ラーメン屋取餐", "kind": "ramen", "radius": 9.0},
+				{"text": "把拉面送到家", "kind": "house", "radius": 8.0}
+			]
+		},
+		{
+			"id": "errand_park",
+			"type": "errand",
+			"title": "公園まで散歩",
+			"title_zh": "跑腿：公园散步",
+			"desc": "走到公园，在樱花树下拍照",
+			"xp": 150,
+			"steps": [
+				{"text": "走到公園入口", "kind": "parksign", "radius": 9.0},
+				{"text": "在桜の木の下で拍照", "kind": "sakura", "radius": 7.0}
+			]
+		}
+	]
+}

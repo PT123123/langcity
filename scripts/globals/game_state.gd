@@ -3,9 +3,13 @@ extends Node
 
 signal word_discovered(id: String)
 signal favorites_changed
+signal xp_changed(total_xp: int, level: int)
 
 const SAVE_PATH := "user://savegame.json"
 const WORDS_PATH := "res://data/words.json"
+## 升级曲线：升到 Lv.L 所需的累计经验 = LEVEL_BASE * (L-1) * L / 2
+## 即 Lv.2=300、Lv.3=900、Lv.4=1800……
+const LEVEL_BASE := 300
 
 var words := {}             # id -> 词条 Dictionary
 var word_order: Array = []  # 保持文件顺序的 id 列表
@@ -17,6 +21,10 @@ var favorites := {}         # id -> true
 var review_stats := {}      # id -> {"c": 对, "w": 错, "last": 时间}
 var last_position := Vector2.ZERO
 var has_last_position := false
+
+var xp := 0                 # 累计经验值
+var quest_state := {}       # 任务 id -> {"status": "active"/"done", "step": 跑腿当前步}
+var quest_tracked := ""     # 当前追踪（HUD 显示路线指引）的任务 id
 
 var settings := {
 	"auto_speak": true,     # 发现新词自动发音
@@ -187,6 +195,41 @@ func current_tier() -> int:
 	return t if t >= 0 else GraphicsTier.detect()
 
 
+# ---------------- 经验 / 等级 ----------------
+
+## 升到 lv 级所需的累计经验（lv <= 1 时为 0）
+func xp_for_level(lv: int) -> int:
+	if lv <= 1:
+		return 0
+	return int(LEVEL_BASE * (lv - 1) * lv / 2.0)
+
+
+func player_level() -> int:
+	var lv := 1
+	while xp >= xp_for_level(lv + 1):
+		lv += 1
+	return lv
+
+
+## 当前等级内的经验进度：[已获得, 本级别所需]（用于画 XP 条）
+func level_progress() -> Array:
+	var lv := player_level()
+	var base := xp_for_level(lv)
+	var span := xp_for_level(lv + 1) - base
+	return [xp - base, span]
+
+
+func add_xp(amount: int) -> void:
+	if amount <= 0:
+		return
+	var before := player_level()
+	xp += amount
+	save_soon()
+	xp_changed.emit(xp, player_level())
+	if player_level() > before:
+		play_sfx("discover")
+
+
 # ---------------- 存档 ----------------
 
 func save_soon() -> void:
@@ -206,6 +249,9 @@ func save_now() -> void:
 		"last_position": [last_position.x, last_position.y],
 		"has_last_position": has_last_position,
 		"settings": settings,
+		"xp": xp,
+		"quest_state": quest_state,
+		"quest_tracked": quest_tracked,
 	}
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if f == null:
@@ -231,6 +277,9 @@ func _load_save() -> void:
 	var lp: Array = d.get("last_position", [0, 0])
 	last_position = Vector2(float(lp[0]), float(lp[1]))
 	has_last_position = bool(d.get("has_last_position", false))
+	xp = int(d.get("xp", 0))
+	quest_state = d.get("quest_state", {})
+	quest_tracked = String(d.get("quest_tracked", ""))
 	for k in settings.keys():
 		if d.get("settings", {}).has(k):
 			settings[k] = d["settings"][k]
@@ -242,7 +291,11 @@ func reset_progress() -> void:
 	review_stats = {}
 	has_last_position = false
 	last_position = Vector2.ZERO
+	xp = 0
+	quest_state = {}
+	quest_tracked = ""
 	save_now()
+	xp_changed.emit(xp, player_level())
 
 
 func _seed_demo() -> void:
