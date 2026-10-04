@@ -10,7 +10,7 @@ const MAX_R := 76.0
 var _touch_idx := -1
 var _base := Vector2.ZERO
 var _knob := Vector2.ZERO
-var idle_center := Vector2(90, 90)
+var idle_center := Vector2(130, 122)   # 之前 (90,90) 光环左缘离屏幕左边只有 14px，太贴角落
 
 
 func _ready() -> void:

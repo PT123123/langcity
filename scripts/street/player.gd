@@ -183,6 +183,13 @@ func _physics_process(delta: float) -> void:
 	velocity.x = move_toward(velocity.x, target.x, rate * delta)
 	velocity.z = move_toward(velocity.z, target.z, rate * delta)
 
+	# ---- 重力 ----
+	# 【必须先加重力，再做跳跃判定】以前重力/落地清零在跳起之后才执行，
+	# 跳起当帧 velocity.y = JUMP_VELOCITY 会被下面 else 分支的 = 0.0 同帧抹掉，
+	# 猫永远离不了地 —— 「按跳没反应」的元凶。
+	if not on_floor:
+		velocity.y -= GRAVITY * delta
+
 	# ---- 跳跃 ----
 	# coyote time：刚离开边缘仍可跳；jump buffer：落地前提前按也生效。
 	# 这两个是手游跳跃手感的命门，少一个都会觉得"跳不动"或"没反应"。
@@ -198,6 +205,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = JUMP_VELOCITY
 		_jump_buf = 0.0
 		_coyote = 0.0
+		jump_pressed = false   # 消费掉这次按压：按住不松也不会落地自动连跳
 		Game.play_sfx("click")
 	# 可变跳跃高度：上升途中松手就减速，短按小跳、长按大跳
 	if velocity.y > 0.0 and not jump_held:
@@ -211,17 +219,14 @@ func _physics_process(delta: float) -> void:
 	rotation.y = _rotate_toward(rotation.y, target_yaw, TURN_MAX_RATE * delta)
 	_turn_rate = wrapf(rotation.y - prev_yaw, -PI, PI) / maxf(delta, 0.0001)
 
-	# 落地检测（用 is_on_floor 的前后差，比每帧轮询稳）
-	_was_floor = on_floor
-	if not on_floor:
-		velocity.y -= GRAVITY * delta
-	else:
-		velocity.y = 0.0
 	move_and_slide()
 
 	# 相机停手后缓慢回正到猫背后（指数插值，帧率无关）
+	# 【有移动输入时绝不回正】以前只判断速度 < 1.2：摇杆轻推半格时猫在慢走，
+	# 相机却持续往"猫背后"转，而移动方向又是相对相机算的 → 方向被带着转，越走越歪画圈。
 	if bool(Game.settings.get("cam_auto_recenter", true)) \
 			and _idle_t > 0.5 and not input_locked \
+			and not moving \
 			and Vector2(velocity.x, velocity.z).length() < 1.2:
 		look_yaw = wrapf(look_yaw + _yaw_diff() * (1.0 - exp(-CAM_RECENT_RATE * delta)), -PI, PI)
 		look_pitch = lerpf(look_pitch, CAM_PITCH_HOME, 1.0 - exp(-CAM_RECENT_RATE * delta))
@@ -229,12 +234,19 @@ func _physics_process(delta: float) -> void:
 
 	# ---- 落地压缩（squash & stretch）----
 	# 落地瞬间按冲击速度把猫压扁，然后弹回。这是「有重量」的关键，Stray 里也是这么做的。
-	if on_floor and not _was_floor:
+	# 【用移动后的 is_on_floor() 对比移动前的 _was_floor】之前两个都是移动前的旧值，
+	# 条件永远为假 —— 落地压扁其实从没生效过。
+	var now_floor := is_on_floor()
+	if now_floor and not _was_floor:
 		var impact := clampf(_last_fall_speed / 6.0, 0.0, 1.0)
 		_land_squash = impact
 		_last_fall_speed = 0.0
-	elif not on_floor:
+	elif not now_floor:
 		_last_fall_speed = maxf(_last_fall_speed, -velocity.y)
+	_was_floor = now_floor
+	# 落地后清掉残留的下落速度（跳起当帧 vy > 0，不会被这里误伤）
+	if now_floor and velocity.y < 0.0:
+		velocity.y = 0.0
 	if _land_squash > 0.0:
 		_land_squash = maxf(0.0, _land_squash - delta * 3.6)
 		# 压扁量 0.22，横向撑开同样的比例（体积守恒的近似）

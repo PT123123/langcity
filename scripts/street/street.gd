@@ -10,6 +10,7 @@ var player: Player
 var cam: Camera3D
 var popup: WordPopup
 var joystick: VirtualJoystick
+var minimap: MiniMap
 var counter_label: Label
 var shoot_btn: Button
 var hint_panel: Control
@@ -438,6 +439,19 @@ func _build_hud() -> void:
 	chip.add_child(counter_label)
 	layer.add_child(chip)
 
+	# 右上小地图：分类色点 + 玩家箭头；点开放大图（带图例），找家具区用
+	minimap = MiniMap.new()
+	minimap.setup(world_m, objects, player)
+	minimap.anchor_left = 1.0
+	minimap.anchor_right = 1.0
+	minimap.anchor_top = 0.0
+	minimap.anchor_bottom = 0.0
+	minimap.offset_right = -18.0
+	minimap.offset_left = -18.0 - MiniMap.SMALL_SIZE.x
+	minimap.offset_top = 60.0
+	minimap.offset_bottom = 60.0 + MiniMap.SMALL_SIZE.y
+	layer.add_child(minimap)
+
 	# 中央十字准星
 	crosshair = Control.new()
 	crosshair.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -532,12 +546,17 @@ func _in_joystick_zone(p: Vector2) -> bool:
 	return joystick != null and joystick.get_global_rect().has_point(p)
 
 
+## 小地图区域不参与转视角（点它 = 放大/收起地图）
+func _in_minimap_zone(p: Vector2) -> bool:
+	return minimap != null and minimap.get_global_rect().has_point(p)
+
+
 func _input(event: InputEvent) -> void:
 	if popup.visible:
 		return
 	if event is InputEventScreenTouch:
 		if event.pressed:
-			if _in_joystick_zone(event.position):
+			if _in_joystick_zone(event.position) or _in_minimap_zone(event.position):
 				return
 			_look_active = true
 			_look_start = event.position
@@ -550,7 +569,7 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventScreenDrag:
 		if not _look_active:
 			return
-		if _in_joystick_zone(event.position):
+		if _in_joystick_zone(event.position) or _in_minimap_zone(event.position):
 			return
 		# 用引擎给的相对增量，并对单次跳变限幅，杜绝坐标基准不一致造成的视角瞬移
 		var d: Vector2 = event.relative
