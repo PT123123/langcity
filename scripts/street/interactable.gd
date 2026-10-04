@@ -592,22 +592,18 @@ static func m_rubber(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
 	return _mat_j("rubber", Color(0.2, 0.2, 0.21), pos, 0.92, 0.0, 0.05)
 
 
-## 植被：樱/树冠。roughness 0.8 + 微透光（用浅色模拟 subsurface）
+## 植被：樱/树冠。grass 贴图三平面映射 + 微透光（用浅色模拟 subsurface）
 static func m_leaf(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
 	var ck := "leaf_%d" % (int(abs(pos.x * 9.1 + pos.z * 4.7)) % 499)
 	if _mats.has(ck):
 		return _mats[ck]
 	var base := _jitter_color(Color(0.44, 0.62, 0.34), pos, 0.09)
-	var m := StandardMaterial3D.new()
-	m.albedo_color = base
-	m.roughness = 0.82
-	m.metallic = 0.0
+	# 贴图给叶片明暗层次（tint_amt 0.72 保住大部分贴图色），世界三平面映射无 UV 依赖
+	var m := mat_photo("grass", base, 0.72, 0.85, 2.6)
 	# 叶片背光透亮：模拟 subsurface scattering
 	m.emission_enabled = true
 	m.emission = base.lightened(0.4)
 	m.emission_energy_multiplier = 0.12
-	m.specular_mode = BaseMaterial3D.SPECULAR_SCHLICK_GGX
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
 	_mats[ck] = m
 	return m
 
@@ -723,9 +719,15 @@ static func m_metal_cool(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
 	return _mat_j("mt_cool", Color(0.42, 0.45, 0.5), pos, 0.5, 0.6, 0.06)
 
 
-## 树叶/灌木：比 m_leaf 更深更哑
+## 树叶/灌木：比 m_leaf 更深更哑（grass 贴图压暗，保留叶影层次）
 static func m_foliage(pos: Vector3 = Vector3.ZERO) -> StandardMaterial3D:
-	return _mat_j("foliage", Color(0.28, 0.44, 0.24), pos, 0.88, 0.0, 0.1)
+	var ck := "foliage_%d" % (int(abs(pos.x * 7.7 + pos.z * 3.3)) % 499)
+	if _mats.has(ck):
+		return _mats[ck]
+	var base := _jitter_color(Color(0.28, 0.44, 0.24), pos, 0.1)
+	var m := mat_photo("grass", base, 0.55, 0.9, 2.2)
+	_mats[ck] = m
+	return m
 
 
 # ---------------- 几何体工具 ----------------
@@ -797,6 +799,39 @@ func prism(size: Vector3, pos: Vector3, material: StandardMaterial3D, ry := 0.0)
 	mi.rotation = Vector3(0, ry, 0)
 	add_child(mi)
 	return mi
+
+
+# ================================================================
+# 外部模型（GLB / glTF）
+# ================================================================
+# 【为什么换成外部模型】手搭的低多边形只能到「能看」这一档，剪影和比例怎么调都有
+# 股「零件拼装」味。树、猫狗、家具、车这类交给现成资产库（Kenney / Quaternius，CC0），
+# 画质和手写代码不在一个量级。归一化/染色/动画查找的公共逻辑在 ModelUtil 里。
+#
+# 选型标准：CC0 或 CC-BY、单文件自带 buffer、纯色材质无贴图（移动端友好）。
+
+const MODEL_ROOT := "res://assets/models/"
+
+## Kenney 家具的原色偏「浅桦木」（0.9/0.6/0.39），在本场景的暖色夕照下会整体发粉。
+## 乘一层略深的暖木色压住它，家具才和街道的色调是一家人。
+const TINT_WOOD := {"wood": Color("b07440"), "woodDark": Color("8a5527")}
+const TINT_WOOD_WARM := {"wood": Color("c08a52"), "woodDark": Color("9a6634")}
+## 布艺：灰绿沙发 + 米色坐垫，和旧手搭版一致
+const TINT_FABRIC := {"carpet": Color("93a89b"), "carpetWhite": Color("e6e0d2")}
+
+
+## 摆一个外部模型。tints = {"leafs": 颜色}，按材质名子串染色。
+func _glb(rel: String, pos: Vector3, scl := 1.0, ry := 0.0, tints := {}) -> Node3D:
+	var n := ModelUtil.spawn(self, rel, pos, 0.0, ry, tints)
+	if n != null and scl != 1.0:
+		n.scale = Vector3.ONE * scl
+	return n
+
+
+## 摆一个外部模型并归一化到指定高度（米）。家具/树用这个：
+## 高度直接对齐 META 里为「猫能跳上去」调好的数值，碰撞体不用动。
+func _glb_h(rel: String, height: float, pos := Vector3.ZERO, ry := 0.0, tints := {}) -> Node3D:
+	return ModelUtil.spawn(self, rel, pos, height, ry, tints)
 
 
 func text3d(s: String, px: int, pos: Vector3, color: Color) -> Label3D:
@@ -1332,19 +1367,15 @@ func _b_mailbox() -> void:
 	text3d("〒", 76, Vector3(0, 0.24, -0.26), Color.WHITE)
 	# 底座
 	cyl(0.27, 0.27, 0.05, Vector3(0, 0.025, 0), Color.WHITE, false, metal)
+## 街边分类垃圾桶：【Kenney City Kit Roads】dumpster。
+## 【尺度】原版是大号市政桶（约 1.2m），这里归一化到 0.85m —— 猫跳得上去，
+## 又不像之前 0.52m 的圆柱那样「像个铁罐」。倒扣的桶盖 + 侧板加强筋是模型自带的。
+## 成组摆放（位置哈希决定旁边是否再来一个），街边垃圾桶从来不是孤零零一个。
 func _b_trash() -> void:
-	# 【尺度】0.52m —— 街边小型分类垃圾桶的真实高度，猫跳得上去。
-	# 之前做成 0.85m（大号市政桶），猫跳不上，只能撞墙。
-	var galva := m_metal_galva(position)
-	var dark := m_metal_dark(position)
-	cyl(0.3, 0.26, 0.42, Vector3(0, 0.21, 0), Color.WHITE, false, galva)
-	# 桶盖（猫踩的地方，做成微微凸起以便看清是台面）
-	cyl(0.33, 0.31, 0.07, Vector3(0, 0.465, 0), Color.WHITE, false, dark)
-	cyl(0.1, 0.1, 0.03, Vector3(0, 0.51, 0), Color.WHITE, false, dark)
-	# 投口
-	torus(0.1, 0.15, Vector3(0, 0.36, 0.27), Color(0.1, 0.1, 0.11), true)
-	# 底部环
-	cyl(0.28, 0.28, 0.04, Vector3(0, 0.02, 0), Color(0.14, 0.14, 0.15), false, dark)
+	var ry := _var_seed(position) * TAU
+	_glb_h("kenney/dumpster.glb", 0.85, Vector3.ZERO, ry + PI)
+	if _var_seed(position + Vector3(3, 0, 7)) > 0.55:
+		_glb_h("kenney/dumpster.glb", 0.85, Vector3(0.95, 0, 0.1), ry + PI + 1.3)
 func _b_bicycle() -> void:
 	# 橡胶轮胎(rough 0.92) vs 金属车架(metal 0.8) —— 两种反光形状拉开车轮与车架
 	var frame := m_vermilion(position)
@@ -1367,27 +1398,17 @@ func _b_bicycle() -> void:
 
 
 func _b_car() -> void:
-	var c := _car_color
-	var paint := StandardMaterial3D.new()
-	paint.albedo_color = _var(c, 0.06)
-	paint.roughness = 0.28
-	paint.metallic = 0.25
-	paint.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
-	box(Vector3(4.2, 0.72, 1.75), Vector3(0, 0.72, 0), c, 0.0, 0.0, 0.0, paint)
-	box(Vector3(2.2, 0.62, 1.6), Vector3(-0.25, 1.38, 0), c.darkened(0.06))
-	box(Vector3(1.95, 0.4, 1.64), Vector3(-0.25, 1.42, 0), Color("a9cede"), 0.0, 0.0, 0.0, glass_mat(Color("a9cede")))
-	for wx in [-1.35, 1.35]:
-		for wz in [-0.82, 0.82]:
-			cyl(0.33, 0.33, 0.22, Vector3(wx, 0.33, wz), Color("26282e"), true)
-			cyl(0.14, 0.14, 0.24, Vector3(wx, 0.33, wz), Color("9aa0ab"), true)
-	box(Vector3(0.1, 0.12, 0.3), Vector3(2.08, 0.85, 0.45), Color("f5e6a8"))
-	box(Vector3(0.1, 0.12, 0.3), Vector3(2.08, 0.85, -0.45), Color("f5e6a8"))
-	box(Vector3(0.08, 0.12, 0.3), Vector3(-2.08, 0.85, 0.45), Color("d64541"))
-	box(Vector3(0.08, 0.12, 0.3), Vector3(-2.08, 0.85, -0.45), Color("d64541"))
-	box(Vector3(0.1, 0.09, 0.16), Vector3(0.85, 1.15, 0.9), c.darkened(0.2))
-	box(Vector3(0.1, 0.09, 0.16), Vector3(0.85, 1.15, -0.9), c.darkened(0.2))
-	box(Vector3(0.06, 0.16, 0.4), Vector3(2.12, 0.6, 0), Color.WHITE)
-	box(Vector3(0.06, 0.16, 0.4), Vector3(-2.11, 0.6, 0), Color.WHITE)
+	# 【Kenney Car Kit / CC0】原来这台车是 1 个车身方盒 + 1 个玻璃方盒 + 4 个圆柱轮子，
+	# 停在街边一眼就是「积木」。Kenney 的车有引擎盖/车窗/保险杠/后视镜的层次。
+	# 归一化到 1.45m 高（对齐 META 的 solid 高度，碰撞体不用动）。
+	# 车头沿街（沿 +X / -X 停），随机左右 + 一点角度歪
+	# 不染色：Kenney 的 colormap 贴图自带车漆色，乘色反而会脏。
+	# 车型按位置哈希轮换，一整条街不会全是同一台车。
+	var kinds := ["sedan.glb", "hatchback-sports.glb", "suv.glb", "van.glb"]
+	var h := _var_seed(position)
+	var rel: String = kinds[int(h * 313.0) % kinds.size()]
+	var ry := (0.0 if int(h * 97.0) % 2 == 0 else PI) + (h - 0.5) * 0.16
+	_glb_h("kenney/" + rel, 1.45, Vector3.ZERO, ry)
 
 
 func _b_traffic() -> void:
@@ -1421,20 +1442,13 @@ func _b_streetlight() -> void:
 	# 发光面（朝下，路面会被照亮 —— 配合 OmniLight 效果更真）
 	box(Vector3(0.5, 0.05, 0.18), Vector3(1.0, 3.97, 0), Color.WHITE, 0,0,0, m_glow(Color(1.0, 0.85, 0.6), 3.2))
 	box(Vector3(0.42, 0.32, 0.42), Vector3(0, 0.16, 0), Color.WHITE, 0,0,0, m_concrete(position))
+## 长椅：【Kenney Holiday Kit】bench（条板座面 + 铸铁腿 + 靠背一体）。
+## 【尺度】归一化到 0.45m —— 真人座高标准 0.42m，猫的跳跃极限 0.66m，两者都满足。
+## 手搭版的「木块 + 4 根方腿」远看就是一条板凳，模型的靠背曲线和椅腿弯折
+## 才是让长椅「像长椅」的关键。
 func _b_bench() -> void:
-	# 【尺度】座面 0.42m —— 真人长椅座高标准，也刚好在猫的 0.66m 跳跃极限内。
-	# 靠背单独一块（不参与碰撞），猫可以跳上座面从靠背上方看街景。
-	var wm := tex_mat(ProceduralTex.wood(25), Color(0.62, 0.44, 0.28), 1.1, 0.9, "bw")
-	var frame := m_metal_dark(position)
-	# 座面
-	box(Vector3(2.2, 0.09, 0.55), Vector3(0, 0.38, 0), Color.WHITE, 0,0,0, wm)
-	# 靠背（在座面后方，猫能跳过去）
-	box(Vector3(2.2, 0.4, 0.08), Vector3(0, 0.62, -0.24), Color(0.68, 0.5, 0.32), 0,0,0, wm)
-	# 腿（细金属，视觉上让座面显得悬空，猫跳上去更有「台」的感觉）
-	for lx in [-0.92, 0.92]:
-		box(Vector3(0.07, 0.38, 0.07), Vector3(lx, 0.19, 0.18), Color.WHITE, 0,0,0, frame)
-		box(Vector3(0.07, 0.42, 0.07), Vector3(lx, 0.21, -0.2), Color.WHITE, 0,0,0, frame)
-	box(Vector3(1.9, 0.06, 0.06), Vector3(0, 0.12, 0), Color.WHITE, 0,0,0, frame)
+	var ry := _var_seed(position) * TAU
+	_glb_h("kenney/bench.glb", 0.45, Vector3.ZERO, ry + PI * 0.5)
 func _b_busstop() -> void:
 	var dark := m_metal_cool(position)
 	cyl(0.05, 0.07, 2.7, Vector3(0, 1.35, 0), Color.WHITE, false, dark)
@@ -1449,53 +1463,60 @@ func _b_busstop() -> void:
 	for i in 4:
 		box(Vector3(0.36, 0.04, 0.05), Vector3(0, 1.62 - i * 0.13, 0.07), Color(0.35,0.33,0.3), 0,0,0, m_plastic_white(position))
 func _b_tree() -> void:
-	# 树干换树皮贴图（japanese_cedar_bark = 杉木，日本街道的树基本就是杉/槭）
-	var bark := mat_bark("bark", Color(0.72, 0.58, 0.48))
-	_cyl_m(Vector3(0.15, 0.22, 2.4), Vector3(0, 1.2, 0), bark)
-	_cyl_m(Vector3(0.06, 0.08, 1.1), Vector3(-0.35, 2.3, 0.1), bark)
-	# 树冠：每团球用不同深浅的叶材质，破掉"一团纯绿"
-	var lv := m_leaf(position)
-	var lv2 := m_foliage(position)
-	sph(1.1, Vector3(0, 3.2, 0), Color.WHITE, lv)
-	sph(0.8, Vector3(-0.85, 2.6, 0.2), Color.WHITE, lv2)
-	sph(0.78, Vector3(0.8, 2.7, -0.15), Color.WHITE, lv)
-	sph(0.6, Vector3(0.1, 3.95, 0.05), Color.WHITE, lv2)
-	sph(0.5, Vector3(-0.45, 3.6, -0.35), Color.WHITE, lv)
+	# 【Kenney Nature Kit / CC0】树的剪影是这类模型最难手搭的部分 —— 球堆树冠一眼假。
+	# 5 种基础形按位置哈希轮换，再各自随机大小/朝向，整条街就不重样。
+	var variants := [
+		"kenney/tree_default.glb", "kenney/tree_oak.glb", "kenney/tree_cone.glb",
+		"kenney/tree_fat.glb", "kenney/tree_detailed.glb",
+	]
+	var h := _var_seed(position)
+	var rel: String = variants[int(h * variants.size()) % variants.size()]
+	# 模型原始高度 1.2~1.7m，街道树要 3.4~4.6m
+	var s := 2.3 + h * 0.9
+	# 树冠颜色微差：同一种绿连着出现 3 棵就很假。
+	# 必须染 —— Kenney 原色是青绿（0.16,0.79,0.67），在暖色黄昏里会跳出来。
+	var tint := Color("8fbf6a").lerp(Color("5f9e52"), h)
+	var n := _glb(rel, Vector3.ZERO, s, h * TAU, {"leafs": tint})
+	if n == null:
+		return
+	n.scale = Vector3(s * (0.92 + h * 0.16), s, s * (0.92 + h * 0.16))
+
+
 func _b_sakura() -> void:
-	# 樱花树干：深色树皮贴图（bark_brown_02）
-	var bark := mat_bark("bark", Color(0.46, 0.36, 0.32))
-	_cyl_m(Vector3(0.14, 0.2, 2.2), Vector3(0, 1.1, 0), bark)
-	box(Vector3(0.1, 1.2, 0.1), Vector3(-0.45, 2.2, 0.1), Color.WHITE, 0.0, 0.0, 0.55, bark)
-	box(Vector3(0.1, 1.3, 0.1), Vector3(0.5, 2.3, -0.1), Color.WHITE, 0.0, 0.0, -0.6, bark)
-	# 花冠：三档粉（深/中/浅），比单一粉色有层次
-	var p1 := _mat_j("sak1", Color(0.94, 0.66, 0.78), position, 0.85, 0.0, 0.07)
-	var p2 := _mat_j("sak2", Color(0.97, 0.78, 0.85), position + Vector3(1,0,0), 0.85, 0.0, 0.07)
-	var p3 := _mat_j("sak3", Color(0.9, 0.58, 0.72), position + Vector3(0,0,1), 0.85, 0.0, 0.07)
-	sph(1.25, Vector3(0, 3.4, 0), Color.WHITE, p1)
-	sph(0.9, Vector3(-0.9, 2.85, 0.3), Color.WHITE, p2)
-	sph(0.92, Vector3(0.9, 2.95, -0.25), Color.WHITE, p3)
-	sph(0.68, Vector3(0.1, 4.35, 0.05), Color.WHITE, p2)
-	sph(0.5, Vector3(-0.55, 3.8, -0.4), Color.WHITE, p1)
+	# 【樱树 = Kenney 树 + 粉色染叶】比手搭粉球树耐看得多：
+	# Kenney 的树冠是三角面片，染粉之后有真实的樱花团块感。
+	var rel := "kenney/tree_default.glb"
+	if _var_seed(position + Vector3(7, 0, 3)) > 0.45:
+		rel = "kenney/tree_detailed.glb"
+	var h := _var_seed(position + Vector3(1, 0, 9))
+	var s := 2.7 + h * 0.7
+	var pinks := [Color("f2a8c4"), Color("f7bfd2"), Color("e894b4")]
+	var pink: Color = pinks[int(h * 997.0) % pinks.size()]
+	_glb(rel, Vector3.ZERO, s, h * TAU, {"leafs": pink})
 	# 落樱的地面圆盘：淡粉半透明
 	var disc := cyl(1.3, 1.3, 0.012, Vector3(0.3, 0.085, 0.3), Color.WHITE, false, m_petal())
 	disc.scale = Vector3(1.0, 1.0, 0.8)
+
+
 func _b_flower() -> void:
-	box(Vector3(0.9, 0.3, 0.5), Vector3(0, 0.15, 0), Color("9a8f7a"), 0.0, 0.0, 0.0,
-		tex_mat(ProceduralTex.wood(27), Color("9a8f7a"), 1.1, 0.9, "fp"))
-	box(Vector3(0.95, 0.06, 0.55), Vector3(0, 0.31, 0), Color("6b5d4a"))
-	var cols := [Color("e86a92"), Color("e6b84c"), Color("d97fb0")]
-	for i in 5:
-		var x := -0.3 + i * 0.15
-		cyl(0.016, 0.016, 0.3, Vector3(x, 0.48, float((i * 7) % 3 - 1) * 0.08), Color("5e9c54"))
-		sph(0.075, Vector3(x, 0.66, float((i * 7) % 3 - 1) * 0.08), cols[i % 3])
+	# Kenney 的花是三片交叉面片，一丛 3~5 株才有「花丛」的感觉
+	var kinds := ["flower_redA", "flower_yellowA", "flower_purpleA"]
+	var h := _var_seed(position)
+	for i in 3:
+		var rel := "kenney/%s.glb" % kinds[int(h * 31.0 + i * 7.0) % kinds.size()]
+		var ox := -0.28 + i * 0.28
+		var oz := float((i * 5) % 3 - 1) * 0.22
+		_glb(rel, Vector3(ox, 0, oz), 1.5 + h * 0.8, h * TAU + i * 1.7)
 
 
 func _b_grass() -> void:
-	for i in 5:
-		var x := -0.35 + i * 0.18
-		cyl(0.0, 0.055, 0.3, Vector3(x, 0.15, float((i * 7) % 3 - 1) * 0.1), Color("6faf5f"))
-		cyl(0.0, 0.04, 0.2, Vector3(x + 0.07, 0.1, float((i * 5) % 3 - 1) * 0.08), Color("5e9c54"))
-	cyl(0.28, 0.28, 0.015, Vector3(0, 0.09, 0), Color("7fb069"))
+	var h := _var_seed(position)
+	for i in 4:
+		var ox := -0.3 + i * 0.2
+		_glb("kenney/grass.glb", Vector3(ox, 0, float((i * 7) % 3 - 1) * 0.16),
+			1.6 + h * 1.0, h * TAU + i * 1.3)
+	if h > 0.6:
+		_glb("kenney/plant_bushSmall.glb", Vector3(0.1, 0, 0.1), 1.8, h * 2.0)
 
 
 func _b_parksign() -> void:
@@ -1508,32 +1529,31 @@ func _b_parksign() -> void:
 
 
 func _b_dog() -> void:
-	# 皮毛质感：高 roughness + 位置微差（裸 Color 会和塑料件混成一档）
-	var fur := _mat_j("fur_d", Color("b08968"), position, 0.92, 0.0, 0.06)
-	var dark := _mat_j("fur_dd", Color("96745c"), position + Vector3(1, 0, 0), 0.92, 0.0, 0.06)
-	box(Vector3(0.72, 0.38, 0.3), Vector3(-0.05, 0.5, 0), Color.WHITE, 0,0,0, fur)
-	for lx in [-0.3, 0.12]:
-		box(Vector3(0.09, 0.32, 0.09), Vector3(lx, 0.16, 0.1), Color.WHITE, 0,0,0, dark)
-		box(Vector3(0.09, 0.32, 0.09), Vector3(lx, 0.16, -0.1), Color.WHITE, 0,0,0, dark)
-	box(Vector3(0.3, 0.3, 0.28), Vector3(0.4, 0.72, 0), Color.WHITE, 0,0,0, fur)
-	box(Vector3(0.08, 0.16, 0.05), Vector3(0.32, 0.92, 0.09), Color.WHITE, 0.0, 0.3, 0, dark)
-	box(Vector3(0.08, 0.16, 0.05), Vector3(0.32, 0.92, -0.09), Color.WHITE, 0.0, 0.3, 0, dark)
-	box(Vector3(0.09, 0.09, 0.12), Vector3(0.58, 0.68, 0), Color.WHITE, 0,0,0, _mat_j("nose", Color("3a3230"), position, 0.4, 0.0, 0.03))
-	box(Vector3(0.05, 0.28, 0.05), Vector3(-0.45, 0.68, 0), Color.WHITE, 0.0, 0.0, 0.6, dark)
-	box(Vector3(0.03, 0.06, 0.28), Vector3(0.22, 0.62, 0), Color.WHITE, 0,0,0, m_vermilion(position + Vector3(2, 0, 0)))
+	# 【Quaternius Ultimate Animated Animal Pack / CC0】自带 12 条动画
+	# （Idle / Walk / Gallop / Jump / Eating / Attack…），狗会自己甩尾踱步。
+	# 归一化到 0.52m 肩高 —— 大型犬只在这个尺寸里才像「街边小狗」而不是「马」。
+	var rel := "animals/dog.gltf"
+	if not ResourceLoader.exists(MODEL_ROOT + rel):
+		rel = "quaternius/ShibaInu.gltf"
+	var n := _glb_h(rel, 0.52, Vector3.ZERO, _var_seed(position) * TAU)
+	if n == null:
+		return
+	var ap := ModelUtil.find_anim(n, ["idle"])
+	var a := ModelUtil.pick_anim(ap, ["idle", "walk"])
+	if ap != null and a != "":
+		ap.play(a)
 
 
 func _b_cat() -> void:
-	var fur := _mat_j("fur_c", Color("9aa0ab"), position, 0.9, 0.0, 0.06)
-	var dark := _mat_j("fur_cd", Color("878d99"), position + Vector3(1, 0, 0), 0.9, 0.0, 0.06)
-	box(Vector3(0.34, 0.4, 0.24), Vector3(0, 0.3, 0), Color.WHITE, 0,0,0, fur)
-	box(Vector3(0.28, 0.26, 0.25), Vector3(0.02, 0.62, 0), Color.WHITE, 0,0,0, fur)
-	box(Vector3(0.07, 0.12, 0.04), Vector3(-0.07, 0.79, 0.06), Color.WHITE, 0.0, 0.25, 0, dark)
-	box(Vector3(0.07, 0.12, 0.04), Vector3(0.11, 0.79, 0.06), Color.WHITE, 0.0, 0.25, 0, dark)
-	box(Vector3(0.3, 0.05, 0.05), Vector3(-0.12, 0.35, 0.1), Color.WHITE, 0.0, 0.6, 0, dark)
-	box(Vector3(0.06, 0.18, 0.05), Vector3(-0.24, 0.62, 0.1), Color.WHITE, 0.0, 0.0, 0.5, dark)
-	sph(0.025, Vector3(0.1, 0.64, 0.13), Color.WHITE, m_vermilion(position))
-	sph(0.025, Vector3(-0.04, 0.64, 0.13), Color.WHITE, m_vermilion(position))
+	# 街头的猫用玩家猫那套外观（CatAvatar），这样玩家和 NPC 是同一个「角色资产」，
+	# 以后换模型只改一个地方。缩到 0.9 并转向街边，背对镜头蹲着。
+	var av := CatAvatar.new()
+	av.scale = Vector3.ONE * 0.9
+	av.position = Vector3(0, 0.0, 0)
+	add_child(av)
+	av.rotation.y = PI * 0.5 + _var_seed(position)
+	av.animate(0.0, 0.0, 0.0)
+	av.set_idle_only(true)
 
 
 func _b_bird() -> void:
@@ -1666,23 +1686,14 @@ func _b_crate() -> void:
 	box(Vector3(0.4, 0.1, 0.3), Vector3(0.05, 0.33, 0.05), Color(0.7, 0.68, 0.6), 0,0,0.3, m)
 
 
-## 花坛矮沿（公园/店铺前）：0.5m。混凝土 + 泥土 + 小植物。
+## 花坛矮沿（公园/店铺前）：【Kenney City Kit Suburban】planter 自带池壁 + 泥土 +
+## 植株，0.5m 沿口高度不变。手搭版的四面墙 + 单独一排「草杆」远看是一块空水泥台。
 func _b_planter() -> void:
-	var conc := m_concrete(position)
-	var soil := Color(0.28, 0.2, 0.14)
-	# 沿体（四面矮墙，中空）
-	for sz in [-0.42, 0.42]:
-		box(Vector3(1.5, 0.5, 0.14), Vector3(0, 0.25, sz), Color.WHITE, 0,0,0, conc)
-	for sx in [-0.68, 0.68]:
-		box(Vector3(0.14, 0.5, 0.7), Vector3(sx, 0.25, 0), Color.WHITE, 0,0,0, conc)
-	# 泥土面（略低于沿口，猫踩沿不踩土）
-	box(Vector3(1.36, 0.06, 0.68), Vector3(0, 0.4, 0), Color.WHITE, 0,0,0, tex_mat(ProceduralTex.grass(33), soil, 1.2, 0.98, "soil"))
-	# 几株小草
-	for i in 5:
-		var fx := -0.5 + i * 0.25
-		for j in 2:
-			cyl(0.0, 0.03, 0.22, Vector3(fx, 0.52, -0.2 + j * 0.4), Color(0.34, 0.52, 0.26))
-			cyl(0.0, 0.025, 0.18, Vector3(fx + 0.06, 0.5, -0.14 + j * 0.4), Color(0.42, 0.6, 0.3))
+	var ry := _var_seed(position) * TAU
+	_glb_h("kenney/planter.glb", 0.5, Vector3.ZERO, ry)
+	# 位置哈希决定边上再插一株灌木，让花坛不至于千篇一律
+	if _var_seed(position + Vector3(7, 0, 3)) > 0.45:
+		_glb_h("kenney/plant_bushSmall.glb", 0.34, Vector3(0.86, 0.06, 0.28), ry + 1.7)
 
 
 ## 巷口矮墙：0.55m。猫能跳上去看过去，Stray 里爬墙是标志性动作。
@@ -1728,95 +1739,62 @@ func _b_furniture() -> void:
 
 
 ## 木桌：0.45m 台面（猫可跳），四条腿留出可以钻的桌底
+## 【Kenney Furniture Kit / CC0】手搭的方盒桌在近景里就是四根柱子一块板。
+## 归一化到 0.45m 台面高 —— 正好卡在 META 的 stand 数值上，碰撞体不用动。
 func _b_table() -> void:
-	var wm := tex_mat(ProceduralTex.wood(45), Color(0.72, 0.55, 0.38), 1.2, 0.8, "tb")
-	box(Vector3(1.3, 0.07, 0.85), Vector3(0, 0.445, 0), Color.WHITE, 0,0,0, wm)
-	for lx in [-0.55, 0.55]:
-		for lz in [-0.32, 0.32]:
-			box(Vector3(0.07, 0.42, 0.07), Vector3(lx, 0.21, lz), Color.WHITE, 0,0,0, m_wood(position))
+	_glb_h("kenney/tableRound.glb", 0.45, Vector3.ZERO, _var_seed(position) * TAU, TINT_WOOD)
 
 
 ## 木椅：座面 0.44m + 靠背，四条腿
 func _b_chair() -> void:
-	var wm := tex_mat(ProceduralTex.wood(47), Color(0.65, 0.46, 0.3), 1.3, 0.8, "ch")
-	box(Vector3(0.5, 0.06, 0.5), Vector3(0, 0.44, 0), Color.WHITE, 0,0,0, wm)
-	box(Vector3(0.5, 0.55, 0.06), Vector3(0, 0.72, -0.22), Color.WHITE, 0,0,0, wm)
-	for lx in [-0.2, 0.2]:
-		for lz in [-0.2, 0.2]:
-			box(Vector3(0.05, 0.42, 0.05), Vector3(lx, 0.22, lz), Color.WHITE, 0,0,0, m_wood(position))
+	var ry := _var_seed(position) * TAU
+	_glb_h("kenney/chair.glb", 0.9, Vector3.ZERO, ry, TINT_WOOD)
+	# 坐垫：给猫一个更愿意趴的平面，也让木椅不至于太硬
+	_glb_h("kenney/chairCushion.glb", 0.5, Vector3(0, 0.44, 0.02), ry)
 
 
 ## 和式矮床：木台 + 布団 + 枕头 —— 猫最爱卧的那种
 func _b_bed() -> void:
-	var wm := tex_mat(ProceduralTex.wood(49), Color(0.6, 0.45, 0.32), 1.1, 0.85, "bd")
-	box(Vector3(2.2, 0.22, 1.4), Vector3(0, 0.11, 0), Color.WHITE, 0,0,0, wm)
-	var fut := _mat_j("futon", Color(0.85, 0.88, 0.92), position, 0.85, 0.0, 0.05)
-	var fut2 := _mat_j("futon2", Color(0.9, 0.92, 0.95), position + Vector3(1, 0, 0), 0.85, 0.0, 0.05)
-	box(Vector3(2.0, 0.16, 1.2), Vector3(-0.08, 0.3, 0), Color.WHITE, 0,0,0, fut)
-	box(Vector3(2.02, 0.04, 1.22), Vector3(-0.08, 0.39, 0), Color.WHITE, 0,0,0, fut2)
-	box(Vector3(0.45, 0.1, 0.3), Vector3(0.8, 0.43, 0), Color.WHITE, 0,0,0, fut2)
+	var ry := _var_seed(position) * 0.6 - 0.3
+	_glb_h("kenney/bedSingle.glb", 0.42, Vector3.ZERO, ry, TINT_WOOD)
+	_glb_h("kenney/pillow.glb", 0.16, Vector3(0.62, 0.4, -0.28), ry + 0.2, TINT_FABRIC)
+	_glb_h("kenney/rugRectangle.glb", 0.02, Vector3(1.1, 0.005, 0.5), ry)
 
 
 ## 布艺沙发：灰绿底座 + 靠背扶手 + 米色坐垫
 func _b_sofa() -> void:
-	var fm := _mat_j("sofa", Color(0.55, 0.62, 0.58), position, 0.85, 0.0, 0.06)
-	box(Vector3(2.0, 0.28, 0.9), Vector3(0, 0.24, 0), Color.WHITE, 0,0,0, fm)
-	box(Vector3(2.0, 0.35, 0.25), Vector3(0, 0.55, -0.33), Color.WHITE, 0,0,0, fm)
-	for ax in [-0.95, 0.95]:
-		box(Vector3(0.22, 0.32, 0.85), Vector3(ax, 0.5, -0.02), Color.WHITE, 0,0,0, fm)
-	for i in 2:
-		var cx := -0.5 + i * 1.0
-		box(Vector3(0.85, 0.14, 0.75), Vector3(cx, 0.45, 0.03), Color.WHITE, 0,0,0,
-			_mat_j("cushion%d" % i, Color(0.78, 0.72, 0.62), position + Vector3(i, 0, 0), 0.9, 0.0, 0.08))
+	_glb_h("kenney/loungeSofa.glb", 0.72, Vector3.ZERO, PI * 0.5 + _var_seed(position) * 0.4,
+		TINT_FABRIC)
 
 
 ## 电视机：木电视柜 + 深色屏（玻璃反射天空）
 func _b_tv() -> void:
-	box(Vector3(1.4, 0.45, 0.55), Vector3(0, 0.225, 0), Color.WHITE, 0,0,0, m_wood(position))
-	box(Vector3(1.45, 0.06, 0.6), Vector3(0, 0.48, 0), Color.WHITE, 0,0,0, m_metal_dark(position))
-	box(Vector3(0.32, 0.12, 0.32), Vector3(0, 0.56, 0), Color.WHITE, 0,0,0, m_metal_dark(position))
-	box(Vector3(1.5, 0.88, 0.08), Vector3(0, 1.1, 0), Color("2b2d33"))
-	box(Vector3(1.38, 0.76, 0.02), Vector3(0, 1.1, 0.045), Color.WHITE, 0,0,0, glass_mat(Color(0.1, 0.11, 0.15), 0.0))
+	var ry := _var_seed(position) * 0.5 - 0.25
+	_glb_h("kenney/cabinetTelevision.glb", 0.5, Vector3.ZERO, ry, TINT_WOOD)
+	_glb_h("kenney/televisionModern.glb", 0.62, Vector3(0, 0.5, 0.02), ry)
 
 
 ## 本棚：四层隔板 + 彩色书脊
 func _b_shelf() -> void:
-	var wm := tex_mat(ProceduralTex.wood(51), Color(0.62, 0.47, 0.33), 1.2, 0.85, "sf")
-	for sx in [-0.62, 0.62]:
-		box(Vector3(0.05, 1.5, 0.55), Vector3(sx, 0.75, 0), Color.WHITE, 0,0,0, wm)
-	box(Vector3(1.3, 1.5, 0.04), Vector3(0, 0.75, -0.25), Color.WHITE, 0,0,0, wm)
-	box(Vector3(1.3, 0.05, 0.55), Vector3(0, 0.025, 0), Color.WHITE, 0,0,0, wm)
-	var bcols := [Color("c94f4f"), Color("4a6fa5"), Color("5e9c54"), Color("e6b84c"), Color("8a6bb5")]
-	for i in 4:
-		box(Vector3(1.24, 0.04, 0.5), Vector3(0, 0.3 + i * 0.4, 0), Color.WHITE, 0,0,0, wm)
-		for b in 5:
-			if (i + b) % 4 == 3:
-				continue
-			box(Vector3(0.09, 0.26, 0.3), Vector3(-0.45 + b * 0.2 + (i % 2) * 0.05, 0.46 + i * 0.4, -0.02),
-				Color.WHITE, 0,0,0, _mat_j("bk%d%d" % [i, b], bcols[(i + b) % 5],
-				position + Vector3(i, b, 0), 0.85, 0.0, 0.1))
+	_glb_h("kenney/bookcaseOpen.glb", 1.5, Vector3.ZERO, PI + _var_seed(position) * 0.3, TINT_WOOD)
+	# 书：按位置哈希塞几排，空书架太干净
+	var h := _var_seed(position)
+	for i in 3:
+		if fmod(h * 7.0 + float(i) * 3.0, 2.0) < 0.6:
+			continue
+		_glb_h("kenney/books.glb", 0.24, Vector3(-0.1 + i * 0.06, 0.34 + i * 0.42, 0.06),
+			h * 2.0 + i * 0.4)
 
 
 ## 落地灯：金属杆 + 米色和纸灯罩（m_paper 的 emission 由 TimeOfDay 点亮，白天不发假光）
 func _b_lamp() -> void:
-	var dark := m_metal_dark(position)
-	cyl(0.16, 0.2, 0.04, Vector3(0, 0.02, 0), Color.WHITE, false, dark)
-	cyl(0.025, 0.025, 1.2, Vector3(0, 0.62, 0), Color.WHITE, false, dark)
-	cyl(0.16, 0.24, 0.32, Vector3(0, 1.36, 0), Color.WHITE, false, m_paper(position))
-	sph(0.03, Vector3(0, 1.2, 0.05), Color("e6b84c"))
+	_glb_h("kenney/lampRoundFloor.glb", 1.5, Vector3.ZERO, _var_seed(position) * TAU)
 
 
 ## 洗濯機：日本人家门口的标配。白机身 + 圆窗 + 控制面板
+## 换 Kenney 的 washer：圆窗、面板、脚座都是现成的，比方盒上贴两个圆柱像洗衣机得多
 func _b_wash() -> void:
-	var wm := _mat_j("wash", Color(0.92, 0.92, 0.9), position, 0.45, 0.05, 0.03)
-	box(Vector3(0.75, 0.88, 0.65), Vector3(0, 0.44, 0), Color.WHITE, 0,0,0, wm)
-	box(Vector3(0.77, 0.07, 0.67), Vector3(0, 0.905, 0), Color.WHITE, 0,0,0, m_plastic_white(position))
-	# 圆窗：外圈塑料环 + 深色玻璃
-	torus(0.17, 0.22, Vector3(0, 0.48, 0.3), Color(0.72, 0.72, 0.7), true, m_plastic_white(position))
-	cyl(0.17, 0.17, 0.03, Vector3(0, 0.48, 0.31), Color.WHITE, true, glass_mat(Color(0.12, 0.14, 0.16), 0.0))
-	# 控制面板 + 排水管
-	box(Vector3(0.6, 0.08, 0.12), Vector3(0, 0.88, 0.24), Color(0.62, 0.66, 0.68))
-	cyl(0.025, 0.025, 0.4, Vector3(0.3, 0.2, 0.28), Color("b8b0a4"))
+	_glb_h("kenney/washer.glb", 0.9, Vector3.ZERO, PI + _var_seed(position) * 0.6)
 
 
 # ================================================================
@@ -1828,20 +1806,19 @@ func _b_wash() -> void:
 
 ## 道路標識：灰色杆 + 板面。修复 map.json 里 roadsign 无 META 的隐形 bug。
 ## 两种板面（止まれ 红色 / 一方通行 蓝色）按位置哈希交替。
+## 道路標識：【Kenney City Kit Roads】三款按位置哈希轮换（街名牌 / 止まれ /
+## 警告牌）。手搭版用 Label3D 贴「止まれ」，近距离看字是贴图糊的；Kenney 的牌面
+## 是真几何 + 原生 CC0 图文，远看轮廓也更接近现实路牌。
+## 高度 2.4m 不变（猫爬电线杆那一段的尺度参照）。
 func _b_roadsign() -> void:
-	var dark := m_metal_dark(position)
-	cyl(0.05, 0.065, 2.4, Vector3(0, 1.2, 0), Color.WHITE, false, dark)
-	cyl(0.1, 0.12, 0.3, Vector3(0, 0.15, 0), Color.WHITE, false, m_concrete(position))
-	var is_stop := int(abs(position.x * 13.7 + position.z * 5.1)) % 2 == 0
-	var board_col := Color("c23a3a") if is_stop else Color("2b6cb0")
-	var board := _mat_j("rsign", board_col, position, 0.42, 0.05, 0.04)
-	# 白边框 + 板面
-	box(Vector3(0.84, 0.84, 0.06), Vector3(0, 2.42, 0), Color.WHITE, 0, 0, 0, m_plastic_white(position))
-	box(Vector3(0.76, 0.76, 0.07), Vector3(0, 2.42, 0), Color.WHITE, 0, 0, 0, board)
-	if is_stop:
-		text3d("止まれ", 88, Vector3(0, 2.42, 0.06), Color.WHITE)
-	else:
-		text3d("一方\n通行", 62, Vector3(0, 2.42, 0.06), Color.WHITE)
+	var ry := _var_seed(position) * TAU
+	var pick := int(abs(position.x * 13.7 + position.z * 5.1)) % 3
+	var rel := "kenney/roadsign_stop.glb"
+	if pick == 1:
+		rel = "kenney/roadsign_street.glb"
+	elif pick == 2:
+		rel = "kenney/roadsign_warning.glb"
+	_glb_h(rel, 2.4, Vector3.ZERO, ry)
 
 
 ## 消火栓（柱形）：朱红点缀色 + 金属底座。0.62m，猫可跳。
@@ -1862,22 +1839,13 @@ func _b_fireplug() -> void:
 
 ## 鉢植え：陶盆 + 土面 + 两种植物（灌木 / 开花）按位置哈希。
 func _b_potplant() -> void:
-	var pot := _mat_j("pot", Color(0.64, 0.4, 0.3), position, 0.75, 0.0, 0.08)
-	cyl(0.23, 0.16, 0.28, Vector3(0, 0.14, 0), Color.WHITE, false, pot)
-	cyl(0.25, 0.25, 0.05, Vector3(0, 0.295, 0), Color.WHITE, false, pot)
-	cyl(0.21, 0.21, 0.02, Vector3(0, 0.315, 0), Color.WHITE, false, m_rubber(position + Vector3(0, 9, 0)))
-	if int(abs(position.x * 11.3 + position.z * 7.7)) % 2 == 0:
-		# 灌木：两团圆叶
-		sph(0.26, Vector3(0, 0.56, 0), Color.WHITE, m_foliage(position))
-		sph(0.18, Vector3(0.14, 0.44, 0.08), Color.WHITE, m_leaf(position))
-	else:
-		# 开花：三根茎 + 花球
-		var fcols := [Color("e86a92"), Color("e6b84c"), Color("d97fb0")]
-		for i in 3:
-			var fx := -0.09 + i * 0.09
-			cyl(0.012, 0.012, 0.3, Vector3(fx, 0.47, 0.05 - i * 0.05), Color("5e9c54"))
-			sph(0.06, Vector3(fx, 0.64, 0.05 - i * 0.05), Color.WHITE,
-				_mat_j("pfl%d" % i, fcols[i], position + Vector3(i, 0, 0), 0.8, 0.0, 0.08))
+	# 【Kenney Furniture Kit】原来的「陶盆 + 两团圆球」远看就是一团绿疙瘩。
+	# pottedPlant 自带盆 + 土 + 植株，0.45m 台面高度不变。
+	var ry := _var_seed(position) * TAU
+	_glb_h("kenney/pottedPlant.glb", 0.62, Vector3.ZERO, ry)
+	# 高的那盆：多摆一株小盆栽，门口才不会只有一盆
+	if _var_seed(position + Vector3(3, 0, 1)) > 0.5:
+		_glb_h("kenney/plantSmall1.glb", 0.34, Vector3(0.42, 0, 0.16), ry + 1.2)
 
 
 ## 物干し竿：两根镀锌 T 杆 + 3 条下垂电线 + 4 条毛巾 + 1 张床单。
@@ -1945,16 +1913,13 @@ func _b_tires() -> void:
 	sph(0.12, Vector3(0.02, 0.66, -0.01), Color.WHITE, m_foliage(position + Vector3(1, 0, 0)))
 
 
-## 工事コーン：橙色路锥 ×2 + 白反光圈。不挡路（施工边缘警示）。
+## 工事コーン：【Kenney City Kit Roads】construction-cone 自带橙身 + 白反光圈，
+## 手搭版的「圆锥 + 单独 torus 反光圈」远看只是一个橙三角，连不成「施工道具」。
+## 两个锥按位置哈希错开摆放，保持「不挡路」的施工边缘语义。
 func _b_cones() -> void:
-	var orange := _mat_j("cone", Color(0.88, 0.34, 0.1), position, 0.5, 0.0, 0.05)
-	for cd in [[-0.25, 0.0, 0.0], [0.3, 0.12, 0.5]]:
-		var p := Vector3(cd[0], 0, cd[1])
-		var ry: float = cd[2]
-		box(Vector3(0.3, 0.03, 0.3), p + Vector3(0, 0.015, 0), Color.WHITE, ry, 0, 0, orange)
-		cyl(0.025, 0.15, 0.48, p + Vector3(0, 0.27, 0), Color.WHITE, false, orange)
-		# 白反光圈：锥身中部的环
-		torus(0.062, 0.1, p + Vector3(0, 0.32, 0), Color.WHITE, false, m_plastic_white(position))
+	var ry := _var_seed(position) * TAU
+	_glb_h("kenney/construction_cone.glb", 0.48, Vector3(-0.25, 0, 0.0), ry + 0.4)
+	_glb_h("kenney/construction_cone.glb", 0.48, Vector3(0.3, 0, 0.12), ry + 2.1)
 
 
 ## ガスボンベ：饮食店后面靠墙的蓝色液化气罐 ×3 + 黄铜阀门。

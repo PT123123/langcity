@@ -662,10 +662,54 @@ func _notification(what: int) -> void:
 
 # ---------------- 自动化截图钩子 ----------------
 
-
+## 通用物件检视钩子（match 里的 "look" 分支用）：
+## 用法 --shot-action=look:<kind> [;<dx>;<dz>;<dist>;<pitch>]
+## 自动找到该 kind 的第一个实例，把玩家摆到它附近并按指定距离摆相机。
+## 之前给每种物件手写死坐标，一旦 map.json 挪位就拍到空地 —— 改成按节点定位，
+## 坐标永远跟着数据走。默认：南侧 4m、俯视 0.35、相机臂 5m。
+## 【GDScript 坑】注释不能放在 match 体第一个分支之前（会报
+## "Expected indented block after match pattern block"），所以说明写在 match 外面。
 
 func _run_debug_hooks() -> void:
 	var action := ShotTool.shot_action
+	if not action.is_empty():
+		print("[hooks] action=", action)
+	# 通用物件检视：--shot-action=look:<kind> [;<dx>;<dz>;<dist>;<pitch>]
+	# 【为什么必须在 match 之前】match 是整串相等比较，"look" 永远匹配不上
+	# "look:bench;1.5;..."，所以不能写成 match 的一个分支。
+	# 参数形如 "look:bench;1.6;-2.4;3.0;-0.28"
+	# 【坑】分隔符是 ";"，但前缀和 kind 之间是 ":"，所以先 substr(5) 砍掉
+	# "look:" 再按 ";" 切 —— 直接 action.split(";") 拿到的第 0 段是
+	# "look:bench"，判断 == "look" 永远不成立，整段静默跳过。
+	var args: Array = []
+	if action.begins_with("look:"):
+		args = action.substr(5).split(";")
+	if args.size() > 0:
+		var want := str(args[0])
+		var dx := float(args[1]) if args.size() > 1 else 0.0
+		var dz := float(args[2]) if args.size() > 2 else -4.0
+		var dist := float(args[3]) if args.size() > 3 else 5.0
+		var pit := float(args[4]) if args.size() > 4 else -0.35
+		var hit: Interactable = null
+		for it in objects:
+			if it.kind == want or it.word_id == want:
+				hit = it
+				break
+		if hit != null:
+			var spot := hit.position + Vector3(dx, 0.1, dz)
+			player.teleport(spot, 0.0)
+			player.look_pitch = pit
+			# 面向目标：cam_forward() = (-sin(yaw), 0, -cos(yaw))，
+			# 反解出yaw = atan2(-dx, -dz)（注意两个分量都要取负）。
+			var to_obj := hit.position + Vector3(0, 0.5, 0) - spot
+			player.look_yaw = atan2(-to_obj.x, -to_obj.z)
+			player._apply_cam_rotation()
+			player._arm.spring_length = dist
+			print("[look] %s @%s -> stand %s, cam_len %.1f" % [
+				want, str(hit.position), str(spot), dist])
+		else:
+			print("[look] 没找到 kind=", want)
+		return
 	match action:
 		"demo_popup":
 			player.teleport(Vector3(56.5, 0.1, 29.5), PI * 0.0)
@@ -680,6 +724,11 @@ func _run_debug_hooks() -> void:
 				open_word(target)
 		"demo_park":
 			player.teleport(Vector3(82.5, 0.1, 46.0), 0.0)
+		# 仰视树冠：检查叶片/樱花冠贴图材质
+		"demo_leaf":
+			player.teleport(Vector3(84.5, 0.1, 44.5), PI * 0.75)
+			player.look_pitch = 0.55
+			player._apply_cam_rotation()
 		"demo_station":
 			player.teleport(Vector3(48.5, 0.1, 20.5), 0.0)
 		"demo_cross":
@@ -695,6 +744,48 @@ func _run_debug_hooks() -> void:
 			player.teleport(Vector3(82.5, 0.1, 46.0), 0.0)
 			player.look_pitch = -0.06
 			player.look_yaw = PI * 0.5
+			player._apply_cam_rotation()
+		# 正脸：相机绕到猫前面（look_yaw = 角色朝向 + PI），检查脸/朝向/模型是否装反
+		"demo_cat_front":
+			player.teleport(Vector3(82.5, 0.1, 46.0), 0.0)
+			player.look_pitch = -0.16
+			player.look_yaw = PI
+			player._apply_cam_rotation()
+			player._arm.spring_length = 0.72
+		# 街边的狗（Quaternius 柴犬 + Idle 动画）
+		# 【钩子坐标规律】站在物件正上方、pitch 压到 -0.8 俯视。
+		# 之前把玩家放在物件南侧 3m，相机退到 -Z 侧容易一头撞进墙里（拍到一片砖）。
+		"demo_dog":
+			player.teleport(Vector3(22.5, 0.1, 13.6), 0.0)
+			player.look_pitch = -0.8
+			player.look_yaw = PI
+			player._apply_cam_rotation()
+		# 街边停车（Kenney 车）
+		"demo_car":
+			player.teleport(Vector3(17.5, 0.1, 27.9), 0.0)
+			player.look_pitch = -0.62
+			player.look_yaw = PI
+			player._apply_cam_rotation()
+		# 家具（Kenney 桌/椅）：站物件南侧、相机退后 3.5m，
+		# 弹簧臂默认只有 1.32m，不拉长的话镜头会怼在猫身上什么都看不见。
+		"demo_props":
+			player.teleport(Vector3(52.5, 0.1, 23.2), 0.0)
+			player.look_pitch = -0.34
+			player.look_yaw = PI
+			player._apply_cam_rotation()
+			player._arm.spring_length = 3.6
+		# 和式床 / 洗衣机一带的家具
+		"demo_bed":
+			player.teleport(Vector3(76.0, 0.1, 86.6), 0.0)
+			player.look_pitch = -0.3
+			player.look_yaw = PI
+			player._apply_cam_rotation()
+			player._arm.spring_length = 3.6
+		# 街头的猫 NPC（用玩家猫的外观）
+		"demo_catnpc":
+			player.teleport(Vector3(11.25, 0.1, 40.4), 0.0)
+			player.look_pitch = -0.55
+			player.look_yaw = PI
 			player._apply_cam_rotation()
 		# 行走中：检查步态动画
 		"demo_cat_walk":

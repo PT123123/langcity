@@ -38,18 +38,27 @@ async def gen(word_id: str, text: str, retries: int = 3) -> bool:
 async def main() -> None:
     os.makedirs(AUDIO_DIR, exist_ok=True)
     data = json.load(io.open(WORDS_PATH, encoding="utf-8"))
-    ok = 0
-    fail = []
-    for w in data["words"]:
+    sem = asyncio.Semaphore(8)   # 并发 8：太多会被 edge-tts 限流
+
+    async def job(w):
         text = w.get("kana") or w.get("ja", "")
         if not text:
-            continue
-        if await gen(w["id"], text):
-            w["audio"] = "res://assets/audio/%s.mp3" % w["id"]
+            return w["id"], True
+        async with sem:
+            ok = await gen(w["id"], text)
+        return w["id"], ok
+
+    results = await asyncio.gather(*[job(w) for w in data["words"]])
+    ok = 0
+    fail = []
+    for wid, good in results:
+        if good:
+            w = next(x for x in data["words"] if x["id"] == wid)
+            w["audio"] = "res://assets/audio/%s.mp3" % wid
             ok += 1
-            print("  ✓", w["id"], text)
+            print("  ✓", wid)
         else:
-            fail.append(w["id"])
+            fail.append(wid)
     io.open(WORDS_PATH, "w", encoding="utf-8", newline="\n").write(
         json.dumps(data, ensure_ascii=False, indent=2))
     print("完成 %d/%d" % (ok, len(data["words"])))
