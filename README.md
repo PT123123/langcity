@@ -142,10 +142,14 @@ tools/subset_fonts.py    字体子集化脚本
 
 - 3D 表面贴图（柏油 / 铺装砖 / 瓷砖外墙 / 灰瓦 / 木板 / 草地 / 混凝土 / 砌块墙）来自
   [Poly Haven](https://polyhaven.com)，**CC0 公共领域**，可自由商用，无需署名（tools/fetch_textures.py 可重新下载）。
+- 部分道具模型来自 [Kenney](https://kenney.nl)（Furniture Kit / Food Kit / City Kit 等，**CC0**）
+  与 [Poly Pizza](https://poly.pizza)：自行车、麻雀来自 Poly by Google（**CC-BY 4.0**，需署名）；
+  燃气罐、消火栓为 CC0。
 - 发音音频由微软神经语音 ja-JP-Nanami 合成（tools/gen_audio.py）。
 
 ## 技术说明
 
-- Godot 4.4，Mobile 渲染器，MSAA 4x；全部模型为运行时几何体拼装，**零贴图资源**，包体极小。
+- Godot 4.4，Mobile 渲染器，MSAA 4x；建筑与街道为运行时几何体拼装，
+  道具优先使用外部 CC0/CC-BY 低模（`assets/models/`），包体可控且辨识度更高。
 - 单词数据与场景数据完全数据驱动（JSON），UI 与玩法脚本解耦，便于批量扩充。
 - 词卡 UI、菜单为和纸配色（#f7f3ea）+ 朱红（#c94f4f）的和风主题。

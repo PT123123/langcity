@@ -128,7 +128,12 @@ static func normalize(root: Node3D, target_h := 0.0) -> void:
 	if target_h > 0.0:
 		s = target_h / aabb.size.y
 	var mid := aabb.get_center()
-	root.position += Vector3(-mid.x, -aabb.position.y, -mid.z) * s
+	# 【XZ 偏移必须先按 root 自身的 Y 旋转转到父空间】
+	# AABB 是 root 局部空间的量，而 root.position 是父空间的。spawn() 先设了
+	# rotation.y 再进来，偏移不做同角度旋转的话，旋转过的模型（床/桌/沙发/
+	# 洗衣机…这批 Kenney 模型原点在角上）会整体错位 0.3~2m，跟周边物件穿插。
+	var off_xz := Basis(Vector3.UP, root.rotation.y) * (Vector3(mid.x, 0, mid.z) * s)
+	root.position += Vector3(-off_xz.x, -aabb.position.y * s, -off_xz.z)
 	if s != 1.0:
 		root.scale = root.scale * s
 

@@ -1,15 +1,15 @@
 class_name Player
 extends CharacterBody3D
 ## 玩家（Stray 式第三人称）：可见的猫 + 弹簧臂跟拍相机。
-## 移动：左摇杆/WASD 相对相机方向走；身体朝向平滑转向移动方向（不是瞬间转）。
-## 相机：拖动屏幕环绕（yaw/pitch），弹簧臂自动避开建筑，停手后缓慢回正到背后。
+## 移动：W/S 沿猫的身体朝向前进后退；A/D 持续转动身体（摇杆 x=转向、y=前后）。
+## 相机：拖动屏幕环绕（yaw/pitch），弹簧臂自动避开建筑；停手后平滑跟回猫背后（自动回正）。
 ## 跳跃：空格 / 屏幕按钮，可跳上垃圾桶、长椅、窗台、矮墙等（Stray 的核心玩法之一）。
 
 const SPEED := 2.35           # 猫走路比人慢，但比 Stray 稍快一点，手感更跟手
 const ACCEL := 11.0           # 起速
 const DECEL := 15.0           # 停步
 const GRAVITY := 19.0
-const TURN_MAX_RATE := 6.0    # 身体转向角速度上限（弧度/秒）
+const TURN_RATE := 3.0        # A/D 直接转向的角速度（弧度/秒，按住一直转）
 
 # ---- 跳跃（Stray 的猫能跳上东西，这是探索感的一半）----
 # 【跳跃高度是解析量】h = v²/(2g)。g=19 时：
@@ -35,7 +35,8 @@ const CAM_HEIGHT := 0.34# 相机枢轴相对猫脚的高度
 const CAM_PITCH_MIN := -0.95   # 相机升到接近俯视
 const CAM_PITCH_MAX := 0.10# 再低就钻地面了
 const CAM_PITCH_HOME := -0.20  # 静止时回正的俯角（略俯视）
-const CAM_RECENT_RATE := 1.7   # 停手后相机回正速度（1/秒）
+const CAM_FOLLOW_RATE := 4.0   # 相机平滑跟到猫背后的速度（1/秒）
+const CAM_FOLLOW_DELAY := 0.25 # 手动转视角后，停顿多久恢复自动跟随
 const CAM_MIN_Y := 0.2# 相机离地下限，防止插进地面
 
 const LOOK_SENS := 0.0028
@@ -47,9 +48,9 @@ var jump_held := false
 
 var look_yaw := 0.0                # 相机方位角（0 = 相机在猫的正后方，朝北 -Z）
 var look_pitch := CAM_PITCH_HOME
-var _idle_t := 0.0                # 停手计时，用于自动回正
+var _idle_t := 0.0                # 距上次手动转视角的时间，用于自动跟随
 var _turn_rate := 0.0             # 当前转向角速度（供身体侧倾用）
-var _last_dir := Vector3.ZERO
+var cam_follow := true            # 是否自动跟随到猫背后（调试截图时关闭）
 var _coyote := 0.0
 var _jump_buf := 0.0
 var _was_floor := true
@@ -81,10 +82,13 @@ func _ready() -> void:
 	avatar.scale = Vector3.ONE * 0.82   # 体型缩小 18%
 	add_child(avatar)
 
-	# 相机枢轴：跟着猫的高度走（弹簧臂的锚点）
+	# 相机枢轴：跟着猫的高度走（弹簧臂的锚点）。
+	# 【关键】必须 top_level：否则它继承猫的身体旋转，猫一转身相机就被甩着转，
+	# 而移动基准只按 look_yaw 算 —— 于是按 A/D 时视觉朝向和实际方向对不上，转不动/越转越歪。
 	_cam_target = Node3D.new()
-	_cam_target.position = Vector3(0, CAM_HEIGHT, 0)
+	_cam_target.top_level = true
 	add_child(_cam_target)
+	_cam_target.global_position = global_position + Vector3(0, CAM_HEIGHT, 0)
 
 	_arm = SpringArm3D.new()
 	_arm.spring_length = CAM_DIST
@@ -129,16 +133,17 @@ func _apply_cam_rotation() -> void:
 func teleport(pos: Vector3, yaw := NAN) -> void:
 	position = pos
 	velocity = Vector3.ZERO
-	_last_dir = Vector3.ZERO
 	_turn_rate = 0.0
 	if not is_nan(yaw):
+		rotation.y = yaw
 		look_yaw = yaw
 	look_pitch = CAM_PITCH_HOME
 	_idle_t = 0.0
+	_cam_target.global_position = global_position + Vector3(0, CAM_HEIGHT, 0)
 	_apply_cam_rotation()
 
 
-## 相机当前朝向（水平），供移动方向换算
+## 相机当前朝向（水平），供罗盘/调试换算
 func cam_forward() -> Vector3:
 	return Vector3(-sin(look_yaw), 0, -cos(look_yaw))
 
@@ -156,21 +161,28 @@ func facing() -> Vector3:
 # ---------------- 移动 ----------------
 
 func _physics_process(delta: float) -> void:
-	var v := input_vec
-	if not input_locked and v.length() < 0.15:
-		v = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	if input_locked:
-		v = Vector2.ZERO
+	_idle_t += delta
 
-	# 相机相对移动
-	var want := (cam_right() * v.x + cam_forward() * -v.y)
+	# ---- 输入：W/S 前后，A/D 转向。摇杆 x=转向、y=前后（上为前进）----
+	var steer := 0.0
+	var drive := 0.0
+	if not input_locked:
+		if input_vec.length() > 0.12:
+			steer = clampf(input_vec.x, -1.0, 1.0)
+			drive = clampf(-input_vec.y, -1.0, 1.0)
+		else:
+			steer = Input.get_axis("move_left", "move_right")
+			drive = -Input.get_axis("move_up", "move_down")
+
+	# ---- 转向：按住 A/D 身体持续旋转（原地也能转，不再依赖移动方向）----
+	rotation.y = wrapf(rotation.y - steer * TURN_RATE * delta, -PI, PI)
+	_turn_rate = -steer * TURN_RATE
+
+	# ---- 前后移动：沿猫的身体朝向前进 / 后退 ----
+	var want := facing() * drive
 	if want.length() > 1.0:
 		want = want.normalized()
-	var moving := want.length() > 0.08
-	if moving:
-		_idle_t = 0.0
-	else:
-		_idle_t += delta
+	var moving := absf(drive) > 0.08
 
 	# 速度：平滑起停，猫没有急停急起
 	var target := want * SPEED
@@ -211,25 +223,19 @@ func _physics_process(delta: float) -> void:
 	if velocity.y > 0.0 and not jump_held:
 		velocity.y -= GRAVITY * JUMP_CUT * delta * 8.0
 
-	# 身体朝向：平滑转向移动方向（Stray 的关键手感）
-	if moving:
-		_last_dir = want.normalized()
-	var target_yaw := atan2(-_last_dir.x, -_last_dir.z) if _last_dir.length() > 0.1 else rotation.y
-	var prev_yaw := rotation.y
-	rotation.y = _rotate_toward(rotation.y, target_yaw, TURN_MAX_RATE * delta)
-	_turn_rate = wrapf(rotation.y - prev_yaw, -PI, PI) / maxf(delta, 0.0001)
-
 	move_and_slide()
 
-	# 相机停手后缓慢回正到猫背后（指数插值，帧率无关）
-	# 【有移动输入时绝不回正】以前只判断速度 < 1.2：摇杆轻推半格时猫在慢走，
-	# 相机却持续往"猫背后"转，而移动方向又是相对相机算的 → 方向被带着转，越走越歪画圈。
-	if bool(Game.settings.get("cam_auto_recenter", true)) \
-			and _idle_t > 0.5 and not input_locked \
-			and not moving \
-			and Vector2(velocity.x, velocity.z).length() < 1.2:
-		look_yaw = wrapf(look_yaw + _yaw_diff() * (1.0 - exp(-CAM_RECENT_RATE * delta)), -PI, PI)
-		look_pitch = lerpf(look_pitch, CAM_PITCH_HOME, 1.0 - exp(-CAM_RECENT_RATE * delta))
+	# 相机锚点跟随猫的位置（top_level 节点，不吃身体旋转）
+	_cam_target.global_position = global_position + Vector3(0, CAM_HEIGHT, 0)
+
+	# 自动跟随 / 回正：手动转视角后停顿一下，就平滑跟回猫背后。
+	# 【为什么现在能边走边跟随】移动基准已改成身体朝向，相机不再影响移动方向，
+	# 不存在以前"边走边回正 → 方向被带着转 → 画圈"的反馈环。
+	if cam_follow and bool(Game.settings.get("cam_auto_recenter", true)) \
+			and _idle_t > CAM_FOLLOW_DELAY and not input_locked:
+		var f := 1.0 - exp(-CAM_FOLLOW_RATE * delta)
+		look_yaw = wrapf(look_yaw + _yaw_diff() * f, -PI, PI)
+		look_pitch = lerpf(look_pitch, CAM_PITCH_HOME, f)
 		_apply_cam_rotation()
 
 	# ---- 落地压缩（squash & stretch）----
@@ -276,12 +282,6 @@ func _process(_delta: float) -> void:
 	# 相机不钻进地面（弹簧臂只挡建筑，挡不住地形）
 	if cam.global_position.y < CAM_MIN_Y:
 		cam.global_position.y = CAM_MIN_Y
-
-
-## 把 from 转向 to，单次最多 max_step
-func _rotate_toward(from: float, to: float, max_step: float) -> float:
-	var d := wrapf(to - from, -PI, PI)
-	return wrapf(from + clampf(d, -max_step, max_step), -PI, PI)
 
 
 ## 相机 yaw 需要回正的角度（猫背后对应的 yaw）

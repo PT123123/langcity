@@ -30,13 +30,13 @@ var grade_mat: ShaderMaterial
 var tier: int = GraphicsTier.Tier.MEDIUM
 
 var _hl_timer := 0.0
+var _quest_timer := 0.0            # 收集类导航的「最近目标」重算节流
+var _quest_target_obj: Interactable = null  # 当前被指路的收集目标（画光圈）
+var _word_use := {}                # 基础词 -> 已用次数，用于轮换定语变体
 var _last_saved_pos := Vector3.ZERO
-var _pending_tap := Vector2.INF
-# 轻点检测（含拖动转视角），在 _input 层处理，避免事件路由差异导致转不动视角
+# 拖动转视角，在 _input 层处理，避免事件路由差异导致转不动视角
 var _look_active := false
-var _look_start := Vector2.ZERO
 var _look_last := Vector2.ZERO
-var _look_moved := 0.0
 var _shoot_cd := 0.0
 
 
@@ -57,6 +57,7 @@ func _ready() -> void:
 
 	for obj: Dictionary in map.get("objects", []):
 		var it := Interactable.make(obj)
+		_assign_variant_word(it)
 		add_child(it)
 		objects.append(it)
 
@@ -538,6 +539,12 @@ func _process(delta: float) -> void:
 	if _hl_timer >= 0.12:
 		_hl_timer = 0.0
 		_update_highlight()
+	# 收集类的「最近未发现目标」会随移动变化：低频重算，变了才刷新 HUD，避免每帧重设
+	_quest_timer += delta
+	if _quest_timer >= 0.25:
+		_quest_timer = 0.0
+		if Quests.tracked_target_object(player.position) != _quest_target_obj:
+			_refresh_quest_tracking()
 	var d3 := player.position.distance_to(_last_saved_pos)
 	if d3 > 1.0:
 		_last_saved_pos = player.position
@@ -547,15 +554,22 @@ func _process(delta: float) -> void:
 func _update_highlight() -> void:
 	if popup.visible:
 		return
+	# 被任务追踪的隐形标记（如「交差点」marker_cross）range=0，若纳入常规高亮会全图常亮，
+	# 故只在玩家靠近（≤14m）时优先高亮它 —— 否则准星会锁定旁边的车/红绿灯，拍不到目标。
 	var best: Interactable = null
-	var best_d := INF
-	for it in objects:
-		if it.no_draw or it.word_id.is_empty() or not it.in_range_of(player.position):
-			continue
-		var d := player.position.distance_to(it.position)
-		if d < best_d:
-			best_d = d
-			best = it
+	var qt := _quest_target_obj
+	if qt != null and is_instance_valid(qt) and qt.no_draw \
+			and player.position.distance_to(qt.position) <= 14.0:
+		best = qt
+	if best == null:
+		var best_d := INF
+		for it in objects:
+			if it.no_draw or it.word_id.is_empty() or not it.in_range_of(player.position):
+				continue
+			var d := player.position.distance_to(it.position)
+			if d < best_d:
+				best_d = d
+				best = it
 	if highlighted != best:
 		if highlighted != null and is_instance_valid(highlighted):
 			highlighted.set_highlight(false)
@@ -583,12 +597,8 @@ func _input(event: InputEvent) -> void:
 			if _in_joystick_zone(event.position) or _in_minimap_zone(event.position):
 				return
 			_look_active = true
-			_look_start = event.position
 			_look_last = event.position
-			_look_moved = 0.0
 		else:
-			if _look_active and _look_moved < 16.0:
-				_pending_tap = _look_start
 			_look_active = false
 	elif event is InputEventScreenDrag:
 		if not _look_active:
@@ -602,16 +612,11 @@ func _input(event: InputEvent) -> void:
 		_look_last = event.position
 		if d.length() > 90.0:
 			d = d.normalized() * 90.0
-		_look_moved += d.length()
 		player.look(d.x, d.y)
 
 
 func _physics_process(_delta: float) -> void:
 	Quests.tick(player.position)
-	if _pending_tap.x != INF:
-		var tp := _pending_tap
-		_pending_tap = Vector2.INF
-		_resolve_tap(tp)
 
 
 # ---------------- 拍摄 ----------------
@@ -646,18 +651,6 @@ func _on_shoot_pressed() -> void:
 		Toast.show_once(self, "附近没有可拍摄的单词，走近一点吧")
 
 
-## 轻点拍摄：只有点到看得见的物体（非隐形标记）才响应
-func _resolve_tap(screen_pos: Vector2) -> void:
-	var it := _ray_from_screen(screen_pos)
-	if it == null or it.no_draw or it.word_id.is_empty():
-		return
-	if not it.in_range_of(player.position):
-		if it.interact_range > 0.0:
-			Toast.show_once(self, "再走近一点才能拍清楚哦")
-		return
-	_shoot(it)
-
-
 func _ray_from_screen(screen_pos: Vector2) -> Interactable:
 	var from := cam.project_ray_origin(screen_pos)
 	var dir := cam.project_ray_normal(screen_pos)
@@ -686,6 +679,22 @@ func open_word(it: Interactable) -> void:
 	_update_highlight.call_deferred()
 
 
+## 同一个基础词在地图里重复出现时（12 栋房子、14 棵树…），按出现顺序轮换到
+## 该词条 variants 里的定语变体（如 家→大きい家/古い家），避免整条街千篇一律同一个词。
+func _assign_variant_word(it: Interactable) -> void:
+	var base := it.word_id
+	if base.is_empty():
+		return
+	var variants: Array = Game.word(base).get("variants", [])
+	if variants.is_empty():
+		return
+	var n := int(_word_use.get(base, 0))
+	_word_use[base] = n + 1
+	var pool: Array = [base]
+	pool.append_array(variants)
+	it.word_id = String(pool[n % pool.size()])
+
+
 func _update_counter() -> void:
 	counter_label.text = "单词 %d / %d   Lv.%d" % [
 		Game.discovered_count(), Game.total_words(), Game.player_level()]
@@ -704,11 +713,26 @@ func _refresh_quest_tracking() -> void:
 	if quest_tracker == null:
 		return
 	var q := Quests.tracked_quest()
-	var wp: Variant = Quests.tracked_waypoint()
+	var wp: Variant = Quests.tracked_waypoint(player.position)
 	quest_tracker.set_quest(String(q.get("title_zh", "")), Quests.objective_text(), wp)
 	if minimap != null:
 		minimap.set_waypoint(wp)
+	_set_quest_target(Quests.tracked_target_object(player.position))
 	_refresh_quest_button()
+
+
+## 给收集类任务的「最近未发现目标」点亮光圈（隐形标记如「交差点」靠它显形）
+func _set_quest_target(obj: Variant) -> void:
+	var next: Interactable = null
+	if obj is Interactable:
+		next = obj
+	if next == _quest_target_obj:
+		return
+	if _quest_target_obj != null and is_instance_valid(_quest_target_obj):
+		_quest_target_obj.set_quest_target(false)
+	_quest_target_obj = next
+	if _quest_target_obj != null:
+		_quest_target_obj.set_quest_target(true)
 
 
 func _on_quest_pressed() -> void:
@@ -744,6 +768,7 @@ func _run_debug_hooks() -> void:
 	var action := ShotTool.shot_action
 	if not action.is_empty():
 		print("[hooks] action=", action)
+		player.cam_follow = false   # 截图/演示时锁定相机，别被自动跟随转走
 	# 通用物件检视：--shot-action=look:<kind> [;<dx>;<dz>;<dist>;<pitch>]
 	# 【为什么必须在 match 之前】match 是整串相等比较，"look" 永远匹配不上
 	# "look:bench;1.5;..."，所以不能写成 match 的一个分支。

@@ -116,6 +116,10 @@
       "romaji": "denchuu",
       "zh": "电线杆",
       "category": "street",
+      "variants": [
+        "denshinbashira",
+        "henatsuki"
+      ],
       "audio": "res://assets/audio/pole.mp3"
     },
     {
@@ -143,6 +147,9 @@
       "romaji": "jidouhanbaiki",
       "zh": "自动贩卖机",
       "category": "street",
+      "variants": [
+        "jihanki"
+      ],
       "audio": "res://assets/audio/vending.mp3"
     },
     {
@@ -161,6 +168,10 @@
       "romaji": "gaitou",
       "zh": "路灯",
       "category": "street",
+      "variants": [
+        "dentou",
+        "akari"
+      ],
       "audio": "res://assets/audio/streetlight.mp3"
     },
     {
@@ -314,6 +325,13 @@
       "romaji": "ie",
       "zh": "家",
       "category": "building",
+      "variants": [
+        "ookii_ie",
+        "chiisai_ie",
+        "atarashii_ie",
+        "furui_ie",
+        "kirei_na_ie"
+      ],
       "audio": "res://assets/audio/house.mp3"
     },
     {
@@ -332,6 +350,12 @@
       "romaji": "ki",
       "zh": "树",
       "category": "nature",
+      "variants": [
+        "ookina_ki",
+        "chiisana_ki",
+        "gairoju",
+        "konoha"
+      ],
       "audio": "res://assets/audio/tree.mp3"
     },
     {
@@ -341,6 +365,9 @@
       "romaji": "sakura",
       "zh": "樱花树",
       "category": "nature",
+      "variants": [
+        "sakura_no_ki"
+      ],
       "audio": "res://assets/audio/sakura.mp3"
     },
     {
@@ -359,6 +386,10 @@
       "romaji": "kusa",
       "zh": "草",
       "category": "nature",
+      "variants": [
+        "shibafu",
+        "zassou"
+      ],
       "audio": "res://assets/audio/grass.mp3"
     },
     {
@@ -4401,6 +4432,159 @@
       "zh": "礼物",
       "category": "shopping",
       "audio": "res://assets/audio/purezento.mp3"
+    },
+    {
+      "id": "ookii_ie",
+      "ja": "大きい家",
+      "kana": "おおきいいえ",
+      "romaji": "ookii ie",
+      "zh": "大房子",
+      "category": "building",
+      "audio": "res://assets/audio/ookii_ie.mp3"
+    },
+    {
+      "id": "chiisai_ie",
+      "ja": "小さい家",
+      "kana": "ちいさいいえ",
+      "romaji": "chiisai ie",
+      "zh": "小房子",
+      "category": "building",
+      "audio": "res://assets/audio/chiisai_ie.mp3"
+    },
+    {
+      "id": "atarashii_ie",
+      "ja": "新しい家",
+      "kana": "あたらしいいえ",
+      "romaji": "atarashii ie",
+      "zh": "新房子",
+      "category": "building",
+      "audio": "res://assets/audio/atarashii_ie.mp3"
+    },
+    {
+      "id": "furui_ie",
+      "ja": "古い家",
+      "kana": "ふるいいえ",
+      "romaji": "furui ie",
+      "zh": "老房子",
+      "category": "building",
+      "audio": "res://assets/audio/furui_ie.mp3"
+    },
+    {
+      "id": "kirei_na_ie",
+      "ja": "綺麗な家",
+      "kana": "きれいないえ",
+      "romaji": "kirei na ie",
+      "zh": "漂亮的房子",
+      "category": "building",
+      "audio": "res://assets/audio/kirei_na_ie.mp3"
+    },
+    {
+      "id": "ookina_ki",
+      "ja": "大きな木",
+      "kana": "おおきなき",
+      "romaji": "ookina ki",
+      "zh": "大树",
+      "category": "nature",
+      "audio": "res://assets/audio/ookina_ki.mp3"
+    },
+    {
+      "id": "chiisana_ki",
+      "ja": "小さな木",
+      "kana": "ちいさなき",
+      "romaji": "chiisana ki",
+      "zh": "小树",
+      "category": "nature",
+      "audio": "res://assets/audio/chiisana_ki.mp3"
+    },
+    {
+      "id": "gairoju",
+      "ja": "街路樹",
+      "kana": "がいろじゅ",
+      "romaji": "gairoju",
+      "zh": "行道树",
+      "category": "nature",
+      "audio": "res://assets/audio/gairoju.mp3"
+    },
+    {
+      "id": "konoha",
+      "ja": "木の葉",
+      "kana": "このは",
+      "romaji": "konoha",
+      "zh": "树叶",
+      "category": "nature",
+      "audio": "res://assets/audio/konoha.mp3"
+    },
+    {
+      "id": "sakura_no_ki",
+      "ja": "桜の木",
+      "kana": "さくらのき",
+      "romaji": "sakura no ki",
+      "zh": "樱花树",
+      "category": "nature",
+      "audio": "res://assets/audio/sakura_no_ki.mp3"
+    },
+    {
+      "id": "shibafu",
+      "ja": "芝生",
+      "kana": "しばふ",
+      "romaji": "shibafu",
+      "zh": "草坪",
+      "category": "nature",
+      "audio": "res://assets/audio/shibafu.mp3"
+    },
+    {
+      "id": "zassou",
+      "ja": "雑草",
+      "kana": "ざっそう",
+      "romaji": "zassou",
+      "zh": "杂草",
+      "category": "nature",
+      "audio": "res://assets/audio/zassou.mp3"
+    },
+    {
+      "id": "denshinbashira",
+      "ja": "電信柱",
+      "kana": "でんしんばしら",
+      "romaji": "denshinbashira",
+      "zh": "电信柱",
+      "category": "street",
+      "audio": "res://assets/audio/denshinbashira.mp3"
+    },
+    {
+      "id": "henatsuki",
+      "ja": "変圧器",
+      "kana": "へんあつき",
+      "romaji": "hen'atsuki",
+      "zh": "变压器",
+      "category": "street",
+      "audio": "res://assets/audio/henatsuki.mp3"
+    },
+    {
+      "id": "dentou",
+      "ja": "電灯",
+      "kana": "でんとう",
+      "romaji": "dentou",
+      "zh": "电灯",
+      "category": "street",
+      "audio": "res://assets/audio/dentou.mp3"
+    },
+    {
+      "id": "akari",
+      "ja": "灯り",
+      "kana": "あかり",
+      "romaji": "akari",
+      "zh": "灯光",
+      "category": "street",
+      "audio": "res://assets/audio/akari.mp3"
+    },
+    {
+      "id": "jihanki",
+      "ja": "自販機",
+      "kana": "じはんき",
+      "romaji": "jihanki",
+      "zh": "自动售货机",
+      "category": "street",
+      "audio": "res://assets/audio/jihanki.mp3"
     }
   ]
 }

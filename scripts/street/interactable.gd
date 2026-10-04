@@ -31,7 +31,19 @@ const META := {
 	"station":      {"click": Vector3(12.6, 5.4, 8.2), "solid": Vector3(12.5, 4.8, 4.5), "range": 14.0},
 	"train":        {"click": Vector3(19.6, 3.4, 2.9), "solid": Vector3(19.0, 2.6, 2.6), "range": 14.0},
 	"konbini":      {"click": Vector3(6.6, 3.6, 5.1), "solid": Vector3(6.5, 3.4, 5.0), "range": 11.0},
-	"house":        {"click": Vector3(4.3, 4.3, 3.7), "solid": Vector3(4.2, 3.0, 3.6), "range": 9.0},
+	"house":        {"click": Vector3(4.3, 4.3, 3.7), "solid": Vector3(4.2, 3.0, 3.6), "range": 9.0,
+		# 【围墙碰撞】_b_house 里画了一圈院子围墙（后墙/左右墙/前两段/门柱），
+		# 之前只有建筑本体这一个碰撞盒 —— 围墙是纯视觉，玩家直接穿墙进院。
+		# 这里按 _b_house 的视觉尺寸逐段补碰撞（s=尺寸 p=局部坐标）。
+		"extra_solids": [
+			{"s": Vector3(7.4, 1.12, 0.2), "p": Vector3(0, 0.56, -3.0)},
+			{"s": Vector3(0.2, 1.12, 4.2), "p": Vector3(-3.6, 0.56, -0.9)},
+			{"s": Vector3(0.2, 1.12, 4.2), "p": Vector3(3.6, 0.56, -0.9)},
+			{"s": Vector3(2.3, 1.0, 0.18), "p": Vector3(-2.5, 0.5, 1.35)},
+			{"s": Vector3(2.3, 1.0, 0.18), "p": Vector3(2.5, 0.5, 1.35)},
+			{"s": Vector3(0.26, 1.5, 0.26), "p": Vector3(-1.3, 0.75, 1.35)},
+			{"s": Vector3(0.26, 1.5, 0.26), "p": Vector3(1.3, 0.75, 1.35)},
+		]},
 	"mansion":      {"click": Vector3(4.3, 9.7, 3.9), "solid": Vector3(4.2, 9.5, 3.8), "range": 10.0},
 	"super":        {"click": Vector3(7.7, 4.6, 5.5), "solid": Vector3(7.6, 4.4, 5.4), "range": 12.0},
 	"cafe":         {"click": Vector3(5.3, 3.8, 4.3), "solid": Vector3(5.2, 3.6, 4.2), "range": 10.0},
@@ -107,6 +119,7 @@ var interact_range := 7.0
 var extra := {}
 
 var highlighted := false
+var quest_target := false   # 当前被追踪的收集类任务把它当作指路目标 → 显示光圈
 var _pulse := 0.0
 var _ring: MeshInstance3D
 var _car_color := Color("e8e6e0")
@@ -356,18 +369,19 @@ func _ready() -> void:
 	add_child(cs)
 
 	var solid: Variant = meta.get("solid", null)
-	if solid is Vector3:
+	var extra_solids: Array = meta.get("extra_solids", [])
+	if solid is Vector3 or not extra_solids.is_empty():
 		var body := StaticBody3D.new()
 		body.collision_layer = 1
 		body.collision_mask = 0
-		var sv: Vector3 = solid
+		var sv: Vector3 = solid if solid is Vector3 else Vector3.ZERO
 		# 【关键】区分「可站上去的平台」与「实心障碍」。
 		# 之前所有碰撞体都是从地面到顶的整块实心盒 —— 猫撞上只能绕过去，
 		# 跳都跳不上去（垃圾桶 0.85m 高、邮筒 1.0m 高，全都撞墙）。
 		# 现在：矮物件只保留"台面层"（顶面能站），高物件保持实心（建筑/车）。
 		var top_only: bool = float(meta.get("stand", 0.0)) > 0.0
 		var stand_h: float = float(meta.get("stand", 0.0))
-		if top_only:
+		if solid is Vector3 and top_only:
 			# 只在物件顶部生成一块薄碰撞体：脚下是通的，猫能从旁边跳上去
 			var ss := CollisionShape3D.new()
 			var sbox := BoxShape3D.new()
@@ -376,27 +390,36 @@ func _ready() -> void:
 			ss.position = Vector3(0, sv.y - stand_h * 0.5, 0)
 			ss.shape = sbox
 			body.add_child(ss)
-		else:
+		elif solid is Vector3:
 			var ss2 := CollisionShape3D.new()
 			var sbox2 := BoxShape3D.new()
 			sbox2.size = sv
 			ss2.shape = sbox2
 			ss2.position = Vector3(0, sv.y * 0.5, 0)
 			body.add_child(ss2)
+		# 附属实心段（如 house 的院子围墙）：按 META 里的视觉尺寸逐段补碰撞
+		for ex: Dictionary in extra_solids:
+			var ss3 := CollisionShape3D.new()
+			var sbox3 := BoxShape3D.new()
+			sbox3.size = ex.get("s", Vector3.ONE)
+			ss3.shape = sbox3
+			ss3.position = ex.get("p", Vector3.ZERO)
+			body.add_child(ss3)
 		add_child(body)
 
 	if not no_draw:
 		_build_visual()
-		_make_ring(click_size)
 		# 贴地假阴影：太阳落山后（夜里 sun_energy 0.45）实时阴影几乎消失，
 		# 没有这层小物件会"浮"在地上 —— 这是视觉升级文档里挂账的遗留问题。
 		if BLOB_KINDS.has(kind):
 			var br := clampf(maxf(click_size.x, click_size.z) * 0.5 + 0.12, 0.4, 2.4)
 			_blob_shadow(br)
+	# 光圈统一创建（含 novis 隐形标记）：默认隐藏，靠近高亮或被任务追踪时点亮
+	_make_ring(click_size)
 
 
 func _process(delta: float) -> void:
-	if highlighted and _ring != null:
+	if (highlighted or quest_target) and _ring != null:
 		_pulse += delta
 		var p := 1.0 + 0.05 * sin(_pulse * 5.0)
 		_ring.scale = Vector3(p, 0.22, p)
@@ -408,7 +431,16 @@ func set_highlight(v: bool) -> void:
 	highlighted = v
 	_pulse = 0.0
 	if _ring != null:
-		_ring.visible = v
+		_ring.visible = v or quest_target
+
+
+## 被收集类任务追踪为目标时点亮光圈（隐形标记如「交差点」也靠它显形）
+func set_quest_target(v: bool) -> void:
+	if quest_target == v:
+		return
+	quest_target = v
+	if _ring != null:
+		_ring.visible = v or highlighted
 
 
 ## 玩家是否在交互范围内（水平距离；range<=0 表示不限）
@@ -1377,24 +1409,11 @@ func _b_trash() -> void:
 	if _var_seed(position + Vector3(3, 0, 7)) > 0.55:
 		_glb_h("kenney/dumpster.glb", 0.85, Vector3(0.95, 0, 0.1), ry + PI + 1.3)
 func _b_bicycle() -> void:
-	# 橡胶轮胎(rough 0.92) vs 金属车架(metal 0.8) —— 两种反光形状拉开车轮与车架
-	var frame := m_vermilion(position)
-	var rubber := m_rubber(position)
-	var steel := m_metal_galva(position)
-	torus(0.24, 0.32, Vector3(-0.55, 0.32, 0), Color.WHITE, true, rubber)
-	torus(0.24, 0.32, Vector3(0.55, 0.32, 0), Color.WHITE, true, rubber)
-	# 轮辐
-	for i in 6:
-		var a := float(i) / 6.0 * TAU
-		box(Vector3(0.025, 0.58, 0.025), Vector3(-0.55, 0.32, 0), Color.WHITE, 0, 0, a, steel)
-		box(Vector3(0.025, 0.58, 0.025), Vector3(0.55, 0.32, 0), Color.WHITE, 0, 0, a, steel)
-	box(Vector3(1.0, 0.05, 0.05), Vector3(0, 0.55, 0), Color.WHITE, 0, 0.25, 0, frame)
-	box(Vector3(0.62, 0.05, 0.05), Vector3(0.18, 0.82, 0), Color.WHITE, 0, -0.5, 0, frame)
-	box(Vector3(0.05, 0.5, 0.05), Vector3(-0.15, 0.72, 0), Color.WHITE, 0,0,0, frame)
-	box(Vector3(0.3, 0.05, 0.08), Vector3(-0.2, 0.97, 0), Color.WHITE, 0,0,0, rubber)
-	box(Vector3(0.05, 0.28, 0.05), Vector3(0.5, 0.86, 0), Color.WHITE, 0,0,0, frame)
-	box(Vector3(0.42, 0.05, 0.06), Vector3(0.55, 0.98, 0), Color.WHITE, 0,0,0, steel)
-	box(Vector3(0.32, 0.2, 0.24), Vector3(0.55, 0.85, 0), Color.WHITE, 0,0,0, m_metal_cool(position))
+	# 【Poly Pizza / Poly by Google,CC-BY】带车把、车筐、辐条、车座的完整自行车。
+	# 手搭版(torus 轮 + 方盒车架)远看就是两个圆圈扛着几根棍。
+	# 归一化到 1.0m(带车把的真实停车高度),车头朝向按位置哈希随机。
+	var ry := _var_seed(position) * TAU
+	_glb_h("polypizza/bicycle.glb", 1.0, Vector3.ZERO, ry)
 
 
 func _b_car() -> void:
@@ -1557,38 +1576,35 @@ func _b_cat() -> void:
 
 
 func _b_bird() -> void:
-	sph(0.11, Vector3(0, 0.14, 0), Color("8a7f6a"))
-	sph(0.07, Vector3(0.08, 0.26, 0), Color("8a7f6a"))
-	box(Vector3(0.09, 0.03, 0.03), Vector3(0.17, 0.25, 0), Color("e6b84c"))
-	box(Vector3(0.14, 0.03, 0.05), Vector3(-0.12, 0.17, 0), Color("6b6255"), 0.0, 0.0, 0.35)
-	box(Vector3(0.02, 0.07, 0.02), Vector3(0, 0.04, 0.03), Color("6b6255"))
-	box(Vector3(0.02, 0.07, 0.02), Vector3(0.04, 0.04, -0.03), Color("6b6255"))
+	# 【Poly Pizza / Poly by Google,CC-BY】麻雀自带喙/尾/胸腹的色彩分层。
+	# 手搭版(两团圆球 + 方片尾巴)远看就是一颗石头。0.22m 一只,朝向随机。
+	var ry := _var_seed(position) * TAU
+	_glb_h("polypizza/sparrow.glb", 0.22, Vector3.ZERO, ry)
 
 
 func _b_bowl() -> void:
-	# 陶瓷碗：低 roughness（0.2）出高光，跟塑料拉开档
-	var cera := _mat_j("bowl_c", Color("c94f4f"), position, 0.2, 0.0, 0.04)
-	cyl(0.34, 0.2, 0.24, Vector3(0, 0.14, 0), Color.WHITE, false, cera)
-	cyl(0.3, 0.3, 0.05, Vector3(0, 0.26, 0), Color.WHITE, false, m_plastic_white(position))
-	torus(0.2, 0.28, Vector3(0, 0.3, 0), Color.WHITE, false, _mat_j("bowl_rim", Color("f0d878"), position, 0.35, 0.0, 0.04))
-	cyl(0.012, 0.012, 0.42, Vector3(-0.1, 0.34, 0.12), Color.WHITE, false, _mat_j("chop", Color("b5855a"), position, 0.6, 0.0, 0.05))
-	cyl(0.012, 0.012, 0.42, Vector3(-0.06, 0.34, 0.16), Color.WHITE, false, _mat_j("chop2", Color("b5855a"), position + Vector3(1, 0, 0), 0.6, 0.0, 0.05))
-	sph(0.07, Vector3(0.1, 0.32, -0.05), Color("a06a4a"))
-	sph(0.05, Vector3(-0.12, 0.33, 0.06), Color("8fb069"))
+	# 【Kenney Food Kit / CC0】bowl-broth 自带汤面 + 碗沿层次,
+	# 手搭版(圆柱碗 + 圆环沿 + 两颗球)远看就是一摞圆盘。
+	_glb_h("kenney/bowl-broth.glb", 0.3, Vector3.ZERO, _var_seed(position) * TAU)
 
 
 func _b_cans() -> void:
-	# 易拉罐：金属罐身（metallic 0.6）+ 拉环银顶
-	var cols := [Color("d64541"), Color("5b8def"), Color("7fb069")]
-	for i in 3:
-		var can := _mat_j("can%d" % i, cols[i], position + Vector3(i, 0, 0), 0.32, 0.6, 0.05)
-		cyl(0.075, 0.075, 0.26, Vector3(-0.2 + i * 0.2, 0.13, float(i % 2) * 0.08), Color.WHITE, false, can)
-		cyl(0.075, 0.075, 0.03, Vector3(-0.2 + i * 0.2, 0.27, float(i % 2) * 0.08), Color.WHITE, false, m_metal_galva(position))
+	# 【Kenney Food Kit / CC0】can-open 自带拉环 + 顶盖凹陷。
+	# 一罐立着、两罐倒下,空罐才有的散乱感。
+	var ry := _var_seed(position) * TAU
+	_glb_h("kenney/can-open.glb", 0.18, Vector3(-0.2, 0, 0.05), ry)
+	var t1 := _glb_h("kenney/can-open.glb", 0.18, Vector3(0.12, 0.06, -0.08), ry + 1.4)
+	if t1 != null:
+		t1.rotation.z = PI * 0.5
+	var t2 := _glb_h("kenney/can-open.glb", 0.18, Vector3(0.3, 0.06, 0.12), ry + 2.3)
+	if t2 != null:
+		t2.rotation.z = PI * 0.5
+		t2.rotation.x = 0.12
 
 
 func _b_onigiri() -> void:
-	prism(Vector3(0.38, 0.3, 0.24), Vector3(0, 0.15, 0), mat(Color("ffffff")))
-	box(Vector3(0.16, 0.14, 0.03), Vector3(0, 0.12, 0.11), Color("2b3a4a"))
+	# 【Kenney Food Kit / CC0】rice-ball 自带海苔贴片三角饭团。
+	_glb_h("kenney/rice-ball.glb", 0.28, Vector3.ZERO, _var_seed(position) * TAU)
 
 
 func _b_bread() -> void:
@@ -1821,20 +1837,12 @@ func _b_roadsign() -> void:
 	_glb_h(rel, 2.4, Vector3.ZERO, ry)
 
 
-## 消火栓（柱形）：朱红点缀色 + 金属底座。0.62m，猫可跳。
+## 消火栓（柱形）：0.62m，猫可跳。
+## 【Poly Pizza,CC0】firehydrant 自带侧出水口盖 + 顶盖链条造型,
+## 手搭版(圆柱堆)远看就是一根红柱子,完全认不出是消火栓。
 func _b_fireplug() -> void:
-	var red := m_vermilion(position)
-	var red_dark := _mat_j("fire_d", Color(0.62, 0.18, 0.15), position, 0.5, 0.1, 0.04)
-	# 底座 + 主体 + 顶盖 + 顶螺帽
-	cyl(0.19, 0.2, 0.06, Vector3(0, 0.03, 0), Color.WHITE, false, m_metal_dark(position))
-	cyl(0.13, 0.16, 0.44, Vector3(0, 0.3, 0), Color.WHITE, false, red)
-	cyl(0.16, 0.16, 0.08, Vector3(0, 0.57, 0), Color.WHITE, false, red_dark)
-	cyl(0.055, 0.055, 0.07, Vector3(0, 0.635, 0), Color.WHITE, false, red)
-	# 左右出水口盖
-	box(Vector3(0.11, 0.11, 0.1), Vector3(0.16, 0.4, 0), Color.WHITE, 0, 0, 0, red_dark)
-	box(Vector3(0.11, 0.11, 0.1), Vector3(-0.16, 0.4, 0), Color.WHITE, 0, 0, 0, red_dark)
-	# 前面的标识牌
-	box(Vector3(0.1, 0.09, 0.02), Vector3(0, 0.4, 0.15), Color.WHITE, 0, 0, 0, m_plastic_white(position))
+	var ry := _var_seed(position) * TAU
+	_glb_h("polypizza/fire_hydrant.glb", 0.62, Vector3.ZERO, ry)
 
 
 ## 鉢植え：陶盆 + 土面 + 两种植物（灌木 / 开花）按位置哈希。
@@ -1922,19 +1930,14 @@ func _b_cones() -> void:
 	_glb_h("kenney/construction_cone.glb", 0.48, Vector3(0.3, 0, 0.12), ry + 2.1)
 
 
-## ガスボンベ：饮食店后面靠墙的蓝色液化气罐 ×3 + 黄铜阀门。
+## ガスボンベ：饮食店后面靠墙的液化气罐 ×3。
+## 【Poly Pizza,CC0】PropaneTank 自带罐身收肩 + 顶阀 + 提手,
+## 手搭版(两根圆柱 + 方箍)被看成「油桶」——收肩和阀才是「煤气罐」的识别特征。
 func _b_gasbottle() -> void:
-	var blue := _mat_j("gas", Color(0.16, 0.35, 0.62), position, 0.42, 0.35, 0.05)
-	var brass := _mat_j("brass", Color(0.72, 0.6, 0.3), position + Vector3(3, 0, 0), 0.35, 0.7, 0.05)
-	for i in 3:
-		var bx := -0.26 + (i % 2) * 0.52
-		var bz := -0.12 + float(i / 2) * 0.24
-		cyl(0.105, 0.105, 0.72, Vector3(bx, 0.37, bz), Color.WHITE, false, blue)
-		# 罐肩（顶部收口）
-		cyl(0.05, 0.105, 0.09, Vector3(bx, 0.775, bz), Color.WHITE, false, blue)
-		cyl(0.028, 0.028, 0.1, Vector3(bx, 0.86, bz), Color.WHITE, false, brass)
-	# 中间的横箍带（两罐一组捆着的样子）
-	box(Vector3(0.62, 0.06, 0.62), Vector3(0, 0.45, 0.0), Color.WHITE, 0, 0, 0, m_metal_dark(position))
+	var ry := _var_seed(position) * TAU
+	_glb_h("polypizza/propane_tank.glb", 0.7, Vector3(-0.26, 0, -0.12), ry + 0.3)
+	_glb_h("polypizza/propane_tank.glb", 0.7, Vector3(0.26, 0, -0.06), ry + 1.1)
+	_glb_h("polypizza/propane_tank.glb", 0.7, Vector3(0.0, 0, 0.16), ry + 2.2)
 
 
 ## 水洼：路面的半透明反光片。roughness 0.06 + metallic 0.4 ——

@@ -8,6 +8,18 @@ const SMALL_SIZE := Vector2(150, 116)
 const MARGIN := 8.0
 const LEGEND_H := 64.0
 
+## 独栋地标建筑：全图只有一栋的店铺/设施。普通物体按分类颜色画小圆点，
+## 330 个点里根本认不出哪个是家具屋 —— 地标画成带白描边的菱形，展开态标中文名。
+const LANDMARKS := {
+	"furniture": "家具屋",
+	"konbini": "便利店",
+	"super": "超市",
+	"cafe": "咖啡店",
+	"ramen": "拉面店",
+	"post_office": "邮局",
+	"station": "车站",
+}
+
 var world_m := Vector2(130, 100)
 var _objects: Array = []      # Interactable 列表
 var _player: Player
@@ -106,6 +118,32 @@ func _draw() -> void:
 		var c: Color = Game.category_color(cat)
 		c.a = 0.95 if Game.is_discovered(wid) else 0.45
 		draw_circle(Vector2(it.position.x, it.position.z) * sc + off, dot_r, c)
+
+	# 地标建筑：菱形 + 白描边，压在普通圆点上面；展开态加中文名标注。
+	# 标注靠地图右缘时翻到标记左侧画，避免文字出界。
+	var font_m := UiKit.font()
+	for it in _objects:
+		if not LANDMARKS.has(it.kind):
+			continue
+		var lp := Vector2(it.position.x, it.position.z) * sc + off
+		var lcat := "building"
+		if not it.word_id.is_empty():
+			lcat = str(Game.word(it.word_id).get("category", "building"))
+		var lc: Color = Game.category_color(lcat)
+		var r := 4.6 if expanded else 3.2
+		var diamond := PackedVector2Array([
+			lp + Vector2(0, -r), lp + Vector2(r, 0), lp + Vector2(0, r), lp + Vector2(-r, 0)])
+		draw_colored_polygon(diamond, Color(lc, 0.95))
+		var outline := diamond.duplicate()
+		outline.append(diamond[0])
+		draw_polyline(outline, Color(1, 1, 1, 0.9), 1.4, true)
+		if expanded:
+			var label := str(LANDMARKS[it.kind])
+			var tw := font_m.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+			var tp := lp + Vector2(r + 3.0, 4.0)
+			if tp.x + tw > area.end.x - 2.0:
+				tp = lp + Vector2(-r - 3.0 - tw, 4.0)
+			draw_string(font_m, tp, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1, 1, 1, 0.92))
 
 	# 航点：金色脉动目标点 + 从玩家出发的虚线路线
 	if _has_waypoint and _player != null:

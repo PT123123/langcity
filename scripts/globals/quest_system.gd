@@ -150,16 +150,56 @@ func objective_text() -> String:
 	return String(q.get("desc", ""))
 
 
-## 追踪目标的场景世界坐标（收集类没有航点，返回 null）
-func tracked_waypoint() -> Variant:
+## 追踪目标的场景世界坐标。
+## 跑腿类 = 当前步的目标点；收集类 = 最近的「未发现」目标物体位置（给 HUD 指路）。
+func tracked_waypoint(player_pos: Vector3) -> Variant:
 	var q := tracked_quest()
-	if q.is_empty() or String(q.get("type", "")) != "errand":
+	if q.is_empty():
 		return null
+	if String(q.get("type", "")) == "collect":
+		var t: Variant = collect_target(player_pos)
+		return t.position if t != null else null
 	var steps: Array = q.get("steps", [])
 	var step := errand_step(q)
 	if step >= steps.size():
 		return null
 	return _step_target(String(q.get("id", "")), step, steps[step])
+
+
+## 收集类当前应指路的目标：距玩家最近、属于该分类且尚未发现的物体。
+## 包含隐形标记（如「交差点」的 marker_cross），否则最后几个永远找不到。
+## 非收集类任务、或该分类已全部发现时返回 null。
+func collect_target(player_pos: Vector3) -> Variant:
+	var q := tracked_quest()
+	if q.is_empty() or String(q.get("type", "")) != "collect":
+		return null
+	var cat := String(q.get("category", ""))
+	var street := get_tree().current_scene
+	if street == null:
+		return null
+	var objs: Variant = street.get("objects")
+	if objs == null:
+		return null
+	var best: Variant = null
+	var best_d := INF
+	for it in objs:
+		if it == null or not is_instance_valid(it):
+			continue
+		var wid := String(it.word_id)
+		if wid.is_empty() or Game.is_discovered(wid):
+			continue
+		if String(Game.word(wid).get("category", "")) != cat:
+			continue
+		var d: float = player_pos.distance_to(it.position)
+		if d < best_d:
+			best_d = d
+			best = it
+	return best
+
+
+## 供场景取「当前收集目标物体」画光圈用：仅收集类任务返回 Interactable，其余 null
+func tracked_target_object(player_pos: Vector3) -> Variant:
+	return collect_target(player_pos)
 
 
 # ---------------- 每帧：跑腿到达判定 ----------------

@@ -13,13 +13,18 @@ var _xp_text: Label
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	# 显式铺满父级（CanvasLayer 下锚点偶尔不生效，不用 set_anchors_preset）
+	anchor_right = 1.0
+	anchor_bottom = 1.0
+	grow_horizontal = Control.GROW_DIRECTION_BOTH
+	grow_vertical = Control.GROW_DIRECTION_BOTH
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	visible = false
 
 	var blocker := ColorRect.new()
 	blocker.color = Color(0.08, 0.08, 0.13, 0.5)
-	blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
+	blocker.anchor_right = 1.0
+	blocker.anchor_bottom = 1.0
 	blocker.mouse_filter = Control.MOUSE_FILTER_STOP
 	blocker.gui_input.connect(func(e: InputEvent):
 		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
@@ -30,10 +35,6 @@ func _ready() -> void:
 
 	_root_panel = PanelContainer.new()
 	_root_panel.add_theme_stylebox_override("panel", UiKit.panel_style(UiKit.PAPER, 22))
-	_root_panel.anchor_left = 0.5
-	_root_panel.anchor_right = 0.5
-	_root_panel.anchor_top = 0.5
-	_root_panel.anchor_bottom = 0.5
 	_root_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_root_panel)
 
@@ -108,10 +109,21 @@ func _layout() -> void:
 	var vr := get_viewport_rect().size
 	var w := minf(vr.x * 0.86, 760.0)
 	var h := minf(vr.y * 0.86, 620.0)
-	_root_panel.offset_left = -w * 0.5
-	_root_panel.offset_right = w * 0.5
-	_root_panel.offset_top = -h * 0.5
-	_root_panel.offset_bottom = h * 0.5
+	# CanvasLayer 下锚点偶尔不生效：不靠中心锚点，直接显式定位 + 定尺寸居中
+	var min_size := _root_panel.get_combined_minimum_size()
+	w = maxf(w, min_size.x)
+	h = maxf(h, min_size.y)
+	_root_panel.size = Vector2(w, h)
+	_root_panel.position = ((vr - Vector2(w, h)) * 0.5).floor()
+
+
+func _process(_delta: float) -> void:
+	if not visible:
+		return
+	# CanvasLayer 下锚点偶尔不生效，兜底铺满视口（遮罩盖全屏 + 点空白可关）
+	var vp := get_viewport_rect().size
+	if size != vp:
+		size = vp
 
 
 func _refresh_if_open() -> void:
