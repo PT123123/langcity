@@ -1,0 +1,387 @@
+{
+  "categories": [
+    {
+      "id": "street",
+      "name": "街道",
+      "color": "#5b8def"
+    },
+    {
+      "id": "transport",
+      "name": "交通",
+      "color": "#4cc2c9"
+    },
+    {
+      "id": "building",
+      "name": "建物",
+      "color": "#e6a23c"
+    },
+    {
+      "id": "nature",
+      "name": "自然",
+      "color": "#7fb069"
+    },
+    {
+      "id": "animal",
+      "name": "動物",
+      "color": "#b08968"
+    },
+    {
+      "id": "food",
+      "name": "食物",
+      "color": "#d64541"
+    }
+  ],
+  "words": [
+    {
+      "id": "road",
+      "ja": "道路",
+      "kana": "どうろ",
+      "romaji": "dourou",
+      "zh": "道路",
+      "category": "street",
+      "audio": "res://assets/audio/road.mp3"
+    },
+    {
+      "id": "sidewalk",
+      "ja": "歩道",
+      "kana": "ほどう",
+      "romaji": "hodou",
+      "zh": "人行道",
+      "category": "street",
+      "audio": "res://assets/audio/sidewalk.mp3"
+    },
+    {
+      "id": "crosswalk",
+      "ja": "横断歩道",
+      "kana": "おうだんほどう",
+      "romaji": "oudanhodou",
+      "zh": "人行横道",
+      "category": "street",
+      "audio": "res://assets/audio/crosswalk.mp3"
+    },
+    {
+      "id": "pole",
+      "ja": "電柱",
+      "kana": "でんちゅう",
+      "romaji": "denchuu",
+      "zh": "电线杆",
+      "category": "street",
+      "audio": "res://assets/audio/pole.mp3"
+    },
+    {
+      "id": "mailbox",
+      "ja": "ポスト",
+      "kana": "ぽすと",
+      "romaji": "posuto",
+      "zh": "邮筒",
+      "category": "street",
+      "audio": "res://assets/audio/mailbox.mp3"
+    },
+    {
+      "id": "trash",
+      "ja": "ゴミ箱",
+      "kana": "ごみばこ",
+      "romaji": "gomibako",
+      "zh": "垃圾桶",
+      "category": "street",
+      "audio": "res://assets/audio/trash.mp3"
+    },
+    {
+      "id": "vending",
+      "ja": "自動販売機",
+      "kana": "じどうはんばいき",
+      "romaji": "jidouhanbaiki",
+      "zh": "自动贩卖机",
+      "category": "street",
+      "audio": "res://assets/audio/vending.mp3"
+    },
+    {
+      "id": "signboard",
+      "ja": "看板",
+      "kana": "かんばん",
+      "romaji": "kanban",
+      "zh": "招牌",
+      "category": "street",
+      "audio": "res://assets/audio/signboard.mp3"
+    },
+    {
+      "id": "streetlight",
+      "ja": "街灯",
+      "kana": "がいとう",
+      "romaji": "gaitou",
+      "zh": "路灯",
+      "category": "street",
+      "audio": "res://assets/audio/streetlight.mp3"
+    },
+    {
+      "id": "bench",
+      "ja": "ベンチ",
+      "kana": "べんち",
+      "romaji": "benchi",
+      "zh": "长椅",
+      "category": "street",
+      "audio": "res://assets/audio/bench.mp3"
+    },
+    {
+      "id": "door",
+      "ja": "ドア",
+      "kana": "どあ",
+      "romaji": "doa",
+      "zh": "门",
+      "category": "street",
+      "audio": "res://assets/audio/door.mp3"
+    },
+    {
+      "id": "window",
+      "ja": "窓",
+      "kana": "まど",
+      "romaji": "mado",
+      "zh": "窗户",
+      "category": "street",
+      "audio": "res://assets/audio/window.mp3"
+    },
+    {
+      "id": "roadsign",
+      "ja": "標識",
+      "kana": "ひょうしき",
+      "romaji": "hyoushiki",
+      "zh": "路牌",
+      "category": "street",
+      "audio": "res://assets/audio/roadsign.mp3"
+    },
+    {
+      "id": "traffic_light",
+      "ja": "信号",
+      "kana": "しんごう",
+      "romaji": "shingou",
+      "zh": "红绿灯",
+      "category": "transport",
+      "audio": "res://assets/audio/traffic_light.mp3"
+    },
+    {
+      "id": "station",
+      "ja": "駅",
+      "kana": "えき",
+      "romaji": "eki",
+      "zh": "车站",
+      "category": "transport",
+      "audio": "res://assets/audio/station.mp3"
+    },
+    {
+      "id": "train",
+      "ja": "電車",
+      "kana": "でんしゃ",
+      "romaji": "densha",
+      "zh": "电车",
+      "category": "transport",
+      "audio": "res://assets/audio/train.mp3"
+    },
+    {
+      "id": "busstop",
+      "ja": "バス停",
+      "kana": "ばすてい",
+      "romaji": "basutei",
+      "zh": "公交站",
+      "category": "transport",
+      "audio": "res://assets/audio/busstop.mp3"
+    },
+    {
+      "id": "car",
+      "ja": "車",
+      "kana": "くるま",
+      "romaji": "kuruma",
+      "zh": "汽车",
+      "category": "transport",
+      "audio": "res://assets/audio/car.mp3"
+    },
+    {
+      "id": "bicycle",
+      "ja": "自転車",
+      "kana": "じてんしゃ",
+      "romaji": "jitensha",
+      "zh": "自行车",
+      "category": "transport",
+      "audio": "res://assets/audio/bicycle.mp3"
+    },
+    {
+      "id": "crossing",
+      "ja": "交差点",
+      "kana": "こうさてん",
+      "romaji": "kousaten",
+      "zh": "十字路口",
+      "category": "transport",
+      "audio": "res://assets/audio/crossing.mp3"
+    },
+    {
+      "id": "konbini",
+      "ja": "コンビニ",
+      "kana": "こんびに",
+      "romaji": "konbini",
+      "zh": "便利店",
+      "category": "building",
+      "audio": "res://assets/audio/konbini.mp3"
+    },
+    {
+      "id": "ramen_shop",
+      "ja": "ラーメン屋",
+      "kana": "らーめんや",
+      "romaji": "raamenya",
+      "zh": "拉面店",
+      "category": "building",
+      "audio": "res://assets/audio/ramen_shop.mp3"
+    },
+    {
+      "id": "supermarket",
+      "ja": "スーパー",
+      "kana": "すーぱー",
+      "romaji": "suupaa",
+      "zh": "超市",
+      "category": "building",
+      "audio": "res://assets/audio/supermarket.mp3"
+    },
+    {
+      "id": "cafe",
+      "ja": "喫茶店",
+      "kana": "きっさてん",
+      "romaji": "kissaten",
+      "zh": "咖啡店",
+      "category": "building",
+      "audio": "res://assets/audio/cafe.mp3"
+    },
+    {
+      "id": "mansion",
+      "ja": "マンション",
+      "kana": "まんしょん",
+      "romaji": "manshon",
+      "zh": "公寓",
+      "category": "building",
+      "audio": "res://assets/audio/mansion.mp3"
+    },
+    {
+      "id": "house",
+      "ja": "家",
+      "kana": "いえ",
+      "romaji": "ie",
+      "zh": "家",
+      "category": "building",
+      "audio": "res://assets/audio/house.mp3"
+    },
+    {
+      "id": "post_office",
+      "ja": "郵便局",
+      "kana": "ゆうびんきょく",
+      "romaji": "yuubinkyoku",
+      "zh": "邮局",
+      "category": "building",
+      "audio": "res://assets/audio/post_office.mp3"
+    },
+    {
+      "id": "tree",
+      "ja": "木",
+      "kana": "き",
+      "romaji": "ki",
+      "zh": "树",
+      "category": "nature",
+      "audio": "res://assets/audio/tree.mp3"
+    },
+    {
+      "id": "sakura",
+      "ja": "桜",
+      "kana": "さくら",
+      "romaji": "sakura",
+      "zh": "樱花树",
+      "category": "nature",
+      "audio": "res://assets/audio/sakura.mp3"
+    },
+    {
+      "id": "flower",
+      "ja": "花",
+      "kana": "はな",
+      "romaji": "hana",
+      "zh": "花",
+      "category": "nature",
+      "audio": "res://assets/audio/flower.mp3"
+    },
+    {
+      "id": "grass",
+      "ja": "草",
+      "kana": "くさ",
+      "romaji": "kusa",
+      "zh": "草",
+      "category": "nature",
+      "audio": "res://assets/audio/grass.mp3"
+    },
+    {
+      "id": "park",
+      "ja": "公園",
+      "kana": "こうえん",
+      "romaji": "kouen",
+      "zh": "公园",
+      "category": "nature",
+      "audio": "res://assets/audio/park.mp3"
+    },
+    {
+      "id": "dog",
+      "ja": "犬",
+      "kana": "いぬ",
+      "romaji": "inu",
+      "zh": "狗",
+      "category": "animal",
+      "audio": "res://assets/audio/dog.mp3"
+    },
+    {
+      "id": "cat",
+      "ja": "猫",
+      "kana": "ねこ",
+      "romaji": "neko",
+      "zh": "猫",
+      "category": "animal",
+      "audio": "res://assets/audio/cat.mp3"
+    },
+    {
+      "id": "bird",
+      "ja": "鳥",
+      "kana": "とり",
+      "romaji": "tori",
+      "zh": "鸟",
+      "category": "animal",
+      "audio": "res://assets/audio/bird.mp3"
+    },
+    {
+      "id": "ramen",
+      "ja": "ラーメン",
+      "kana": "らーめん",
+      "romaji": "raamen",
+      "zh": "拉面",
+      "category": "food",
+      "audio": "res://assets/audio/ramen.mp3"
+    },
+    {
+      "id": "drink",
+      "ja": "飲み物",
+      "kana": "のみもの",
+      "romaji": "nomimono",
+      "zh": "饮料",
+      "category": "food",
+      "audio": "res://assets/audio/drink.mp3"
+    },
+    {
+      "id": "onigiri",
+      "ja": "おにぎり",
+      "kana": "おにぎり",
+      "romaji": "onigiri",
+      "zh": "饭团",
+      "category": "food",
+      "audio": "res://assets/audio/onigiri.mp3"
+    },
+    {
+      "id": "bread",
+      "ja": "パン",
+      "kana": "ぱん",
+      "romaji": "pan",
+      "zh": "面包",
+      "category": "food",
+      "audio": "res://assets/audio/bread.mp3"
+    }
+  ]
+}

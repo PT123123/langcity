@@ -1,0 +1,13 @@
+# Godot
+.godot/
+*.translation
+export_credentials.cfg
+
+# 本机工具与产物（不入库）
+_tools/
+out/
+build/
+
+# 系统文件
+.DS_Store
+Thumbs.db
