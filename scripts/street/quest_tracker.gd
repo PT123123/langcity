@@ -28,7 +28,7 @@ func _ready() -> void:
 
 	_panel = PanelContainer.new()
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.13, 0.14, 0.19, 0.80)
+	sb.bg_color = Color(0.13, 0.14, 0.19, 0.84)
 	sb.set_corner_radius_all(14)
 	sb.border_color = Color(GOLD, 0.55)
 	sb.set_border_width_all(2)
@@ -101,7 +101,7 @@ func _draw() -> void:
 	var cam: Camera3D = player.cam
 	if cam == null:
 		return
-	var marker_pos := _target + Vector3(0, 1.2, 0)
+	var marker_pos := _target + player.up_axis() * 1.2
 
 	# 目标在屏幕内：画金色菱形标记，不再画边缘箭头
 	if not cam.is_position_behind(marker_pos):
@@ -115,9 +115,11 @@ func _draw() -> void:
 			draw_arc(sp, s + 8.0 + 2.0 * sin(_pulse * 4.0), 0, TAU, 32, Color(GOLD, 0.7), 2.0)
 			return
 
-	# 目标在屏幕外/身后：屏幕中央画指向箭头
+	# 目标在屏幕外/身后：屏幕中央画指向箭头。
+	# 【星球】方向投影到玩家脚下切平面（旧版 to.y = 0 等价于 up 恒为 +Y 的特例）
 	var to := _target - player.position
-	to.y = 0.0
+	var up := player.up_axis()
+	to -= up * to.dot(up)
 	if to.length() < 0.01:
 		return
 	var d := to.normalized()

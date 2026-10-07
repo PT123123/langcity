@@ -19,7 +19,7 @@ static func show_once(host: Node, text: String, duration := 2.4) -> void:
 	anchor.set_anchors_preset(Control.PRESET_FULL_RECT)
 	anchor.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var box := PanelContainer.new()
-	box.add_theme_stylebox_override("panel", UiKit.panel_style(Color(0.13, 0.14, 0.19, 0.93), 14))
+	box.add_theme_stylebox_override("panel", UiKit.panel_style(Color(0.13, 0.14, 0.19, 0.86), 14))
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.anchor_left = 0.5
 	box.anchor_right = 0.5

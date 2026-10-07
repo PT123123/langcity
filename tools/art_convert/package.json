@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "langcity-art-convert",
+  "type": "module",
+  "version": "1.0.0",
+  "dependencies": {
+    "draco3d": "^1.5.7",
+    "draco3dgltf": "^1.5.7",
+    "ktx-parse": "^2.0.0"
+  }
+}

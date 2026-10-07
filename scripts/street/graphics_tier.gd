@@ -59,70 +59,93 @@ static func detect() -> Tier:
 ##     （CompositorEffect 能做但要走 RenderDevice，移动端兼容风险高，不采纳）
 ##   · Auto Exposure → Environment 无此功能，改用 tonemap_exposure 手动插值
 ##   · 正确属性名是 `tonemap_white`（不是 tonemap_exposure_white）
+##
+## 【Messenger 视觉改造，本批次的四处变更】
+##   1. 色调映射 ACES → LINEAR（去掉 tonemap_white=5）
+##   2. adjustment_enabled → false，饱和/对比交给 grade.gdshader
+##   3. 材质侧全部关高光（见 ToonKit.apply）
+##   4. grade.gdshader 增加深度描边 + 解析式色彩分级（Messenger LUT 的替代）
+## 其余分档参数（阴影级联 / SSAO / 体积雾 / glow）保持原样 ——
+## 性能预算的结论与视觉方向无关，不该被这次改造牵动。
 static func apply(env: Environment, sun: DirectionalLight3D, tier: Tier) -> void:
 	# ---- 分档公共项 ----
-	env.adjustment_enabled = true
-	env.adjustment_saturation = 1.2
-	env.adjustment_contrast = 1.12
+	# 【Messenger 视觉】色调映射：ACES → LINEAR。
+	# ACES 是「电影感」曲线，会把高光滚降、给暗部加冷调对比 ——
+	# 这正是 Messenger 刻意不要的东西。它的画面是平涂的：同样的颜色
+	# 在亮面和暗面保持同一个色相，只有明度不同。ACES 一上手，
+	# 所有饱和色立刻被压成灰褐，Messenger 的糖果感全无。
+	# LINEAR + tonemap_white 1.0 = 颜色进什么样出什么样。
+	# 【代价】高光会硬截断。但由于本项目已把 specular 全关（ToonKit.apply），
+	# 画面里几乎没有强高光可以截 —— 代价实际为零。
+	env.tonemap_mode = Environment.TONE_MAPPER_LINEAR
+	env.tonemap_white = 1.0
+	# 饱和/对比交给 grade.gdshader 的解析式分级（Messenger LUT 的替代），
+	# Environment 的 adjustment 在 LINEAR 下会与后处理叠加两次，容易过冲。
+	env.adjustment_enabled = false
 	env.fog_enabled = true
 	env.fog_sky_affect = 0.0
-	env.tonemap_mode = Environment.TONE_MAPPER_ACES   # 规格要求
 
 	match tier:
 		Tier.HIGH:
-			# Bloom: High
+			# Bloom: 极少（视觉方向 §15 —— 后处理不能成为风格本身）
 			env.glow_enabled = true
-			env.glow_intensity = 0.55
+			env.glow_intensity = 0.22
 			env.glow_strength = 1.0
-			env.glow_bloom = 0.04
+			env.glow_bloom = 0.015
 			env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
-			env.glow_hdr_threshold = 0.85
+			env.glow_hdr_threshold = 0.95
 			env.glow_hdr_scale = 2.0
-			# SSAO: Medium —— 屋檐下/电柱根/贩卖机底的接触阴影是廉价感重灾区
+			# SSAO: 克制（§6 —— 只做接触阴影，不要黑色脏边）
 			env.ssao_enabled = true
-			env.ssao_radius = 0.5
-			env.ssao_intensity = 1.6
-			env.ssao_power = 1.2
-			env.ssao_detail = 0.6
+			env.ssao_radius = 0.45
+			env.ssao_intensity = 1.05
+			env.ssao_power = 1.0
+			env.ssao_detail = 0.4
 			# Volumetric fog
+			# 【albedo 之前是中性灰 0.70/0.69/0.67 —— 画面「蒙灰纱」的元凶】
+			# 体积雾是**加性**的：albedo 有多亮，雾就把画面提亮多少。中性灰
+			# 在暖色夕照下必然读成「发灰的蓝蒙纱」，把所有暖色压掉。
+			# 改成暖米色 + 降密度后，雾才真正服务于「空气感」而不是「脏灰」。
+			# 体积雾 albedo 会被 time_of_day 每帧按当前 fog 色覆写（见其
+			# `_apply_preset` 的 volumetric_fog_albedo 行），这里设的是首帧初值与回退值。
 			env.volumetric_fog_enabled = true
-			env.volumetric_fog_density = 0.008
-			env.volumetric_fog_albedo = Color(0.72, 0.7, 0.66)
-			env.volumetric_fog_emission = Color(0.04, 0.04, 0.05)
-			env.volumetric_fog_emission_energy = 0.25
-			env.volumetric_fog_gi_inject = 0.4
+			env.volumetric_fog_density = 0.0026
+			env.volumetric_fog_albedo = Color(0.86, 0.74, 0.60)
+			env.volumetric_fog_emission = Color(0.05, 0.035, 0.025)
+			env.volumetric_fog_emission_energy = 0.18
+			env.volumetric_fog_gi_inject = 0.0
 			env.volumetric_fog_anisotropy = 0.6
 			_sun_shadow(sun, 4, 70.0)
 		Tier.MEDIUM:
 			env.glow_enabled = true
-			env.glow_intensity = 0.5
+			env.glow_intensity = 0.20
 			env.glow_strength = 1.0
-			env.glow_bloom = 0.04
+			env.glow_bloom = 0.015
 			env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
-			env.glow_hdr_threshold = 0.85
+			env.glow_hdr_threshold = 0.95
 			env.glow_hdr_scale = 2.0
-			# 中档也保留 SSAO：省这点开销换「不像 demo」的观感很划算
+			# 中档也保留 SSAO：省这点开销换「不像 demo」的观感很划算（但同样收敛）
 			env.ssao_enabled = true
 			env.ssao_radius = 0.4
-			env.ssao_intensity = 1.2
-			env.ssao_power = 1.0
-			env.ssao_detail = 0.3
+			env.ssao_intensity = 0.85
+			env.ssao_power = 0.9
+			env.ssao_detail = 0.25
 			env.volumetric_fog_enabled = true
-			env.volumetric_fog_density = 0.005
-			env.volumetric_fog_albedo = Color(0.72, 0.7, 0.66)
-			env.volumetric_fog_emission = Color(0.04, 0.04, 0.05)
-			env.volumetric_fog_emission_energy = 0.2
+			env.volumetric_fog_density = 0.0030
+			env.volumetric_fog_albedo = Color(0.86, 0.74, 0.60)
+			env.volumetric_fog_emission = Color(0.05, 0.035, 0.025)
+			env.volumetric_fog_emission_energy = 0.15
 			env.volumetric_fog_gi_inject = 0.0
 			env.volumetric_fog_anisotropy = 0.5
 			_sun_shadow(sun, 2, 60.0)
 		Tier.LOW:
 			# Bloom: Low
 			env.glow_enabled = true
-			env.glow_intensity = 0.42
+			env.glow_intensity = 0.18
 			env.glow_strength = 1.0
-			env.glow_bloom = 0.02
-			env.glow_blend_mode = Environment.GLOW_BLEND_MODE_ADDITIVE
-			env.glow_hdr_threshold = 0.9
+			env.glow_bloom = 0.01
+			env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
+			env.glow_hdr_threshold = 0.96
 			env.glow_hdr_scale = 2.0
 			# SSAO / 体积雾全关（低端机用雾 + 明度分层替代）
 			env.ssao_enabled = false
@@ -131,7 +154,10 @@ static func apply(env: Environment, sun: DirectionalLight3D, tier: Tier) -> void
 
 	# 规格红线：移动端禁止 SSR（掉 15~25fps）
 	env.ssr_enabled = false
-	env.tonemap_white = 6.0
+	# 【Messenger 视觉】tonemap_white / tonemap_mode 已在分档公共项里设为
+	# LINEAR + 1.0。这里原来还有一句 `tonemap_white = 5.0`（ACES 用的），
+	# 会把线性色调映射的白色点推到 5，等于取消映射、让画面直接过曝，
+	# 已随 LINEAR 改造一并移除。
 
 
 static func _sun_shadow(sun: DirectionalLight3D, splits: int, dist: float) -> void:
@@ -146,7 +172,7 @@ static func _sun_shadow(sun: DirectionalLight3D, splits: int, dist: float) -> vo
 	# 减少 shadow acne，同时避免 peter-panning（阴影脱离物体底部）
 	sun.shadow_bias = 0.05
 	sun.shadow_normal_bias = 1.6
-	sun.shadow_blur = 1.3
+	sun.shadow_blur = 1.5
 	sun.light_specular = 0.5
 
 

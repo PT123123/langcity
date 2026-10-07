@@ -8,6 +8,16 @@ _tools/
 out/
 build/
 
+# AI 会话/助手私有数据（不入库）
+.workbuddy/
+.commandcode/
+.trae/
+.zcode/
+.agents/
+
+# 编辑器备份文件
+*.bak
+
 # 系统文件
 .DS_Store
 Thumbs.db

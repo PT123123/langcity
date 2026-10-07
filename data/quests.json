@@ -1,9 +1,10 @@
 {
-	"_comment": "任务数据。type=collect 收集类（在街区里发现 N 个某分类的单词）；type=errand 跑腿类（按顺序走到目标地点，带路线指引）。坐标/目标全部按 kind 从 map.json 里查，不写死位置。",
+	"_comment": "任务数据。type=collect 收集类（在街区里发现 N 个某分类的单词）；type=errand 跑腿类（按顺序走到目标地点，带路线指引）。坐标/目标全部按 kind 从 map.json 里查，不写死位置。giver=发布者 NPC 的 id（对应 data/npcs.json 里的角色；点击该 NPC 打开任务面板时，TA 的任务排前并高亮；角色表缺失时显示名回退 npc_id）。",
 	"quests": [
 		{
 			"id": "collect_transport",
 			"type": "collect",
+			"giver": "office-worker",
 			"title": "交通マスター",
 			"title_zh": "交通达人",
 			"desc": "找到 5 个「交通」类单词",
@@ -14,6 +15,7 @@
 		{
 			"id": "collect_food",
 			"type": "collect",
+			"giver": "caveman",
 			"title": "食べものハンター",
 			"title_zh": "美食猎手",
 			"desc": "找到 3 个「食物」类单词",
@@ -24,6 +26,7 @@
 		{
 			"id": "collect_animal",
 			"type": "collect",
+			"giver": "fox",
 			"title": "動物の友だち",
 			"title_zh": "动物之友",
 			"desc": "找到 3 个「動物」类单词",
@@ -34,6 +37,7 @@
 		{
 			"id": "collect_nature",
 			"type": "collect",
+			"giver": "mountainman",
 			"title": "自然をさがそう",
 			"title_zh": "亲近自然",
 			"desc": "找到 4 个「自然」类单词",
@@ -44,6 +48,7 @@
 		{
 			"id": "collect_building",
 			"type": "collect",
+			"giver": "boss",
 			"title": "建物めぐり",
 			"title_zh": "建筑巡礼",
 			"desc": "找到 4 个「建物」类单词",
@@ -54,6 +59,7 @@
 		{
 			"id": "collect_street",
 			"type": "collect",
+			"giver": "musician",
 			"title": "街のたからもの",
 			"title_zh": "街头寻宝",
 			"desc": "找到 6 个「街道」类单词",
@@ -64,6 +70,7 @@
 		{
 			"id": "errand_letter",
 			"type": "errand",
+			"giver": "scout",
 			"title": "お使い・手紙",
 			"title_zh": "跑腿：送信",
 			"desc": "帮邮局把信送到车站",
@@ -76,6 +83,7 @@
 		{
 			"id": "errand_konbini",
 			"type": "errand",
+			"giver": "threekid",
 			"title": "お使い・コンビニ",
 			"title_zh": "跑腿：便利店",
 			"desc": "去便利店买东西再送回家",
@@ -88,6 +96,7 @@
 		{
 			"id": "errand_ramen",
 			"type": "errand",
+			"giver": "chef",
 			"title": "出前・ラーメン",
 			"title_zh": "跑腿：送拉面",
 			"desc": "去拉面店取餐送到家",
@@ -100,6 +109,7 @@
 		{
 			"id": "errand_park",
 			"type": "errand",
+			"giver": "young-lady",
 			"title": "公園まで散歩",
 			"title_zh": "跑腿：公园散步",
 			"desc": "走到公园，在樱花树下拍照",
@@ -108,6 +118,74 @@
 				{"text": "走到公園入口", "kind": "parksign", "radius": 9.0},
 				{"text": "在桜の木の下で拍照", "kind": "sakura", "radius": 7.0}
 			]
+		},
+		{
+			"id": "collect_interior",
+			"type": "collect",
+			"giver": "oldwoman",
+			"title": "お家たんけん",
+			"title_zh": "家居探索",
+			"desc": "进屋找到 5 件「家居・室内」类单词",
+			"category": "interior",
+			"count": 5,
+			"xp": 160
+		},
+		{
+			"id": "errand_cafe_order",
+			"type": "errand",
+			"giver": "female-scientist",
+			"title": "お使い・カフェ",
+			"title_zh": "跑腿：咖啡店点单",
+			"desc": "走进咖啡馆，到柜台前点单",
+			"xp": 190,
+			"steps": [
+				{"text": "去カフェ", "kind": "cafe", "radius": 8.0},
+				{"text": "进店到カウンター前点单", "kind": "counter", "radius": 5.0}
+			]
+		},
+		{
+			"id": "errand_station_gate",
+			"type": "errand",
+			"giver": "office-worker",
+			"title": "お使い・改札",
+			"title_zh": "跑腿：过检票口",
+			"desc": "走进车站，从改札口进站",
+			"xp": 200,
+			"steps": [
+				{"text": "去駅", "kind": "station", "radius": 11.0},
+				{"text": "进车站走到改札口", "kind": "gate", "radius": 5.0}
+			]
+		},
+		{
+			"id": "talk_chef",
+			"type": "talk",
+			"giver": "boss",
+			"title": "ごあいさつ",
+			"title_zh": "打招呼",
+			"desc": "去拉面店跟シェフ聊聊天",
+			"target": "chef",
+			"xp": 60
+		},
+		{
+			"id": "photo_sakura",
+			"type": "photo",
+			"giver": "young-lady",
+			"title": "桜の写真",
+			"title_zh": "樱花写真",
+			"desc": "用相机拍下一棵桜の木",
+			"kind": "sakura",
+			"xp": 120
+		},
+		{
+			"id": "visit_park",
+			"type": "visit",
+			"giver": "threekid",
+			"title": "公園へ行こう",
+			"title_zh": "去公园吧",
+			"desc": "走到公園的入口",
+			"kind": "parksign",
+			"radius": 9.0,
+			"xp": 80
 		}
 	]
 }

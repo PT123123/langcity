@@ -1,0 +1,52 @@
+{
+	"default": "planet_home",
+	"places": {
+		"planet_home": {
+			"kind": "planet",
+			"title_zh": "小星球",
+			"map": "res://data/planet.json"
+		},
+		"int_house": {
+			"kind": "interior",
+			"title_zh": "民居",
+			"template": "house_basic",
+			"parent": "planet_home"
+		},
+		"int_apartment": {
+			"kind": "interior",
+			"title_zh": "公寓",
+			"template": "apartment",
+			"parent": "planet_home"
+		},
+		"int_konbini": {
+			"kind": "interior",
+			"title_zh": "便利店",
+			"template": "konbini_shop",
+			"parent": "planet_home"
+		},
+		"int_super": {
+			"kind": "interior",
+			"title_zh": "超市",
+			"template": "super_market",
+			"parent": "planet_home"
+		},
+		"int_cafe": {
+			"kind": "interior",
+			"title_zh": "咖啡馆",
+			"template": "cafe_hall",
+			"parent": "planet_home"
+		},
+		"int_ramen": {
+			"kind": "interior",
+			"title_zh": "拉面店",
+			"template": "ramen_counter",
+			"parent": "planet_home"
+		},
+		"int_station": {
+			"kind": "interior",
+			"title_zh": "车站大厅",
+			"template": "station_hall",
+			"parent": "planet_home"
+		}
+	}
+}

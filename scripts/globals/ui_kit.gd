@@ -8,11 +8,11 @@ const INK := Color("2b2b33")            # 墨色（主文字）
 const INK_SOFT := Color("6b6858")       # 淡墨（次要文字）
 const PAPER := Color("f7f3ea")          # 和纸（面板底色）
 const PAPER_DARK := Color("ece5d3")     # 和纸·深
-const VERMILION := Color("c94f4f")      # 朱红（强调/主按钮）
+const VERMILION := Color("bf5754")      # 朱红（强调/主按钮）—— §17：降到中饱和
 const VERMILION_DARK := Color("a83e3e")
 const NAVY := Color("2b3040")           # 绀青（深色底）
 const NAVY_LIGHT := Color("3a4056")
-const GOLD := Color("d9a441")           # 金（收藏星）
+const GOLD := Color("d0a660")           # 金（收藏星）—— §17：降饱和
 const GREEN_OK := Color("5f9e5f")
 const WHITE := Color("fdfcf8")
 
@@ -75,15 +75,16 @@ static func label(text: String, size: int, color: Color = INK, align: Horizontal
 	return l
 
 
-static func panel_style(bg: Color = PAPER, radius: int = 18, border: Color = Color(0, 0, 0, 0), bw: int = 0) -> StyleBoxFlat:
+static func panel_style(bg: Color = PAPER, radius: int = 14, border: Color = Color(0, 0, 0, 0), bw: int = 0) -> StyleBoxFlat:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = bg
 	sb.set_corner_radius_all(radius)
 	if bw > 0:
 		sb.border_color = border
 		sb.set_border_width_all(bw)
-	sb.shadow_color = Color(0.1, 0.08, 0.12, 0.25)
-	sb.shadow_size = 8
+	# 视觉方向 §17：UI 权重低于世界 —— 阴影更收、更淡，面板不「浮」在画面之上
+	sb.shadow_color = Color(0.1, 0.08, 0.12, 0.18)
+	sb.shadow_size = 5
 	sb.shadow_offset = Vector2(0, 3)
 	return sb
 

@@ -3,10 +3,16 @@ extends Control
 
 var _lib_btn: Button
 var _t := 0.0
+## 3D 悬浮岛是否接管了背景。false 时保持原来的纯矢量街景。
+var _island_up := false
 
 
 func _ready() -> void:
 	theme = UiKit.theme()
+
+	# 3D 悬浮岛背景。必须最先加：子节点的绘制顺序决定谁压谁，
+	# 它是全屏的底层，樱花粒子和按钮 UI 都要画在它上面。
+	_setup_island()
 
 	# 樱花花瓣
 	var petals := CPUParticles2D.new()
@@ -39,16 +45,16 @@ func _ready() -> void:
 	vbox.add_theme_constant_override("separation", 14)
 	add_child(vbox)
 
-	var title := UiKit.label("日语街道", 76, UiKit.PAPER, HORIZONTAL_ALIGNMENT_CENTER)
+	var title := UiKit.label("日语星球", 76, UiKit.PAPER, HORIZONTAL_ALIGNMENT_CENTER)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vbox.add_child(title)
 
-	var sub := UiKit.label("日本の町を歩いて、日本語を学ぼう", 22, Color("aeb4c8"), HORIZONTAL_ALIGNMENT_CENTER)
+	var sub := UiKit.label("小さな星の町を歩いて、日本語を学ぼう", 22, Color("aeb4c8"), HORIZONTAL_ALIGNMENT_CENTER)
 	sub.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vbox.add_child(sub)
 	vbox.add_child(UiKit.vspace(26))
 
-	var start := UiKit.button("▶  开始探索", true, 28)
+	var start := UiKit.button("▶  登上星球", true, 28)
 	start.custom_minimum_size = Vector2(0, 62)
 	start.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/street.tscn"))
 	vbox.add_child(start)
@@ -68,6 +74,15 @@ func _ready() -> void:
 	settings.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/settings.tscn"))
 	vbox.add_child(settings)
 
+	# 章节：《罗生门·岭南篇》（独立剧情场景，见 docs/rashomon_game_chapter_spec_guangdong.md）
+	var chapter := UiKit.button("◆ 章节・罗生门 岭南篇", false, 25)
+	chapter.custom_minimum_size = Vector2(0, 56)
+	chapter.pressed.connect(func():
+		Game.save_now()
+		Tts.stop()
+		get_tree().change_scene_to_file("res://scenes/rashomon.tscn"))
+	vbox.add_child(chapter)
+
 	vbox.add_child(UiKit.vspace(14))
 	var footer := UiKit.label("离线可玩 · 进度保存在本机", 15, Color("7d8298"), HORIZONTAL_ALIGNMENT_CENTER)
 	footer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -81,12 +96,102 @@ func _refresh_lib_btn() -> void:
 	_lib_btn.text = "词汇库   %d / %d" % [Game.discovered_count(), Game.total_words()]
 
 
+## 铺一层全屏 3D 背景：SubViewportContainer → SubViewport → 悬浮岛。
+## 任何一步失败都把整层清掉并保留矢量街景 —— 主菜单不能因为美术资源没到位就开天窗。
+func _setup_island() -> void:
+	var holder := SubViewportContainer.new()
+	holder.name = "IslandLayer"
+	# 全屏铺满；IGNORE 才不会把樱花粒子和按钮的鼠标事件吃掉
+	holder.set_anchors_preset(Control.PRESET_FULL_RECT)
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.stretch = true
+	add_child(holder)
+
+	var vp := SubViewport.new()
+	vp.name = "IslandViewport"
+	# 美术资源（Draco→glB）是另一条线在出，产物没到位时必须安静降级，不能报错
+	vp.own_world_3d = true
+	# 手动物理世界没必要，也省掉一份 3D 物理的开销
+	vp.physics_object_picking = false
+	vp.handle_input_locally = false
+	vp.gui_disable_input = true
+	vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	vp.msaa_3d = Viewport.MSAA_2X
+	holder.add_child(vp)
+
+	vp.add_child(_make_world_env())
+	vp.add_child(_make_sun())
+
+	var island := MenuIsland.new()
+	vp.add_child(island)
+	if not island.build():
+		# 一个可用模型都没有：拆掉整层，回到矢量街景
+		holder.queue_free()
+		queue_redraw()
+		return
+
+	_island_up = true
+	queue_redraw()
+
+
+## SubViewport 自带 3D 世界，但没有 WorldEnvironment —— 天空和环境光得自己搭。
+## 配色沿用 TimeOfDay 的黄昏预设（柔和蓝顶 + 暖白地平线），
+## 氛围光必须取自天空（AMBIENT_SOURCE_SKY），否则阴面会死黑。
+func _make_world_env() -> WorldEnvironment:
+	var sky_mat := ProceduralSkyMaterial.new()
+	sky_mat.sky_top_color = Color(0.46, 0.56, 0.70)
+	sky_mat.sky_horizon_color = Color(0.93, 0.85, 0.74)
+	sky_mat.ground_bottom_color = Color(0.30, 0.28, 0.30)
+	sky_mat.ground_horizon_color = Color(0.78, 0.72, 0.64)
+	sky_mat.sun_angle_max = 24.0
+	sky_mat.sun_curve = 0.12
+	var sky := Sky.new()
+	sky.sky_material = sky_mat
+
+	var env := Environment.new()
+	env.background_mode = Environment.BG_SKY
+	env.sky = sky
+	# 主菜单不想要后期。主菜单是静态构图，glow/SSAO 在这里只会添噪点。
+	env.tonemap_mode = Environment.TONE_MAPPER_LINEAR
+	env.tonemap_white = 1.0
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
+	env.ambient_light_sky_contribution = 1.0
+	env.fog_enabled = true
+	env.fog_sky_affect = 0.0
+	env.fog_light_color = Color(0.90, 0.85, 0.79)
+	env.fog_density = 0.004
+	env.fog_light_energy = 0.7
+
+	var we := WorldEnvironment.new()
+	we.name = "IslandEnv"
+	we.environment = env
+	return we
+
+
+## 暖色主光。悬浮岛悬在半空、要读出体积，侧上 45° 打得比街面平一点，
+## 阴影开着但压软，主菜单里不做剧烈的明暗对比。
+func _make_sun() -> DirectionalLight3D:
+	var sun := DirectionalLight3D.new()
+	sun.name = "IslandSun"
+	sun.light_color = Color(1.0, 0.94, 0.84)
+	sun.light_energy = 1.1
+	sun.light_specular = 0.0   # Messenger 视觉：画面里没有高光
+	sun.shadow_enabled = true
+	sun.directional_shadow_max_distance = 120.0
+	sun.rotation_degrees = Vector3(-38.0, 42.0, 0.0)
+	return sun
+
+
 func _process(delta: float) -> void:
 	_t += delta
 	queue_redraw()
 
 
 func _draw() -> void:
+	# 悬浮岛接管背景时，这层矢量街景必须让位 —— 否则等于在 3D 岛上又画一张
+	# 2D 街景，两层背景叠在一起。
+	if _island_up:
+		return
 	# ---- 装饰街景（纯矢量） ----
 	var w := size.x
 	var h := size.y

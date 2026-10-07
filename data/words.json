@@ -36,6 +36,11 @@
       "color": "#9c89b8"
     },
     {
+      "id": "interior",
+      "name": "家居・室内",
+      "color": "#c9a227"
+    },
+    {
       "id": "clothing",
       "name": "服装",
       "color": "#b56fae"
@@ -253,6 +258,10 @@
       "romaji": "kuruma",
       "zh": "汽车",
       "category": "transport",
+      "variants": [
+        "basu",
+        "takushii"
+      ],
       "audio": "res://assets/audio/car.mp3"
     },
     {
@@ -453,6 +462,11 @@
       "romaji": "onigiri",
       "zh": "饭团",
       "category": "food",
+      "variants": [
+        "gohan",
+        "tamago",
+        "ringo"
+      ],
       "audio": "res://assets/audio/onigiri.mp3"
     },
     {
@@ -462,6 +476,12 @@
       "romaji": "pan",
       "zh": "面包",
       "category": "food",
+      "variants": [
+        "niku",
+        "yasai",
+        "kudamono",
+        "mikan"
+      ],
       "audio": "res://assets/audio/bread.mp3"
     },
     {
@@ -966,6 +986,11 @@
       "romaji": "kippu",
       "zh": "车票",
       "category": "transport",
+      "variants": [
+        "kippu",
+        "chikatetsu",
+        "kaisatsu"
+      ],
       "audio": "res://assets/audio/kippu.mp3"
     },
     {
@@ -1731,6 +1756,11 @@
       "romaji": "kitsune",
       "zh": "狐狸",
       "category": "animal",
+      "variants": [
+        "kitsune",
+        "tanuki",
+        "nezumi"
+      ],
       "audio": "res://assets/audio/kitsune.mp3"
     },
     {
@@ -1776,6 +1806,15 @@
       "romaji": "kame",
       "zh": "乌龟",
       "category": "animal",
+      "variants": [
+        "kame",
+        "niwatori",
+        "ahiru",
+        "uma",
+        "ushi",
+        "buta",
+        "sakana"
+      ],
       "audio": "res://assets/audio/kame.mp3"
     },
     {
@@ -1848,6 +1887,11 @@
       "romaji": "ookami",
       "zh": "狼",
       "category": "animal",
+      "variants": [
+        "ookami",
+        "kuma",
+        "saru"
+      ],
       "audio": "res://assets/audio/ookami.mp3"
     },
     {
@@ -4278,6 +4322,16 @@
       "romaji": "mise",
       "zh": "商店",
       "category": "shopping",
+      "variants": [
+        "kaimono",
+        "reji",
+        "nedan",
+        "kane",
+        "fukuro",
+        "waribiki",
+        "seeru",
+        "saizu"
+      ],
       "audio": "res://assets/audio/mise.mp3"
     },
     {
@@ -4585,6 +4639,231 @@
       "zh": "自动售货机",
       "category": "street",
       "audio": "res://assets/audio/jihanki.mp3"
+    },
+    {
+      "id": "fridge",
+      "ja": "冷蔵庫",
+      "kana": "れいぞうこ",
+      "romaji": "reizouko",
+      "zh": "冰箱",
+      "category": "interior",
+      "audio": "res://assets/audio/fridge.mp3"
+    },
+    {
+      "id": "stove",
+      "ja": "コンロ",
+      "kana": "こんろ",
+      "romaji": "konro",
+      "zh": "灶台",
+      "category": "interior",
+      "audio": "res://assets/audio/stove.mp3"
+    },
+    {
+      "id": "bathtub",
+      "ja": "浴槽",
+      "kana": "よくそう",
+      "romaji": "yokusou",
+      "zh": "浴缸",
+      "category": "interior",
+      "audio": "res://assets/audio/bathtub.mp3"
+    },
+    {
+      "id": "toilet",
+      "ja": "トイレ",
+      "kana": "といれ",
+      "romaji": "toire",
+      "zh": "厕所",
+      "category": "interior",
+      "audio": "res://assets/audio/toilet.mp3"
+    },
+    {
+      "id": "cupboard",
+      "ja": "戸棚",
+      "kana": "とだな",
+      "romaji": "todana",
+      "zh": "橱柜",
+      "category": "interior",
+      "audio": "res://assets/audio/cupboard.mp3"
+    },
+    {
+      "id": "shoe_cabinet",
+      "ja": "靴箱",
+      "kana": "くつばこ",
+      "romaji": "kutsubako",
+      "zh": "鞋柜",
+      "category": "interior",
+      "audio": "res://assets/audio/shoe_cabinet.mp3"
+    },
+    {
+      "id": "aircon",
+      "ja": "エアコン",
+      "kana": "えあこん",
+      "romaji": "eakon",
+      "zh": "空调",
+      "category": "interior",
+      "audio": "res://assets/audio/aircon.mp3"
+    },
+    {
+      "id": "carpet",
+      "ja": "カーペット",
+      "kana": "かーぺっと",
+      "romaji": "kāpetto",
+      "zh": "地毯",
+      "category": "interior",
+      "audio": "res://assets/audio/carpet.mp3"
+    },
+    {
+      "id": "painting",
+      "ja": "絵画",
+      "kana": "かいが",
+      "romaji": "kaiga",
+      "zh": "绘画",
+      "category": "interior",
+      "audio": "res://assets/audio/painting.mp3"
+    },
+    {
+      "id": "curtain",
+      "ja": "カーテン",
+      "kana": "かーてん",
+      "romaji": "kāten",
+      "zh": "窗帘",
+      "category": "interior",
+      "audio": "res://assets/audio/curtain.mp3"
+    },
+    {
+      "id": "register",
+      "ja": "レジ",
+      "kana": "れじ",
+      "romaji": "reji",
+      "zh": "收银台",
+      "category": "interior",
+      "audio": "res://assets/audio/register.mp3"
+    },
+    {
+      "id": "display_shelf",
+      "ja": "陳列棚",
+      "kana": "ちんれつだな",
+      "romaji": "chinretsudana",
+      "zh": "陈列架",
+      "category": "interior",
+      "audio": "res://assets/audio/display_shelf.mp3"
+    },
+    {
+      "id": "counter",
+      "ja": "カウンター",
+      "kana": "かうんたー",
+      "romaji": "kauntā",
+      "zh": "柜台",
+      "category": "interior",
+      "audio": "res://assets/audio/counter.mp3"
+    },
+    {
+      "id": "stool",
+      "ja": "スツール",
+      "kana": "すつーる",
+      "romaji": "sutsūru",
+      "zh": "凳子",
+      "category": "interior",
+      "audio": "res://assets/audio/stool.mp3"
+    },
+    {
+      "id": "ticket_machine",
+      "ja": "券売機",
+      "kana": "けんばいき",
+      "romaji": "kenbaiki",
+      "zh": "售票机",
+      "category": "interior",
+      "audio": "res://assets/audio/ticket_machine.mp3"
+    },
+    {
+      "id": "gate",
+      "ja": "改札",
+      "kana": "かいさつ",
+      "romaji": "kaisatsu",
+      "zh": "检票口",
+      "category": "interior",
+      "audio": "res://assets/audio/gate.mp3"
+    },
+    {
+      "id": "station_sign",
+      "ja": "駅名標",
+      "kana": "えきめいひょう",
+      "romaji": "ekimeihyou",
+      "zh": "站名牌",
+      "category": "interior",
+      "audio": "res://assets/audio/station_sign.mp3"
+    },
+    {
+      "id": "jouhei",
+      "ja": "城壁",
+      "kana": "じょうへい",
+      "romaji": "jouhei",
+      "zh": "城墙",
+      "category": "building",
+      "audio": "res://assets/audio/jouhei.mp3"
+    },
+    {
+      "id": "shitai",
+      "ja": "死体",
+      "kana": "したい",
+      "romaji": "shitai",
+      "zh": "尸体",
+      "category": "body",
+      "audio": "res://assets/audio/shitai.mp3"
+    },
+    {
+      "id": "roujin",
+      "ja": "老人",
+      "kana": "ろうじん",
+      "romaji": "roujin",
+      "zh": "老人",
+      "category": "people",
+      "audio": "res://assets/audio/roujin.mp3"
+    },
+    {
+      "id": "tabemono",
+      "ja": "食べ物",
+      "kana": "たべもの",
+      "romaji": "tabemono",
+      "zh": "食物",
+      "category": "food",
+      "audio": "res://assets/audio/tabemono.mp3"
+    },
+    {
+      "id": "kome",
+      "ja": "米",
+      "kana": "こめ",
+      "romaji": "kome",
+      "zh": "米",
+      "category": "food",
+      "audio": "res://assets/audio/kome.mp3"
+    },
+    {
+      "id": "karasu",
+      "ja": "鴉",
+      "kana": "からす",
+      "romaji": "karasu",
+      "zh": "乌鸦",
+      "category": "animal",
+      "audio": "res://assets/audio/karasu.mp3"
+    },
+    {
+      "id": "hi",
+      "ja": "火",
+      "kana": "ひ",
+      "romaji": "hi",
+      "zh": "火",
+      "category": "nature",
+      "audio": "res://assets/audio/hi.mp3"
+    },
+    {
+      "id": "amayadori",
+      "ja": "雨宿り",
+      "kana": "あまやどり",
+      "romaji": "amayadori",
+      "zh": "避雨",
+      "category": "verb",
+      "audio": "res://assets/audio/amayadori.mp3"
     }
   ]
 }

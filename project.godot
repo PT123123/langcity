@@ -24,8 +24,10 @@ general/text_to_speech=true
 
 [autoload]
 
+Places="*res://scripts/globals/places.gd"
 Game="*res://scripts/globals/game_state.gd"
 Quests="*res://scripts/globals/quest_system.gd"
+Dialogues="*res://scripts/globals/dialogues.gd"
 Tts="*res://scripts/globals/tts_manager.gd"
 ShotTool="*res://scripts/globals/shot_tool.gd"
 

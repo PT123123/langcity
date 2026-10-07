@@ -1,0 +1,1336 @@
+{
+	"_comment": "室内模板。坐标单位 px（1m = 40px，Interactable.S = 0.025）；原点 (0,0) = 房间西北角，x→东、y→南。房间是矩形，墙由 walls 段定义（door = 门洞宽 px，居中）。props 的 word 缺省用 kind。",
+	"templates": {
+		"house_basic": {
+			"title_zh": "民居",
+			"size": [
+				560,
+				440
+			],
+			"ceil": 112,
+			"floor": "wood",
+			"tiles": [
+				[
+					200,
+					340,
+					160,
+					100,
+					"tile"
+				],
+				[
+					0,
+					240,
+					200,
+					200,
+					"tile_cool"
+				],
+				[
+					410,
+					240,
+					150,
+					200,
+					"tile_cool"
+				]
+			],
+			"rooms": [
+				{
+					"id": "living",
+					"rect": [
+						0,
+						0,
+						280,
+						240
+					]
+				},
+				{
+					"id": "bedroom",
+					"rect": [
+						280,
+						0,
+						280,
+						240
+					]
+				},
+				{
+					"id": "kitchen",
+					"rect": [
+						0,
+						240,
+						200,
+						200
+					]
+				},
+				{
+					"id": "genkan",
+					"rect": [
+						200,
+						240,
+						210,
+						200
+					]
+				},
+				{
+					"id": "bath",
+					"rect": [
+						410,
+						240,
+						150,
+						200
+					]
+				}
+			],
+			"walls": [
+				{
+					"a": [
+						280,
+						0
+					],
+					"b": [
+						280,
+						240
+					],
+					"door": 44
+				},
+				{
+					"a": [
+						0,
+						240
+					],
+					"b": [
+						560,
+						240
+					],
+					"door": 44
+				},
+				{
+					"a": [
+						200,
+						240
+					],
+					"b": [
+						200,
+						440
+					],
+					"door": 44
+				},
+				{
+					"a": [
+						410,
+						240
+					],
+					"b": [
+						410,
+						440
+					],
+					"door": 44
+				}
+			],
+			"props": [
+				{
+					"kind": "sofa",
+					"zone": "living",
+					"x": 80,
+					"y": 92,
+					"rot": 0
+				},
+				{
+					"kind": "tv",
+					"zone": "living",
+					"x": 80,
+					"y": 30,
+					"rot": 0
+				},
+				{
+					"kind": "table",
+					"zone": "living",
+					"x": 80,
+					"y": 152,
+					"rot": 0
+				},
+				{
+					"kind": "carpet",
+					"zone": "living",
+					"x": 96,
+					"y": 120,
+					"rot": 0
+				},
+				{
+					"kind": "shelf",
+					"zone": "living",
+					"x": 230,
+					"y": 44,
+					"rot": 0
+				},
+				{
+					"kind": "lamp",
+					"zone": "living",
+					"x": 180,
+					"y": 200,
+					"rot": 0
+				},
+				{
+					"kind": "painting",
+					"zone": "living",
+					"x": 160,
+					"y": 16,
+					"rot": 0
+				},
+				{
+					"kind": "bed",
+					"zone": "bedroom",
+					"x": 410,
+					"y": 104,
+					"rot": 0
+				},
+				{
+					"kind": "cupboard",
+					"zone": "bedroom",
+					"x": 322,
+					"y": 44,
+					"rot": 0
+				},
+				{
+					"kind": "lamp",
+					"zone": "bedroom",
+					"x": 516,
+					"y": 40,
+					"rot": 0
+				},
+				{
+					"kind": "curtain",
+					"zone": "bedroom",
+					"x": 528,
+					"y": 124,
+					"rot": 0
+				},
+				{
+					"kind": "chair",
+					"zone": "bedroom",
+					"x": 330,
+					"y": 190,
+					"rot": 0
+				},
+				{
+					"kind": "fridge",
+					"zone": "kitchen",
+					"x": 42,
+					"y": 286,
+					"rot": 0
+				},
+				{
+					"kind": "stove",
+					"zone": "kitchen",
+					"x": 42,
+					"y": 396,
+					"rot": 0
+				},
+				{
+					"kind": "cupboard",
+					"zone": "kitchen",
+					"x": 150,
+					"y": 286,
+					"rot": 0
+				},
+				{
+					"kind": "table",
+					"zone": "kitchen",
+					"x": 100,
+					"y": 356,
+					"rot": 0
+				},
+				{
+					"kind": "shoe_cabinet",
+					"zone": "genkan",
+					"x": 232,
+					"y": 286,
+					"rot": 0
+				},
+				{
+					"kind": "aircon",
+					"zone": "genkan",
+					"x": 386,
+					"y": 262,
+					"rot": 0
+				},
+				{
+					"kind": "bathtub",
+					"zone": "bath",
+					"x": 480,
+					"y": 392,
+					"rot": 0
+				},
+				{
+					"kind": "toilet",
+					"zone": "bath",
+					"x": 524,
+					"y": 288,
+					"rot": 0
+				},
+				{
+					"kind": "wash",
+					"zone": "bath",
+					"x": 430,
+					"y": 272,
+					"rot": 0
+				}
+			],
+			"jitter": {
+				"pos": 10,
+				"rot": 6,
+				"clear": 8
+			},
+			"lights": [
+				{
+					"x": 140,
+					"y": 120,
+					"color": "#ffd9a0",
+					"energy": 1.3,
+					"range": 7.0
+				},
+				{
+					"x": 420,
+					"y": 120,
+					"color": "#ffd9a0",
+					"energy": 1.2,
+					"range": 7.0
+				},
+				{
+					"x": 300,
+					"y": 360,
+					"color": "#ffe0b0",
+					"energy": 1.1,
+					"range": 6.5
+				}
+			],
+			"wall": "wall",
+			"steps": [
+				{
+					"kind": "deck",
+					"y": 240,
+					"rise": 8,
+					"tread": 26,
+					"mat": "wood",
+					"fascia": "wall",
+					"step_mat": "threshold"
+				}
+			]
+		},
+		"apartment": {
+			"title_zh": "公寓",
+			"size": [
+				420,
+				360
+			],
+			"ceil": 108,
+			"floor": "wood",
+			"tiles": [
+				[
+					300,
+					200,
+					120,
+					160,
+					"tile"
+				],
+				[
+					0,
+					200,
+					180,
+					160,
+					"tile_cool"
+				],
+				[
+					180,
+					200,
+					120,
+					160,
+					"tile_cool"
+				]
+			],
+			"rooms": [
+				{
+					"id": "ldk",
+					"rect": [
+						0,
+						0,
+						420,
+						200
+					]
+				},
+				{
+					"id": "kitchen",
+					"rect": [
+						0,
+						200,
+						180,
+						160
+					]
+				},
+				{
+					"id": "genkan",
+					"rect": [
+						180,
+						200,
+						120,
+						160
+					]
+				},
+				{
+					"id": "bath",
+					"rect": [
+						300,
+						200,
+						120,
+						160
+					]
+				}
+			],
+			"walls": [
+				{
+					"a": [
+						0,
+						200
+					],
+					"b": [
+						420,
+						200
+					],
+					"door": 44
+				},
+				{
+					"a": [
+						180,
+						200
+					],
+					"b": [
+						180,
+						360
+					],
+					"door": 44
+				},
+				{
+					"a": [
+						300,
+						200
+					],
+					"b": [
+						300,
+						360
+					],
+					"door": 44
+				}
+			],
+			"props": [
+				{
+					"kind": "sofa",
+					"zone": "ldk",
+					"x": 84,
+					"y": 104,
+					"rot": 0
+				},
+				{
+					"kind": "tv",
+					"zone": "ldk",
+					"x": 84,
+					"y": 44,
+					"rot": 0
+				},
+				{
+					"kind": "table",
+					"zone": "ldk",
+					"x": 84,
+					"y": 158,
+					"rot": 0
+				},
+				{
+					"kind": "carpet",
+					"zone": "ldk",
+					"x": 100,
+					"y": 130,
+					"rot": 0
+				},
+				{
+					"kind": "shelf",
+					"zone": "ldk",
+					"x": 356,
+					"y": 44,
+					"rot": 0
+				},
+				{
+					"kind": "lamp",
+					"zone": "ldk",
+					"x": 380,
+					"y": 168,
+					"rot": 0
+				},
+				{
+					"kind": "curtain",
+					"zone": "ldk",
+					"x": 380,
+					"y": 112,
+					"rot": 0
+				},
+				{
+					"kind": "fridge",
+					"zone": "kitchen",
+					"x": 42,
+					"y": 232,
+					"rot": 0
+				},
+				{
+					"kind": "stove",
+					"zone": "kitchen",
+					"x": 42,
+					"y": 300,
+					"rot": 0
+				},
+				{
+					"kind": "cupboard",
+					"zone": "kitchen",
+					"x": 110,
+					"y": 232,
+					"rot": 0
+				},
+				{
+					"kind": "table",
+					"zone": "kitchen",
+					"x": 112,
+					"y": 330,
+					"rot": 0
+				},
+				{
+					"kind": "wash",
+					"zone": "bath",
+					"x": 394,
+					"y": 244,
+					"rot": 0
+				},
+				{
+					"kind": "toilet",
+					"zone": "bath",
+					"x": 350,
+					"y": 240,
+					"rot": 0
+				},
+				{
+					"kind": "bathtub",
+					"zone": "bath",
+					"x": 370,
+					"y": 336,
+					"rot": 0
+				},
+				{
+					"kind": "shoe_cabinet",
+					"zone": "genkan",
+					"x": 240,
+					"y": 240,
+					"rot": 0
+				},
+				{
+					"kind": "aircon",
+					"zone": "genkan",
+					"x": 288,
+					"y": 232,
+					"rot": 0
+				}
+			],
+			"jitter": {
+				"pos": 9,
+				"rot": 6,
+				"clear": 8
+			},
+			"lights": [
+				{
+					"x": 100,
+					"y": 96,
+					"color": "#ffd9a0",
+					"energy": 1.3,
+					"range": 7.0
+				},
+				{
+					"x": 330,
+					"y": 96,
+					"color": "#ffd9a0",
+					"energy": 1.1,
+					"range": 6.5
+				},
+				{
+					"x": 90,
+					"y": 290,
+					"color": "#ffe0b0",
+					"energy": 1.1,
+					"range": 6.5
+				}
+			],
+			"wall": "wall",
+			"steps": [
+				{
+					"kind": "deck",
+					"y": 200,
+					"rise": 8,
+					"tread": 24,
+					"mat": "wood",
+					"fascia": "wall",
+					"step_mat": "threshold"
+				}
+			]
+		},
+		"konbini_shop": {
+			"title_zh": "便利店",
+			"size": [
+				480,
+				320
+			],
+			"ceil": 120,
+			"floor": "tile",
+			"tiles": [],
+			"rooms": [
+				{
+					"id": "shop",
+					"rect": [
+						0,
+						0,
+						480,
+						320
+					]
+				}
+			],
+			"walls": [],
+			"props": [
+				{
+					"kind": "display_shelf",
+					"zone": "shop",
+					"x": 120,
+					"y": 70,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "shop",
+					"x": 240,
+					"y": 70,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "shop",
+					"x": 360,
+					"y": 70,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "shop",
+					"x": 120,
+					"y": 180,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "shop",
+					"x": 240,
+					"y": 180,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "shop",
+					"x": 360,
+					"y": 180,
+					"rot": 0
+				},
+				{
+					"kind": "fridge",
+					"zone": "shop",
+					"x": 440,
+					"y": 60,
+					"rot": 0
+				},
+				{
+					"kind": "shelf",
+					"zone": "shop",
+					"x": 440,
+					"y": 250,
+					"rot": 0
+				},
+				{
+					"kind": "counter",
+					"zone": "shop",
+					"x": 70,
+					"y": 286,
+					"rot": 0
+				},
+				{
+					"kind": "register",
+					"zone": "shop",
+					"x": 70,
+					"y": 244,
+					"rot": 0
+				},
+				{
+					"kind": "stool",
+					"zone": "shop",
+					"x": 140,
+					"y": 288,
+					"rot": 0
+				},
+				{
+					"kind": "aircon",
+					"zone": "shop",
+					"x": 450,
+					"y": 160,
+					"rot": 0
+				}
+			],
+			"jitter": {
+				"pos": 8,
+				"rot": 4,
+				"clear": 8
+			},
+			"lights": [
+				{
+					"x": 120,
+					"y": 130,
+					"color": "#eaf4ff",
+					"energy": 1.25,
+					"range": 8.0
+				},
+				{
+					"x": 260,
+					"y": 130,
+					"color": "#eaf4ff",
+					"energy": 1.25,
+					"range": 8.0
+				},
+				{
+					"x": 400,
+					"y": 130,
+					"color": "#eaf4ff",
+					"energy": 1.15,
+					"range": 8.0
+				}
+			],
+			"wall": "wall_shop"
+		},
+		"super_market": {
+			"title_zh": "超市",
+			"size": [
+				640,
+				440
+			],
+			"ceil": 132,
+			"floor": "tile",
+			"tiles": [],
+			"rooms": [
+				{
+					"id": "hall",
+					"rect": [
+						0,
+						0,
+						640,
+						440
+					]
+				}
+			],
+			"walls": [],
+			"props": [
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 120,
+					"y": 90,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 260,
+					"y": 90,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 400,
+					"y": 90,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 120,
+					"y": 210,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 260,
+					"y": 210,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 400,
+					"y": 210,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 120,
+					"y": 330,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 260,
+					"y": 330,
+					"rot": 0
+				},
+				{
+					"kind": "display_shelf",
+					"zone": "hall",
+					"x": 400,
+					"y": 330,
+					"rot": 0
+				},
+				{
+					"kind": "fridge",
+					"zone": "hall",
+					"x": 52,
+					"y": 44,
+					"rot": 0
+				},
+				{
+					"kind": "fridge",
+					"zone": "hall",
+					"x": 580,
+					"y": 90,
+					"rot": 0
+				},
+				{
+					"kind": "fridge",
+					"zone": "hall",
+					"x": 580,
+					"y": 210,
+					"rot": 0
+				},
+				{
+					"kind": "shelf",
+					"zone": "hall",
+					"x": 60,
+					"y": 400,
+					"rot": 0
+				},
+				{
+					"kind": "counter",
+					"zone": "hall",
+					"x": 540,
+					"y": 400,
+					"rot": 0
+				},
+				{
+					"kind": "register",
+					"zone": "hall",
+					"x": 420,
+					"y": 400,
+					"rot": 0
+				},
+				{
+					"kind": "stool",
+					"zone": "hall",
+					"x": 560,
+					"y": 300,
+					"rot": 0
+				},
+				{
+					"kind": "aircon",
+					"zone": "hall",
+					"x": 620,
+					"y": 160,
+					"rot": 0
+				}
+			],
+			"jitter": {
+				"pos": 8,
+				"rot": 4,
+				"clear": 8
+			},
+			"lights": [
+				{
+					"x": 160,
+					"y": 150,
+					"color": "#f2f8ff",
+					"energy": 1.3,
+					"range": 9.0
+				},
+				{
+					"x": 340,
+					"y": 150,
+					"color": "#f2f8ff",
+					"energy": 1.3,
+					"range": 9.0
+				},
+				{
+					"x": 520,
+					"y": 150,
+					"color": "#f2f8ff",
+					"energy": 1.2,
+					"range": 9.0
+				}
+			],
+			"wall": "wall_shop"
+		},
+		"cafe_hall": {
+			"title_zh": "咖啡馆",
+			"size": [
+				400,
+				320
+			],
+			"ceil": 112,
+			"floor": "wood",
+			"tiles": [
+				[
+					130,
+					240,
+					160,
+					80,
+					"tile"
+				]
+			],
+			"rooms": [
+				{
+					"id": "hall",
+					"rect": [
+						0,
+						0,
+						400,
+						320
+					]
+				}
+			],
+			"walls": [],
+			"props": [
+				{
+					"kind": "counter",
+					"zone": "hall",
+					"x": 110,
+					"y": 34,
+					"rot": 0
+				},
+				{
+					"kind": "register",
+					"zone": "hall",
+					"x": 220,
+					"y": 34,
+					"rot": 0
+				},
+				{
+					"kind": "stool",
+					"zone": "hall",
+					"x": 90,
+					"y": 72,
+					"rot": 0
+				},
+				{
+					"kind": "stool",
+					"zone": "hall",
+					"x": 140,
+					"y": 72,
+					"rot": 0
+				},
+				{
+					"kind": "stool",
+					"zone": "hall",
+					"x": 190,
+					"y": 72,
+					"rot": 0
+				},
+				{
+					"kind": "table",
+					"zone": "hall",
+					"x": 100,
+					"y": 160,
+					"rot": 0
+				},
+				{
+					"kind": "chair",
+					"zone": "hall",
+					"x": 100,
+					"y": 110,
+					"rot": 0
+				},
+				{
+					"kind": "chair",
+					"zone": "hall",
+					"x": 100,
+					"y": 214,
+					"rot": 0
+				},
+				{
+					"kind": "table",
+					"zone": "hall",
+					"x": 300,
+					"y": 160,
+					"rot": 0
+				},
+				{
+					"kind": "chair",
+					"zone": "hall",
+					"x": 300,
+					"y": 110,
+					"rot": 0
+				},
+				{
+					"kind": "chair",
+					"zone": "hall",
+					"x": 300,
+					"y": 214,
+					"rot": 0
+				},
+				{
+					"kind": "shelf",
+					"zone": "hall",
+					"x": 44,
+					"y": 246,
+					"rot": 0
+				},
+				{
+					"kind": "lamp",
+					"zone": "hall",
+					"x": 356,
+					"y": 240,
+					"rot": 0
+				},
+				{
+					"kind": "painting",
+					"zone": "hall",
+					"x": 200,
+					"y": 14,
+					"rot": 0
+				},
+				{
+					"kind": "curtain",
+					"zone": "hall",
+					"x": 330,
+					"y": 300,
+					"rot": 0
+				}
+			],
+			"jitter": {
+				"pos": 8,
+				"rot": 5,
+				"clear": 8
+			},
+			"lights": [
+				{
+					"x": 120,
+					"y": 120,
+					"color": "#ffcf8a",
+					"energy": 1.3,
+					"range": 7.0
+				},
+				{
+					"x": 290,
+					"y": 120,
+					"color": "#ffcf8a",
+					"energy": 1.3,
+					"range": 7.0
+				},
+				{
+					"x": 200,
+					"y": 280,
+					"color": "#ffd9a0",
+					"energy": 1.1,
+					"range": 6.5
+				}
+			],
+			"wall": "wall_wood"
+		},
+		"ramen_counter": {
+			"title_zh": "拉面店",
+			"size": [
+				360,
+				260
+			],
+			"ceil": 108,
+			"floor": "tile",
+			"tiles": [],
+			"rooms": [
+				{
+					"id": "hall",
+					"rect": [
+						0,
+						0,
+						360,
+						260
+					]
+				}
+			],
+			"walls": [],
+			"props": [
+				{
+					"kind": "counter",
+					"zone": "hall",
+					"x": 180,
+					"y": 92,
+					"rot": 0
+				},
+				{
+					"kind": "stool",
+					"zone": "hall",
+					"x": 120,
+					"y": 150,
+					"rot": 0
+				},
+				{
+					"kind": "stool",
+					"zone": "hall",
+					"x": 180,
+					"y": 150,
+					"rot": 0
+				},
+				{
+					"kind": "stool",
+					"zone": "hall",
+					"x": 240,
+					"y": 150,
+					"rot": 0
+				},
+				{
+					"kind": "shelf",
+					"zone": "hall",
+					"x": 312,
+					"y": 44,
+					"rot": 0
+				},
+				{
+					"kind": "fridge",
+					"zone": "hall",
+					"x": 44,
+					"y": 44,
+					"rot": 0
+				},
+				{
+					"kind": "table",
+					"zone": "hall",
+					"x": 62,
+					"y": 214,
+					"rot": 0
+				},
+				{
+					"kind": "wash",
+					"zone": "hall",
+					"x": 300,
+					"y": 216,
+					"rot": 0
+				},
+				{
+					"kind": "lamp",
+					"zone": "hall",
+					"x": 322,
+					"y": 150,
+					"rot": 0
+				},
+				{
+					"kind": "curtain",
+					"zone": "hall",
+					"x": 60,
+					"y": 20,
+					"rot": 0
+				}
+			],
+			"jitter": {
+				"pos": 7,
+				"rot": 5,
+				"clear": 8
+			},
+			"lights": [
+				{
+					"x": 180,
+					"y": 60,
+					"color": "#ffd08a",
+					"energy": 1.35,
+					"range": 6.5
+				},
+				{
+					"x": 180,
+					"y": 200,
+					"color": "#ffcf8a",
+					"energy": 1.15,
+					"range": 6.5
+				},
+				{
+					"x": 60,
+					"y": 200,
+					"color": "#ffe0b0",
+					"energy": 1.0,
+					"range": 6.0
+				}
+			],
+			"wall": "wall_wood"
+		},
+		"station_hall": {
+			"title_zh": "车站大厅",
+			"size": [
+				700,
+				420
+			],
+			"ceil": 168,
+			"floor": "terrazzo",
+			"tiles": [],
+			"rooms": [
+				{
+					"id": "hall",
+					"rect": [
+						0,
+						0,
+						700,
+						420
+					]
+				}
+			],
+			"walls": [],
+			"props": [
+				{
+					"kind": "gate",
+					"zone": "hall",
+					"x": 250,
+					"y": 300,
+					"rot": 0
+				},
+				{
+					"kind": "gate",
+					"zone": "hall",
+					"x": 450,
+					"y": 300,
+					"rot": 0
+				},
+				{
+					"kind": "ticket_machine",
+					"zone": "hall",
+					"x": 600,
+					"y": 344,
+					"rot": 0
+				},
+				{
+					"kind": "ticket_machine",
+					"zone": "hall",
+					"x": 660,
+					"y": 344,
+					"rot": 0
+				},
+				{
+					"kind": "bench",
+					"zone": "hall",
+					"x": 120,
+					"y": 356,
+					"rot": 0
+				},
+				{
+					"kind": "bench",
+					"zone": "hall",
+					"x": 340,
+					"y": 250,
+					"rot": 0
+				},
+				{
+					"kind": "bench",
+					"zone": "hall",
+					"x": 500,
+					"y": 356,
+					"rot": 0
+				},
+				{
+					"kind": "station_sign",
+					"zone": "hall",
+					"x": 350,
+					"y": 72,
+					"rot": 0
+				},
+				{
+					"kind": "lamp",
+					"zone": "hall",
+					"x": 140,
+					"y": 120,
+					"rot": 0
+				},
+				{
+					"kind": "lamp",
+					"zone": "hall",
+					"x": 560,
+					"y": 120,
+					"rot": 0
+				},
+				{
+					"kind": "shelf",
+					"zone": "hall",
+					"x": 60,
+					"y": 60,
+					"rot": 0
+				},
+				{
+					"kind": "counter",
+					"zone": "hall",
+					"x": 620,
+					"y": 64,
+					"rot": 0
+				},
+				{
+					"kind": "aircon",
+					"zone": "hall",
+					"x": 680,
+					"y": 220,
+					"rot": 0
+				}
+			],
+			"jitter": {
+				"pos": 8,
+				"rot": 3,
+				"clear": 8
+			},
+			"lights": [
+				{
+					"x": 200,
+					"y": 180,
+					"color": "#eef6ff",
+					"energy": 1.3,
+					"range": 9.0
+				},
+				{
+					"x": 500,
+					"y": 180,
+					"color": "#eef6ff",
+					"energy": 1.3,
+					"range": 9.0
+				},
+				{
+					"x": 350,
+					"y": 360,
+					"color": "#f6f9ff",
+					"energy": 1.15,
+					"range": 8.5
+				}
+			],
+			"wall": "wall_station",
+			"steps": [
+				{
+					"kind": "run",
+					"x": 80,
+					"y": 300,
+					"w": 200,
+					"rise": 7,
+					"run": 22,
+					"steps": 3,
+					"dir": [
+						0,
+						-1
+					],
+					"mat": "step_grey"
+				}
+			]
+		}
+	}
+}

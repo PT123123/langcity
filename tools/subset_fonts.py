@@ -29,8 +29,11 @@ def collect_text() -> str:
         with io.open(path, encoding="utf-8") as f:
             chars.update(f.read())
 
-    # 词库与地图数据
-    for name in ("words.json", "map.json"):
+    # 词库与地图数据。planet.json 是当前主地图（已取代 map.json），
+    # interiors.json / npcs.json 里的牌面文字与称呼也要收进来，
+    # 否则新增的 text3d 招牌会被子集裁掉、显示豆腐块。
+    for name in ("words.json", "map.json", "planet.json", "interiors.json",
+                 "npcs.json", "quests.json"):
         p = os.path.join(ROOT, "data", name)
         if os.path.exists(p):
             feed(p)

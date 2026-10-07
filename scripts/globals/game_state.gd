@@ -26,6 +26,12 @@ var xp := 0                 # 累计经验值
 var quest_state := {}       # 任务 id -> {"status": "active"/"done", "step": 跑腿当前步}
 var quest_tracked := ""     # 当前追踪（HUD 显示路线指引）的任务 id
 
+# ---- 多地图 / 室内 ----
+var current_place_id := "street_city"  # 当前所在 place（城市或室内）
+var last_positions := {}    # place_id -> [x, y]（像素），各图独立的最后位置
+var pending_spawn := {}     # 场景切换后的一次性出生点 {"place","pos","yaw"}，消费即清
+var return_to := {}         # 进入室内时记录的「出门返回点」{"place","pos","yaw"}
+
 var settings := {
 	"auto_speak": true,     # 发现新词自动发音
 	"show_romaji": true,    # 弹窗显示罗马音
@@ -165,9 +171,62 @@ func review_candidates() -> Array:
 
 
 func set_position(p: Vector2) -> void:
+	set_position_in(current_place_id, p)
+
+
+## 记录某个 place 的最后位置（各图独立，重开各自回到自己上次的位置）
+func set_position_in(place_id: String, p: Vector2) -> void:
+	last_positions[place_id] = [p.x, p.y]
 	last_position = p
 	has_last_position = true
 	save_soon()
+
+
+## 取某个 place 的已存位置（像素），无则 null
+func position_in(place_id: String) -> Variant:
+	if last_positions.has(place_id):
+		var a: Array = last_positions[place_id]
+		return Vector2(float(a[0]), float(a[1]))
+	return null
+
+
+## 传送到另一个 place：写好一次性出生点后重载世界场景。
+## 时序安全：Game 是 autoload，换场景不销毁，新场景 _ready 里 consume_spawn 取用。
+func travel_to(place_id: String, pos_px := Vector2.ZERO, yaw := 0.0) -> void:
+	var target := place_id
+	if not Places.has_place(target):
+		target = Places.default_id()
+	current_place_id = target
+	pending_spawn = {"place": target, "pos": pos_px, "yaw": yaw}
+	save_soon()
+	get_tree().change_scene_to_file("res://scenes/street.tscn")
+
+
+## 取当前 place 的一次性出生点（消费即清，避免再次进入沿用旧值）
+func consume_spawn(place_id: String) -> Dictionary:
+	if not pending_spawn.is_empty() and String(pending_spawn.get("place", "")) == place_id:
+		var s := pending_spawn
+		pending_spawn = {}
+		return s
+	return {}
+
+
+## 记下进入室内时的门外返回点，出门精确回原位
+func remember_return(place_id: String, pos_px: Vector2, yaw: float) -> void:
+	return_to = {"place": place_id, "pos": [pos_px.x, pos_px.y], "yaw": yaw}
+	save_soon()
+
+
+## 取出并清空返回点（仅当 place 匹配；括号内返回 Dictionary，无则空）
+func take_return(place_id: String) -> Dictionary:
+	if return_to.is_empty() or String(return_to.get("place", "")) != place_id:
+		return {}
+	var a: Array = return_to.get("pos", [0, 0])
+	var r := {"place": place_id, "pos": Vector2(float(a[0]), float(a[1])),
+		"yaw": float(return_to.get("yaw", 0.0))}
+	return_to = {}
+	save_soon()
+	return r
 
 
 ## 应用画质档位到当前场景的 Environment + 太阳。设置页与自动降级都调它。
@@ -242,12 +301,15 @@ func save_soon() -> void:
 
 func save_now() -> void:
 	var data := {
-		"version": 1,
+		"version": 2,
 		"discovered": discovered,
 		"favorites": favorites,
 		"review_stats": review_stats,
 		"last_position": [last_position.x, last_position.y],
 		"has_last_position": has_last_position,
+		"current_place_id": current_place_id,
+		"last_positions": last_positions,
+		"return_to": return_to,
 		"settings": settings,
 		"xp": xp,
 		"quest_state": quest_state,
@@ -277,6 +339,15 @@ func _load_save() -> void:
 	var lp: Array = d.get("last_position", [0, 0])
 	last_position = Vector2(float(lp[0]), float(lp[1]))
 	has_last_position = bool(d.get("has_last_position", false))
+	# ---- 多地图（v2）----
+	current_place_id = String(d.get("current_place_id", ""))
+	if current_place_id.is_empty() or not Places.has_place(current_place_id):
+		current_place_id = Places.default_id()
+	last_positions = d.get("last_positions", {})
+	if int(d.get("version", 1)) < 2 and has_last_position:
+		# v1 只有一个 last_position —— 迁移为旧市街的位置，老档进度/位置都不丢
+		last_positions = {"street_city": [last_position.x, last_position.y]}
+	return_to = d.get("return_to", {})
 	xp = int(d.get("xp", 0))
 	quest_state = d.get("quest_state", {})
 	quest_tracked = String(d.get("quest_tracked", ""))
@@ -291,6 +362,10 @@ func reset_progress() -> void:
 	review_stats = {}
 	has_last_position = false
 	last_position = Vector2.ZERO
+	current_place_id = Places.default_id()
+	last_positions = {}
+	pending_spawn = {}
+	return_to = {}
 	xp = 0
 	quest_state = {}
 	quest_tracked = ""

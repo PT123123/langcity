@@ -52,10 +52,19 @@ WANTED = {
     "concrete_wall_001": "wall_concrete",
     "patterned_slate_tiles": "stone",
     "rustic_stone_wall": "stone_rustic",
+    "concrete_tile_facade": "concrete_tile_facade",  # 商店/公寓外墙小口瓷砖
+    "japanese_stone_wall": "stone_jp",
+    "plaster_stone_wall_01": "plaster_stone",
     # ---- 屋顶 ----
     "clay_roof_tiles": "roof",
     "roof_slates_02": "roof_slate",
     "grey_roof_tiles": "roof_tile",
+    # ---- 楼梯 / 踏步 / 门槛（台阶是玩家每天踩的面，不能只有纯色盒）----
+    "concrete_tiles": "step_concrete",   # 水泥踏步/缘石
+    "large_grey_tiles": "step_grey",     # 大块灰阶石（车站/公共建筑）
+    "stair_planks": "step_wood",         # 木踏步
+    "anti_skid_tiles": "step_antiskid",  # 防滑砖（浴室/玄关）
+    "granite_tile": "step_granite",      # 花岗岩踏步
     # ---- 木材 / 家具 ----
     "wooden_planks": "wood",
     "dark_planks": "wood_dark",
@@ -64,6 +73,22 @@ WANTED = {
     "wooden_gate": "wood_gate",
     "japanese_cedar_bark": "bark_cedar",
     "bark_brown_02": "bark",
+    # ---- 室内地面（原来 wood_floor / tiles 只在代码里引用、磁盘上根本没有，
+    #      室内全程走ProceduralTex 程序纹理 —— 这批补齐后interior_builder 改用真贴图）----
+    "wood_floor": "wood_floor",
+    "tatami_mat": "tatami",              # 榻榻米（和室）
+    "interior_tiles": "tiles",           # 室内地砖（玄关/厨房/浴室）
+    "terrazzo_tiles": "tiles_terrazzo",  # 水磨石（车站/商店地面）
+    "old_wood_floor": "floor_old_wood",
+    "hinoki_planks": "wood_hinoki",      # 檜木板（室内墙裙/天花板）
+    # ---- 立面差异化：民居 12 栋不能全用同一张 grey_plaster ----
+    "white_planks_clean": "wall_white_plank",
+    "weathered_plank_siding": "wall_plank_siding",
+    "bamboo_wall": "wall_bamboo",
+    "yellow_plaster": "wall_yellow",
+    "white_plaster_rough_01": "wall_white_rough",
+    "worn_mossy_plasterwall": "wall_mossy",
+    "concrete_block_wall_02": "wall_block",
     # ---- 金属 / 涂装 ----
     "metal_plate": "metal",
     "blue_metal_plate": "metal_blue",
@@ -74,6 +99,13 @@ WANTED = {
     # ---- 其他 ----
     "dirt_aerial_02": "dirt_dark",
     "pebbles": "pebbles",
+    # ---- 家具/家电「表面族」贴图（Kenney 家具·家电·植物原本是纯色材质）----
+    # 需求来源：用户要求「几乎所有模型都要有贴图，不要纯的裸的」。
+    # Kenney 的 Furniture/Nature 系模型材质只有 baseColorFactor、没有贴图，
+    # 靠 ModelUtil 的材质名→贴图映射补上（见 model_util.gd 的 SURFACE_TEX）。
+    "fabric_pattern_07": "fabric",        # 地毯/沙发/椅面软布
+    "fabric_pattern_05": "fabric_alt",    # 备用软布（花纹不同，避免整屋同纹）
+    "leather_white": "leather",           # 沙发/椅面皮革
 }
 
 
@@ -129,14 +161,24 @@ def fetch(asset_id: str, res: str = "1k", alias: str = "") -> int:
         return 0
     name = alias or asset_id
     # Poly Haven 通道名 -> 本地后缀
+    #
+    # 【漫反射为什么要一串候选】不是所有资产的漫反射都叫 "Diffuse"：
+    # fabric_pattern_07 / 05 这类多色织物把通道拆成 col_1 / col_2 / col_03，
+    # 只认 "Diffuse" 会静默跳过 —— 结果是 nrm/rgh 下了、col 没下，
+    # 而 Interactable._scan_tex() 只认 *_col.jpg，于是这个 kind 等于不存在。
+    # （症状：地毯/沙发材质"看起来没贴图"，但日志里这套贴图明明下载过。）
     channels = [
-        ("Diffuse", "col"),
-        ("nor_gl", "nrm"),
-        ("Rough", "rgh"),
+        (("Diffuse", "col_1", "col_2", "col_03", "base_color"), "col"),
+        (("nor_gl",), "nrm"),
+        (("Rough",), "rgh"),
     ]
     got = 0
-    for key, suffix in channels:
-        node = meta.get(key)
+    for keys, suffix in channels:
+        node = None
+        for key in keys:
+            if meta.get(key):
+                node = meta[key]
+                break
         if not node:
             continue
         # 优先 jpg（体积小），没有就 png

@@ -1,0 +1,5277 @@
+{
+	"type": "npm",
+	"name": "three",
+	"version": "0.169.0",
+	"default": "/build/three.cjs",
+	"files": [
+		{
+			"name": "/build/three.cjs",
+			"hash": "gCnNCbptP8Ai4SA7vVVinP5BKtZH5aKf+ySEZJoUnPA=",
+			"size": 1315715
+		},
+		{
+			"name": "/build/three.module.js",
+			"hash": "CjNowWXup3NJCux7d8It5w4+rCiFA0CSVv2/TRJXhBY=",
+			"size": 1304820
+		},
+		{
+			"name": "/build/three.module.min.js",
+			"hash": "987jx1M0SaFQXMEstRKLiePU/T1+pisF+fVGSiF0cu4=",
+			"size": 687458
+		},
+		{
+			"name": "/build/three.webgpu.js",
+			"hash": "QafMmyx74pU2lYhfBS+zi26XhEm/kinH4ilNWk7z6B0=",
+			"size": 1718004
+		},
+		{
+			"name": "/build/three.webgpu.min.js",
+			"hash": "23ozNiR3sskx/mqcl8pcIMxsm5ejUmX76v5op5s0uXo=",
+			"size": 840715
+		},
+		{
+			"name": "/build/three.webgpu.nodes.js",
+			"hash": "PB+Sl7rNhpHFbEJPYKeTwzthnJq459eS7L/rztrcMbA=",
+			"size": 1716653
+		},
+		{
+			"name": "/build/three.webgpu.nodes.min.js",
+			"hash": "kfe8lsqI/FArytPZ6i8MAvLcZwS/XAWdABfhgx/rlD4=",
+			"size": 840224
+		},
+		{
+			"name": "/examples/fonts/droid/droid_sans_bold.typeface.json",
+			"hash": "7EDwd+BpXkzp906ZUwNDEuttHVqetsWEsesP2EB3+4E=",
+			"size": 329885
+		},
+		{
+			"name": "/examples/fonts/droid/droid_sans_mono_regular.typeface.json",
+			"hash": "xg8jMwxZEfXzZAkB8N7fDALPyZguC1qZ4vHvMO68Tm8=",
+			"size": 190569
+		},
+		{
+			"name": "/examples/fonts/droid/droid_sans_regular.typeface.json",
+			"hash": "jwVw5su5sCMNyKGbGUL9QUGR8PO/x24/QTwvnPzNLqw=",
+			"size": 319895
+		},
+		{
+			"name": "/examples/fonts/droid/droid_serif_bold.typeface.json",
+			"hash": "6acd5ZLiOazD2jYBz7rVODaTH0mPQJq2hTUUDyBF8p0=",
+			"size": 485403
+		},
+		{
+			"name": "/examples/fonts/droid/droid_serif_regular.typeface.json",
+			"hash": "mf+FW4wYvOw0KHRfV2p1v7DaX2P+UsI/JITC5lXCxko=",
+			"size": 477058
+		},
+		{
+			"name": "/examples/fonts/droid/NOTICE",
+			"hash": "OHUSRTieHiP3Pm9ThLXL5/qXLMRBDFrcnASwgqC5Vho=",
+			"size": 10695
+		},
+		{
+			"name": "/examples/fonts/droid/README.txt",
+			"hash": "yLiAdwUv7ZErP3JMDtIwxQHPThiDOvfKRDONPNCwk+I=",
+			"size": 692
+		},
+		{
+			"name": "/examples/fonts/gentilis_bold.typeface.json",
+			"hash": "wCj9nEAX408b9GaU5MI0ec0iuBLQMI9d/HRGQSxB2Iw=",
+			"size": 649318
+		},
+		{
+			"name": "/examples/fonts/gentilis_regular.typeface.json",
+			"hash": "ftlfL6ow9Z2+fPsUW5fEKmuhGIzS7sAcphSF6Mg+6d4=",
+			"size": 627529
+		},
+		{
+			"name": "/examples/fonts/helvetiker_bold.typeface.json",
+			"hash": "vWgVnuC40Q/iS52qLjLxlob52CaaedyNRCA6ZimL+i8=",
+			"size": 61632
+		},
+		{
+			"name": "/examples/fonts/helvetiker_regular.typeface.json",
+			"hash": "1cVGdpD3QGEXmikq+DvYXExVHg8Qayr5lxTxEYTJaYE=",
+			"size": 63182
+		},
+		{
+			"name": "/examples/fonts/LICENSE",
+			"hash": "Negnk1bXiQhxxPzoBNFX4/IUVqcxHvLKq1y0cFxxtr0=",
+			"size": 2006
+		},
+		{
+			"name": "/examples/fonts/optimer_bold.typeface.json",
+			"hash": "1pCl9FcG2wwVw5MTzDb4zmLvFUxqIZI4CYFKifbffJg=",
+			"size": 112249
+		},
+		{
+			"name": "/examples/fonts/optimer_regular.typeface.json",
+			"hash": "F+XhTZTWbg5g7tO/3kA/z6Pmd/PJFOTL7SZMDAupUXU=",
+			"size": 110666
+		},
+		{
+			"name": "/examples/fonts/README.md",
+			"hash": "UCpsq3iV5hMvCmlGxpeZM9OVmx12neBLhWgrMGJrQ0A=",
+			"size": 334
+		},
+		{
+			"name": "/examples/fonts/ttf/kenpixel.ttf",
+			"hash": "/UIiYGf8RHB9Qe+fQ1l1dMag/UFSSUFrOM+TNxp6YRo=",
+			"size": 18068
+		},
+		{
+			"name": "/examples/fonts/ttf/README.md",
+			"hash": "g5oGkO5i1Vl3m9l4+iiCjxaG2wBx9Gtf68qMVTrxYDk=",
+			"size": 188
+		},
+		{
+			"name": "/examples/jsm/Addons.js",
+			"hash": "jV5PBBLzZKMyzvEggvcddplDNDcOorZJp/Jg7Zy3mdw=",
+			"size": 12039
+		},
+		{
+			"name": "/examples/jsm/animation/AnimationClipCreator.js",
+			"hash": "HJcsOlwpti+FpR40Id73fGUudLNNM7ST8ipx6xpRc84=",
+			"size": 2592
+		},
+		{
+			"name": "/examples/jsm/animation/CCDIKSolver.js",
+			"hash": "NrMWB8O/QdUPLbf2T/Qt7+KnGJslmJHVjistHePQC6o=",
+			"size": 9940
+		},
+		{
+			"name": "/examples/jsm/animation/MMDAnimationHelper.js",
+			"hash": "Ghhg0tz4FO8mZHCR4by1rpmhOVgcooAZaVayF7Ktr4Q=",
+			"size": 25130
+		},
+		{
+			"name": "/examples/jsm/animation/MMDPhysics.js",
+			"hash": "u7XsLX9UVfJGsRYp0dpFYcTPxzo9ZlP7p/+KUnTku8Y=",
+			"size": 28135
+		},
+		{
+			"name": "/examples/jsm/cameras/CinematicCamera.js",
+			"hash": "NqHvY5+g3VUUDtOnZh2YwTpmb4ZthDiSzasi7CxZIK8=",
+			"size": 6061
+		},
+		{
+			"name": "/examples/jsm/capabilities/WebGL.js",
+			"hash": "bikNNhuXD0O311oSzA6NV7sNPH7ikXDTjjtdo8JJYs4=",
+			"size": 2358
+		},
+		{
+			"name": "/examples/jsm/capabilities/WebGPU.js",
+			"hash": "0XaSst9r9Pr8jpVz6CGEoqWtyyZJOaSHjPm7pbkpgF4=",
+			"size": 1077
+		},
+		{
+			"name": "/examples/jsm/controls/ArcballControls.js",
+			"hash": "gZrbex9B5f6mEUpdh+jf0BUlrLIpp5f3vgsywK+aIdA=",
+			"size": 80150
+		},
+		{
+			"name": "/examples/jsm/controls/DragControls.js",
+			"hash": "zP7wEmgVT/Dov5UJMlxZ7mj9qcadsSaMo/pxUD7vylA=",
+			"size": 8380
+		},
+		{
+			"name": "/examples/jsm/controls/FirstPersonControls.js",
+			"hash": "YJfj37SIXPBD7V7mxXO628EJOtmfkCZVgqFqAKGVK0s=",
+			"size": 6698
+		},
+		{
+			"name": "/examples/jsm/controls/FlyControls.js",
+			"hash": "2lZlJjnyU5dFZ27v+Td8Lisfmk28iZP2EwNRZy8Zjos=",
+			"size": 7717
+		},
+		{
+			"name": "/examples/jsm/controls/MapControls.js",
+			"hash": "g9IigK3w1o20ygLmzK/aE5NqKqEe0u2UJ7uzHA+IN3I=",
+			"size": 863
+		},
+		{
+			"name": "/examples/jsm/controls/OrbitControls.js",
+			"hash": "gO+q3qT4pjamX7C9CL/vYvPZOgu5Ti51APIxdsXAf04=",
+			"size": 32134
+		},
+		{
+			"name": "/examples/jsm/controls/PointerLockControls.js",
+			"hash": "O83VgnE3pf5TFzWth4XZCbqJipBIKWOMWPHXlhvDiIg=",
+			"size": 3555
+		},
+		{
+			"name": "/examples/jsm/controls/TrackballControls.js",
+			"hash": "XslHZow3RNeFLQZRnDQnCstYiksr9WoL8Bztrnzg6TE=",
+			"size": 18367
+		},
+		{
+			"name": "/examples/jsm/controls/TransformControls.js",
+			"hash": "FrYyyZ1dT3cqy9gvCxSRGlrNvvxOSctH2pqkF2Yg/Ng=",
+			"size": 41121
+		},
+		{
+			"name": "/examples/jsm/csm/CSM.js",
+			"hash": "2dyTIN0hPLH/UNIRpyVB3yfoP3hA3teQBTzjP85QWXs=",
+			"size": 9269
+		},
+		{
+			"name": "/examples/jsm/csm/CSMFrustum.js",
+			"hash": "Q3brh+n3xhE1MiVZr83O6b50bpRVuL9qiQl15BryQOI=",
+			"size": 2741
+		},
+		{
+			"name": "/examples/jsm/csm/CSMHelper.js",
+			"hash": "93ZBTGkUVp5a+DnrScGYHlGaHllHVH6cbHAccfHh9JY=",
+			"size": 5832
+		},
+		{
+			"name": "/examples/jsm/csm/CSMShader.js",
+			"hash": "VvzfKubjM2jaL++eTDpcFKg8Gy9eaXMhb6tS4NGk91U=",
+			"size": 10726
+		},
+		{
+			"name": "/examples/jsm/curves/CurveExtras.js",
+			"hash": "eohbFeIHj6ySm2pp/Ofh6+mg+hFjwvzFj8LUnhb0Khk=",
+			"size": 7326
+		},
+		{
+			"name": "/examples/jsm/curves/NURBSCurve.js",
+			"hash": "NN7il3BEMjWGgJNKjVrK418FxxqlnOeo6X3ssKw45FI=",
+			"size": 1878
+		},
+		{
+			"name": "/examples/jsm/curves/NURBSSurface.js",
+			"hash": "NJcFX7VwOKgflMcRTRERavK4IUGqw+YIJV5HwoUnayg=",
+			"size": 1296
+		},
+		{
+			"name": "/examples/jsm/curves/NURBSUtils.js",
+			"hash": "Cr7qshP0I8bqcXCr4EXm0n1jwKEWTmfeHaiB4OXHSA8=",
+			"size": 9150
+		},
+		{
+			"name": "/examples/jsm/curves/NURBSVolume.js",
+			"hash": "aK9zAm3BSoxl+ZGcQFRZEWh7G8yRzmkJYP8JlgiqYfY=",
+			"size": 1655
+		},
+		{
+			"name": "/examples/jsm/effects/AnaglyphEffect.js",
+			"hash": "ZxzXSoQgw4KXGYaZQVeL9F/ZYSQPGfG7MpLYbB4D9bc=",
+			"size": 3374
+		},
+		{
+			"name": "/examples/jsm/effects/AsciiEffect.js",
+			"hash": "mUEttelsV2oJUrS1QtZ8HyAbVMSgVhlRlxEGHdxYtK8=",
+			"size": 6077
+		},
+		{
+			"name": "/examples/jsm/effects/OutlineEffect.js",
+			"hash": "R+MsBMrZkpV9ZVHK42HGZJpUb34CvB8rtcOXGgD9Vpg=",
+			"size": 12954
+		},
+		{
+			"name": "/examples/jsm/effects/ParallaxBarrierEffect.js",
+			"hash": "zM+A42CbYEE7/3aHQ3Puq5+iNWwIMUNPn03AJX/iT1E=",
+			"size": 2545
+		},
+		{
+			"name": "/examples/jsm/effects/PeppersGhostEffect.js",
+			"hash": "2hukOFpk82TSk84QCpm0j8T8UND3CJ+TfiAqQldNrdI=",
+			"size": 3549
+		},
+		{
+			"name": "/examples/jsm/effects/StereoEffect.js",
+			"hash": "3L0AzidnKtfGSA+M+8l9wVcjCNMS+gC8akqw7gBwTXI=",
+			"size": 1276
+		},
+		{
+			"name": "/examples/jsm/environments/DebugEnvironment.js",
+			"hash": "ZhBXclZ699rVciyAZOdvvQlA3pZ7CR0syyHmQzborPU=",
+			"size": 1335
+		},
+		{
+			"name": "/examples/jsm/environments/RoomEnvironment.js",
+			"hash": "hYab3SL3zwsi5o3O/my3EEgK8PXJAadvendk/Qf8gBQ=",
+			"size": 3606
+		},
+		{
+			"name": "/examples/jsm/exporters/DRACOExporter.js",
+			"hash": "S+5dq2JZb94qDFCol69nP0xZGazXcjjNsa0psAm1iLQ=",
+			"size": 6673
+		},
+		{
+			"name": "/examples/jsm/exporters/EXRExporter.js",
+			"hash": "EZtJquheG5BKjwuh/pEE2gUujNN7MbdbbCMSD5ihc4I=",
+			"size": 13056
+		},
+		{
+			"name": "/examples/jsm/exporters/GLTFExporter.js",
+			"hash": "QwRKevXB+MMMaWASbVq+L49YDTNyq/PNz2gRJJ1Hfnk=",
+			"size": 79663
+		},
+		{
+			"name": "/examples/jsm/exporters/KTX2Exporter.js",
+			"hash": "Rgq3AMZl46ViJYo61sMKgpniGwAvC3NlnSMTXnVVGZw=",
+			"size": 6837
+		},
+		{
+			"name": "/examples/jsm/exporters/MMDExporter.js",
+			"hash": "aC9psnSYvUNoejtSBARd9b9PCs9nSiUBafAtVMdloAc=",
+			"size": 4052
+		},
+		{
+			"name": "/examples/jsm/exporters/OBJExporter.js",
+			"hash": "ZjkKUp08JCRiWM1i4lXks5EGJNnM34pQLvfkkENnLqo=",
+			"size": 5454
+		},
+		{
+			"name": "/examples/jsm/exporters/PLYExporter.js",
+			"hash": "sbtIKTpXAE+ICUF7VKToje9p47WtAo7GYgL2gOnECZI=",
+			"size": 12108
+		},
+		{
+			"name": "/examples/jsm/exporters/STLExporter.js",
+			"hash": "1kRAh3toqXPJwv5qBHTJyauZahLx+oNfvE/6KRWPF2s=",
+			"size": 3890
+		},
+		{
+			"name": "/examples/jsm/exporters/USDZExporter.js",
+			"hash": "yYC/9t2/aaA+rhcQDeZ9iluu/K+oSXTEV/SNUlG7NVY=",
+			"size": 18735
+		},
+		{
+			"name": "/examples/jsm/geometries/BoxLineGeometry.js",
+			"hash": "tMBOkB4iZ5YDRASkseKIZ60S0nTaRL3dKWJyPi/irhg=",
+			"size": 1968
+		},
+		{
+			"name": "/examples/jsm/geometries/ConvexGeometry.js",
+			"hash": "m8+AKBpThZL7rIFQdiit8shFDdUvFVMEknJddghev5I=",
+			"size": 1035
+		},
+		{
+			"name": "/examples/jsm/geometries/DecalGeometry.js",
+			"hash": "XSPv07yq7AXrYs9Kv00pCj1XJ0lEyKvHfU5S+UjuwLQ=",
+			"size": 8586
+		},
+		{
+			"name": "/examples/jsm/geometries/InstancedPointsGeometry.js",
+			"hash": "TOHRtdx4KodARqK5od+0bSDGpBmiIRujLzyp0lbgq0Q=",
+			"size": 2851
+		},
+		{
+			"name": "/examples/jsm/geometries/ParametricGeometries.js",
+			"hash": "EQvwGW1zOqHbBE+Pt2Wng9Mv1B8nXS/6HSCldu4FZpw=",
+			"size": 5472
+		},
+		{
+			"name": "/examples/jsm/geometries/ParametricGeometry.js",
+			"hash": "RSKCnMBJXWbwwyryE5sALAmQx0uZtEIJpo47VcYuif4=",
+			"size": 2478
+		},
+		{
+			"name": "/examples/jsm/geometries/RoundedBoxGeometry.js",
+			"hash": "0grq9wd8RZqNlS0hVzjXtE+6AoRAu4YthLYio08MgLs=",
+			"size": 4625
+		},
+		{
+			"name": "/examples/jsm/geometries/TeapotGeometry.js",
+			"hash": "Qq+UxSf0XlSIPjwCP7aH2r4ANUcqWl4OauD7tqQxXXY=",
+			"size": 19497
+		},
+		{
+			"name": "/examples/jsm/geometries/TextGeometry.js",
+			"hash": "jVIf694nQIuLS86IeTZEW/2AFSEUfmPcOx96wdBmhXw=",
+			"size": 1572
+		},
+		{
+			"name": "/examples/jsm/helpers/LightProbeHelper.js",
+			"hash": "4b7sgITEEyE4F5737XWSBpG7bhqq/lCyVZv09W6VgSc=",
+			"size": 2708
+		},
+		{
+			"name": "/examples/jsm/helpers/LightProbeHelperGPU.js",
+			"hash": "BTpPFtrYBKxpYavJtQOkI4DeyUxtNHXqkmcT/6oRSzY=",
+			"size": 1299
+		},
+		{
+			"name": "/examples/jsm/helpers/OctreeHelper.js",
+			"hash": "VmOqySX03BRcVRW+AhuPNro5VONYHg/581NiBUTvFxU=",
+			"size": 1976
+		},
+		{
+			"name": "/examples/jsm/helpers/PositionalAudioHelper.js",
+			"hash": "JlpBuKwufOgDw8Cfa6Z9z0+nOAK/ytJjD8VlUfbArnw=",
+			"size": 2712
+		},
+		{
+			"name": "/examples/jsm/helpers/RectAreaLightHelper.js",
+			"hash": "IP9opnFd/0gzbauuOGvb8slmf4YlHozomVec8M4V16M=",
+			"size": 2051
+		},
+		{
+			"name": "/examples/jsm/helpers/TextureHelper.js",
+			"hash": "LeYimGsvsXvKXCZwZHrSqW1hgCWkS8Wg9R2WygfdUxk=",
+			"size": 4438
+		},
+		{
+			"name": "/examples/jsm/helpers/VertexNormalsHelper.js",
+			"hash": "Wmo0mvIPGRMwspJyK1Jnb2IF2NsSU9aPHL79VjAkTLo=",
+			"size": 1811
+		},
+		{
+			"name": "/examples/jsm/helpers/VertexTangentsHelper.js",
+			"hash": "ODpL35Lgdg+UBLa7BuGINF8XXG+gILrlitp2CxcNO0Y=",
+			"size": 1659
+		},
+		{
+			"name": "/examples/jsm/helpers/ViewHelper.js",
+			"hash": "KJjuuRPj8SXhhbLp4OkcDMJ4tnazutTPsK++bopURsU=",
+			"size": 8611
+		},
+		{
+			"name": "/examples/jsm/interactive/HTMLMesh.js",
+			"hash": "B4mg15YUI6Fe4V82UNviB/H0dBcfL5HDvWd824xQkqI=",
+			"size": 12839
+		},
+		{
+			"name": "/examples/jsm/interactive/InteractiveGroup.js",
+			"hash": "onSUakt/BM2w//FKmD5DDldCmK1oRyC0wlokwvwVLVs=",
+			"size": 2463
+		},
+		{
+			"name": "/examples/jsm/interactive/SelectionBox.js",
+			"hash": "Ca6qQPHcLfIRYGrlUKedHq22r/5ApbnZU7X6QxGPQfs=",
+			"size": 6139
+		},
+		{
+			"name": "/examples/jsm/interactive/SelectionHelper.js",
+			"hash": "gz0ersNAwkVHiZ0W2c4U3DloSHmX+Lc+G3JsKLqFNvE=",
+			"size": 2579
+		},
+		{
+			"name": "/examples/jsm/libs/ammo.wasm.js",
+			"hash": "P6Y8WE1HMvcrlUxeoQXx+sqZVZyVxXznu3ONNJf5gig=",
+			"size": 393768
+		},
+		{
+			"name": "/examples/jsm/libs/ammo.wasm.wasm",
+			"hash": "Fr4HuYmWO93r/vZuqyikOHU26zcBTZ3xUx2rOAvZapM=",
+			"size": 651386
+		},
+		{
+			"name": "/examples/jsm/libs/basis/basis_transcoder.js",
+			"hash": "hHi1tta3Tn0wgrifZBcyHY0dwDB/KzDUSEuxG0QWlqE=",
+			"size": 57529
+		},
+		{
+			"name": "/examples/jsm/libs/basis/basis_transcoder.wasm",
+			"hash": "bPF9yIk1LELprPiJcQeXjRJwBf4zhsNqDjhF4nlnYwo=",
+			"size": 527333
+		},
+		{
+			"name": "/examples/jsm/libs/basis/README.md",
+			"hash": "kwsRu7t0KyUlSRsJZPBGLWPYshODwGI+xMmMQ9U3I8Y=",
+			"size": 1448
+		},
+		{
+			"name": "/examples/jsm/libs/chevrotain.module.min.js",
+			"hash": "AmBHNmqb3Qlh63mFf9XYTbIEWJlCGTASqr5+O+44EEU=",
+			"size": 157440
+		},
+		{
+			"name": "/examples/jsm/libs/draco/draco_decoder.js",
+			"hash": "MOTUhvoCBzevEOPFYZdpPluQS9wFuL+l17BnUd7G2gQ=",
+			"size": 719410
+		},
+		{
+			"name": "/examples/jsm/libs/draco/draco_decoder.wasm",
+			"hash": "xVpZTo/9GEJtNrJ/6pYYrz314XNkCj5W1G8J128FdPI=",
+			"size": 285747
+		},
+		{
+			"name": "/examples/jsm/libs/draco/draco_encoder.js",
+			"hash": "1cZTyvJCVW3f+TcOhpebi1xhMbwZa+OIaYqF3C4btZs=",
+			"size": 928718
+		},
+		{
+			"name": "/examples/jsm/libs/draco/draco_wasm_wrapper.js",
+			"hash": "6ASZBu8/j3XTRWwio/Mb/f5bW1vQnM3sYTuemknVVNg=",
+			"size": 58763
+		},
+		{
+			"name": "/examples/jsm/libs/draco/gltf/draco_decoder.js",
+			"hash": "hiVInaeagF9PKn1RHD5S2LQIVgip0qTV9PneXbCuoE8=",
+			"size": 512465
+		},
+		{
+			"name": "/examples/jsm/libs/draco/gltf/draco_decoder.wasm",
+			"hash": "poDZJ77Zy4ZN29Y1IYaIka8r++dVCSdhtIN0h2GN+Kw=",
+			"size": 192420
+		},
+		{
+			"name": "/examples/jsm/libs/draco/gltf/draco_encoder.js",
+			"hash": "bUEy17aNJtIKQ6HtWf9LSmlPuq1BszkVjbBQ29Dmj1Y=",
+			"size": 954360
+		},
+		{
+			"name": "/examples/jsm/libs/draco/gltf/draco_wasm_wrapper.js",
+			"hash": "i7KVLSun1n4UFPjfgZQQywQ0pma+U/Zx//dfaIQ9dvY=",
+			"size": 58456
+		},
+		{
+			"name": "/examples/jsm/libs/draco/README.md",
+			"hash": "i50ne/V0P0zo2F1jwWaQBxtT+BeW6HfU05WvlDveAqA=",
+			"size": 1489
+		},
+		{
+			"name": "/examples/jsm/libs/ecsy.module.js",
+			"hash": "860ko8Na+qdbDYSJirjyXobdw/SKetsFQyo+UGUYyzI=",
+			"size": 45516
+		},
+		{
+			"name": "/examples/jsm/libs/fflate.module.js",
+			"hash": "IJpEEutIzmCe20ORmSp5L/zDmD0w7n4rC4moxHDzzYo=",
+			"size": 89384
+		},
+		{
+			"name": "/examples/jsm/libs/ktx-parse.module.js",
+			"hash": "NKOmjwjbMKNTgCxadixdzYmhaKG1ZWcBnvSnVjzq9NQ=",
+			"size": 19440
+		},
+		{
+			"name": "/examples/jsm/libs/lil-gui.module.min.js",
+			"hash": "XjHn/E06EmhVC5SEY+q+BsemwDwVjMuZx4YW0sloJRg=",
+			"size": 29526
+		},
+		{
+			"name": "/examples/jsm/libs/lottie_canvas.module.js",
+			"hash": "T4O3aR9Lo8Tkx+7EWvfFWBQBLKs2g4Edxe2giOEsvlo=",
+			"size": 476971
+		},
+		{
+			"name": "/examples/jsm/libs/meshopt_decoder.module.js",
+			"hash": "AfSFJPS6xhQeq6B+lMw25+5W8xF5b6YRfBWYQpQbBGg=",
+			"size": 24850
+		},
+		{
+			"name": "/examples/jsm/libs/mikktspace.module.js",
+			"hash": "onqOPHHS1H6rk8V+hNkZCSXfQs29gg4HvhXI7ceJx8o=",
+			"size": 48525
+		},
+		{
+			"name": "/examples/jsm/libs/mmdparser.module.js",
+			"hash": "d1YtipGUljOBSmzh9AYNy5WxpnLoVJ9B5lJOtvHDDGg=",
+			"size": 158598
+		},
+		{
+			"name": "/examples/jsm/libs/motion-controllers.module.js",
+			"hash": "wtYx9n/znvgqvMsh9oDh9kM3tj6+dE0rOdd54nwox7s=",
+			"size": 13492
+		},
+		{
+			"name": "/examples/jsm/libs/opentype.module.js",
+			"hash": "aJcoeJhTLsO54z4dtzvdn9PGExEB6gwPYtoACgWEsvs=",
+			"size": 467478
+		},
+		{
+			"name": "/examples/jsm/libs/potpack.module.js",
+			"hash": "9pp/MXOwiBiKk27yA9qfx0F13uNEPKeASgYLPxnvxsg=",
+			"size": 3951
+		},
+		{
+			"name": "/examples/jsm/libs/rhino3dm/rhino3dm.js",
+			"hash": "1ZbEeQW5xbY8QY3hWPJuP3GxlXrtGUeOE14FgBxvy4U=",
+			"size": 142554
+		},
+		{
+			"name": "/examples/jsm/libs/rhino3dm/rhino3dm.module.js",
+			"hash": "Yu5EnB8kMn+wto/FUOJh6lN5yETAeaTNZDQ4ABzJeDc=",
+			"size": 142396
+		},
+		{
+			"name": "/examples/jsm/libs/rhino3dm/rhino3dm.wasm",
+			"hash": "ay2z4w85go1TrtzY1V3vmBwq1Dh0fMLKzWovLQ93rPw=",
+			"size": 2545991
+		},
+		{
+			"name": "/examples/jsm/libs/stats.module.js",
+			"hash": "LHGi9w6Jxp5GwuKF+xcbrD3P1JioVADpStWq9gRP/AY=",
+			"size": 3514
+		},
+		{
+			"name": "/examples/jsm/libs/surfaceNet.js",
+			"hash": "o7Y6gDjtcSRxMQWD2RuowK+ynf2Zq4DkGvyjVPae1P8=",
+			"size": 5545
+		},
+		{
+			"name": "/examples/jsm/libs/tween.module.js",
+			"hash": "thwYxZv/mBD0PVdQhJ/eYgsiX/TpAT3FG87OSwJ9aak=",
+			"size": 32316
+		},
+		{
+			"name": "/examples/jsm/libs/utif.module.js",
+			"hash": "cosZbLSfc0mrxAVd+a2OHpn5P93rIuH7IzRDbJmXres=",
+			"size": 100835
+		},
+		{
+			"name": "/examples/jsm/libs/zstddec.module.js",
+			"hash": "XL+BjoQmKKRGTnSFlKberhjO3do8L1QeezoP9fx2EeI=",
+			"size": 39754
+		},
+		{
+			"name": "/examples/jsm/lights/LightProbeGenerator.js",
+			"hash": "bv/ZoQBiKmPBWRMulSB+0xzzXlJBebZ5SDUA0WB1OBc=",
+			"size": 6480
+		},
+		{
+			"name": "/examples/jsm/lights/RectAreaLightTexturesLib.js",
+			"hash": "1SdKg6FmV3p0O62owcS7ex8Fff3gl5YB8AMl9JrlN68=",
+			"size": 314097
+		},
+		{
+			"name": "/examples/jsm/lights/RectAreaLightUniformsLib.js",
+			"hash": "s1t0iHvVWKBc05vjPieKN4Uhh1kRYfEK1dlsnCiTNDw=",
+			"size": 516
+		},
+		{
+			"name": "/examples/jsm/lines/Line2.js",
+			"hash": "+SbzyQOYOrvxDnow3FkI33HcaiARfrZ/D3WDRNSnb5M=",
+			"size": 433
+		},
+		{
+			"name": "/examples/jsm/lines/LineGeometry.js",
+			"hash": "t+GVLIiR3HhAqRGc4D7rVHglZjyDGFG9c7rzBdTGHEY=",
+			"size": 1458
+		},
+		{
+			"name": "/examples/jsm/lines/LineMaterial.js",
+			"hash": "n5R7ypwUE661Xry5eQye/nptthqMS7EkZySGl5xbBvU=",
+			"size": 10959
+		},
+		{
+			"name": "/examples/jsm/lines/LineSegments2.js",
+			"hash": "nczoI/htfwDE+qjIDqODP6hr9JV/OUofZPOxJvbupmE=",
+			"size": 9607
+		},
+		{
+			"name": "/examples/jsm/lines/LineSegmentsGeometry.js",
+			"hash": "WUGc7l7Muqz6tZOYcTCO4mKmN2GBX3L/ScvSF/2E/bc=",
+			"size": 4632
+		},
+		{
+			"name": "/examples/jsm/lines/webgpu/Line2.js",
+			"hash": "8D/SZQ7okatsF5+hxIcJNQLyJg/Z8Coc7SWM84Gt6MM=",
+			"size": 412
+		},
+		{
+			"name": "/examples/jsm/lines/webgpu/LineSegments2.js",
+			"hash": "JWxDC+G2rdVr66AxyC2p0TKINbM7aA+6mszYpIPmM4s=",
+			"size": 9578
+		},
+		{
+			"name": "/examples/jsm/lines/Wireframe.js",
+			"hash": "HESmClguFVyGiCOacO8vuB95nOJX4Kdlc4XTp1vOnWg=",
+			"size": 1863
+		},
+		{
+			"name": "/examples/jsm/lines/WireframeGeometry2.js",
+			"hash": "v4AmafZxHeQ6s1Gtqgl5zlWkAk2xqlr0ivM1WhrfnYQ=",
+			"size": 419
+		},
+		{
+			"name": "/examples/jsm/loaders/3DMLoader.js",
+			"hash": "lqPwNJ6IP9XQcMwG75DtXj4nuONV8iY3lPNliuTN0jY=",
+			"size": 37487
+		},
+		{
+			"name": "/examples/jsm/loaders/3MFLoader.js",
+			"hash": "3A4AmauDfWWCm1ojH6qTuaqZeYvV1NfY5U2teU9gFyM=",
+			"size": 34659
+		},
+		{
+			"name": "/examples/jsm/loaders/AMFLoader.js",
+			"hash": "1Cy2xwzyj1HKhRem80AgWxbZLxJLV01axhPr3seZqtU=",
+			"size": 10668
+		},
+		{
+			"name": "/examples/jsm/loaders/BVHLoader.js",
+			"hash": "epkddUoyCoJP4E7l+al0vDsBbRVURT7AsnbB1AcLrgA=",
+			"size": 9019
+		},
+		{
+			"name": "/examples/jsm/loaders/ColladaLoader.js",
+			"hash": "8wbjbUToDK0A206Xj54Z3XIMhJvZeVad+pXcHkNIvxo=",
+			"size": 84013
+		},
+		{
+			"name": "/examples/jsm/loaders/DDSLoader.js",
+			"hash": "Kc+O6Vk7zyCourKMnNoYYfvNfuqdIbqQz3Zv1v0JsCc=",
+			"size": 7161
+		},
+		{
+			"name": "/examples/jsm/loaders/DRACOLoader.js",
+			"hash": "ipCzm2wNf6pwQQzdGTSAKag6ny1fceEbZlpfSDMKTHI=",
+			"size": 13699
+		},
+		{
+			"name": "/examples/jsm/loaders/EXRLoader.js",
+			"hash": "mrKe2+gSxvSP1wkQZD0VQz1e/NDk4qLKJLK8uafu/ms=",
+			"size": 61180
+		},
+		{
+			"name": "/examples/jsm/loaders/FBXLoader.js",
+			"hash": "6xzA2m2OijLQTPVchTnRRCYe5FH+h5pi5837ncMGoMs=",
+			"size": 102424
+		},
+		{
+			"name": "/examples/jsm/loaders/FontLoader.js",
+			"hash": "Hw2lpEz3BRpKOzSNxIMxXkj7kPubhYmNDdPLB3r+MNg=",
+			"size": 3204
+		},
+		{
+			"name": "/examples/jsm/loaders/GCodeLoader.js",
+			"hash": "qcgUpqgpdVKsoNZQ43bHwC0F4ADBtX4EdHPcHqotaGM=",
+			"size": 5409
+		},
+		{
+			"name": "/examples/jsm/loaders/GLTFLoader.js",
+			"hash": "bxcZ3MahedMCc9+w3geoyJinmB97COYAtEY4f1lnNx8=",
+			"size": 110029
+		},
+		{
+			"name": "/examples/jsm/loaders/HDRCubeTextureLoader.js",
+			"hash": "B4rgN/e8JcLQ3U2xh2cUzUlXj+QzY8OJNGBqN79xx/8=",
+			"size": 2183
+		},
+		{
+			"name": "/examples/jsm/loaders/IESLoader.js",
+			"hash": "fuK15NM2TWIid7h80XW/V8S4Q4FKdTx0PKZiPZaD2EM=",
+			"size": 7096
+		},
+		{
+			"name": "/examples/jsm/loaders/KMZLoader.js",
+			"hash": "KpebaYDpAF0zI7Efm+3cXqm7S9lSj7g0dSnOPNJQars=",
+			"size": 2211
+		},
+		{
+			"name": "/examples/jsm/loaders/KTX2Loader.js",
+			"hash": "aKm8OgEXDPTIQK4CVxX9Zh8KkpAZIx5hEopk+hJgj9c=",
+			"size": 23627
+		},
+		{
+			"name": "/examples/jsm/loaders/KTXLoader.js",
+			"hash": "F/N2VfKw+cIc/3mx0oLvmagyoH1hclK7bs/UOPlNcBg=",
+			"size": 6450
+		},
+		{
+			"name": "/examples/jsm/loaders/LDrawLoader.js",
+			"hash": "Jza0zA02H7BCeq3wjlH5ZiNlFQEGzWJPyhQIAEi6hjw=",
+			"size": 57236
+		},
+		{
+			"name": "/examples/jsm/loaders/LottieLoader.js",
+			"hash": "iZQnBnqM7v7M9W2o4WSGzEyPBFj2FBrQGONGbAf6eME=",
+			"size": 1486
+		},
+		{
+			"name": "/examples/jsm/loaders/LUT3dlLoader.js",
+			"hash": "S9MoS2uy5UWRnm4j8E0JhVxVd6nlF7HasiqlmKibEmo=",
+			"size": 3754
+		},
+		{
+			"name": "/examples/jsm/loaders/LUTCubeLoader.js",
+			"hash": "rFdMX+RosoB1QX0WOS1wf4oMYQy5O6V2swbSkF5A7zY=",
+			"size": 3181
+		},
+		{
+			"name": "/examples/jsm/loaders/LUTImageLoader.js",
+			"hash": "0tISZGUOthDSW688j7cF2iAH7UXDeFtPOVYFquvFloM=",
+			"size": 2894
+		},
+		{
+			"name": "/examples/jsm/loaders/lwo/IFFParser.js",
+			"hash": "7VxEadZOxauzEet9Ee+S8XiiBtlmR/4LfFJB0Nb1SlM=",
+			"size": 26544
+		},
+		{
+			"name": "/examples/jsm/loaders/lwo/LWO2Parser.js",
+			"hash": "j9gVnGpMkaQhpmdmCruqgyROrWWBWGtlq7viq0r13sY=",
+			"size": 10137
+		},
+		{
+			"name": "/examples/jsm/loaders/lwo/LWO3Parser.js",
+			"hash": "a1bUtYHUChUl9ocnMjG2fIvGpNve331UTmyJJeY8F8A=",
+			"size": 9269
+		},
+		{
+			"name": "/examples/jsm/loaders/LWOLoader.js",
+			"hash": "f4cPPWywi/weWZvrcSSVACnmyxeSCNCVrZknlvVfU5U=",
+			"size": 23543
+		},
+		{
+			"name": "/examples/jsm/loaders/MaterialXLoader.js",
+			"hash": "6yA9GzrP3afhGdv43JAf+KUQTpUaEPO9FzOsPXX3+78=",
+			"size": 18304
+		},
+		{
+			"name": "/examples/jsm/loaders/MD2Loader.js",
+			"hash": "BBIJcY8iFmttLDEztU4AmzPghdVsRFizjJu4GMzXPf8=",
+			"size": 12372
+		},
+		{
+			"name": "/examples/jsm/loaders/MDDLoader.js",
+			"hash": "s53WZ5RSwROGwBKMBZ5aqDJSJLCwfvpgn106H4x6TQQ=",
+			"size": 2304
+		},
+		{
+			"name": "/examples/jsm/loaders/MMDLoader.js",
+			"hash": "EbGYmb8uuQFzfk+9/sIGasJ2WlKzNH7acb6bxn3jaRQ=",
+			"size": 52346
+		},
+		{
+			"name": "/examples/jsm/loaders/MTLLoader.js",
+			"hash": "bggZx75O0dMCBeswA7FJzLxuAYYC/kYNKXpzk9T3Eu8=",
+			"size": 10697
+		},
+		{
+			"name": "/examples/jsm/loaders/NRRDLoader.js",
+			"hash": "3RtlKPoKxr5d+30pceKgY6oz12RODf9HjDr1qcRmmFk=",
+			"size": 13481
+		},
+		{
+			"name": "/examples/jsm/loaders/OBJLoader.js",
+			"hash": "12I7+JWf27lTAnMNX+FRBIS20W7ZdckPQzEu5XVGxUA=",
+			"size": 21194
+		},
+		{
+			"name": "/examples/jsm/loaders/PCDLoader.js",
+			"hash": "PAHsHLxsDjb6GHCd7UnTbwa9Y6HF3u+QVbzD2tyKi5Y=",
+			"size": 12344
+		},
+		{
+			"name": "/examples/jsm/loaders/PDBLoader.js",
+			"hash": "hRiiWS0qK3w3yAi2wmCckeWG+1R6u/nMqpPP0iPWyuE=",
+			"size": 6881
+		},
+		{
+			"name": "/examples/jsm/loaders/PLYLoader.js",
+			"hash": "k2Grj4Loj4J/ZfmACx3IzO6l+EvoGzgVr+9QK/5lBl8=",
+			"size": 16639
+		},
+		{
+			"name": "/examples/jsm/loaders/PVRLoader.js",
+			"hash": "5++yIwrg0xo22kIlUywJvuA31uNFJHSIWeHD3cEuRa0=",
+			"size": 4718
+		},
+		{
+			"name": "/examples/jsm/loaders/RGBELoader.js",
+			"hash": "8Oh9AAjZSE0xNYsyvv0b+A5DAfd1c8yafPfYccw/ZLQ=",
+			"size": 11377
+		},
+		{
+			"name": "/examples/jsm/loaders/RGBMLoader.js",
+			"hash": "baVgkIedCB8uN4tbhD9+wrRQ6KLO+6ntS3bf5m2hdwU=",
+			"size": 28516
+		},
+		{
+			"name": "/examples/jsm/loaders/STLLoader.js",
+			"hash": "oKg8iLJpyU4ltpD653DTUMRyjIGFMZUYaXa+evD4o7M=",
+			"size": 10043
+		},
+		{
+			"name": "/examples/jsm/loaders/SVGLoader.js",
+			"hash": "eDlzatg9+MJdM58sHjt/ScWV5NREtUkF8mvs4kcC9R8=",
+			"size": 69698
+		},
+		{
+			"name": "/examples/jsm/loaders/TDSLoader.js",
+			"hash": "3QmJ7qCu+CGlFewPlgLK0m6lKQWJ58p3nrmyuA9t+zc=",
+			"size": 24660
+		},
+		{
+			"name": "/examples/jsm/loaders/TGALoader.js",
+			"hash": "zpOEWe2Z1SNPlmUnDMqFUkZNDRcDoJTkl2BjHmsUx6M=",
+			"size": 11150
+		},
+		{
+			"name": "/examples/jsm/loaders/TIFFLoader.js",
+			"hash": "mFiC33c8xTb9PS92MIMO9DGreBJ3C/W9aE/EguyyYbM=",
+			"size": 572
+		},
+		{
+			"name": "/examples/jsm/loaders/TTFLoader.js",
+			"hash": "cmOY+7+ekTw1E50TvgQFoB/uSsskPvsWdlsVzSa5yzw=",
+			"size": 4212
+		},
+		{
+			"name": "/examples/jsm/loaders/UltraHDRLoader.js",
+			"hash": "Py0LvHqTfiAdRO23N3FlPaG7IiNkqQeVztagoAxMCpY=",
+			"size": 13431
+		},
+		{
+			"name": "/examples/jsm/loaders/USDZLoader.js",
+			"hash": "t4HF/8N9MYRma/ELL3q4It8IQdAjEwUiWPivHNBhs2g=",
+			"size": 18770
+		},
+		{
+			"name": "/examples/jsm/loaders/VOXLoader.js",
+			"hash": "K1DejdIdzRCHF7S1yt1qVmLnBwUSEXLeGwkbQWukJeU=",
+			"size": 8913
+		},
+		{
+			"name": "/examples/jsm/loaders/VRMLLoader.js",
+			"hash": "Dogn89LpZEvee/ICwXx+0nc/S79Zd07J8Cb7qGv3YOM=",
+			"size": 73366
+		},
+		{
+			"name": "/examples/jsm/loaders/VTKLoader.js",
+			"hash": "VZXDe9YT552BxW4yU9JAtX+9j+oJI9lNV8wKjE1Gps4=",
+			"size": 28999
+		},
+		{
+			"name": "/examples/jsm/loaders/XYZLoader.js",
+			"hash": "NDseGPMK3JE+XkrAgeYmJK0tvQuP9vHXsBQ19sYIR3A=",
+			"size": 1927
+		},
+		{
+			"name": "/examples/jsm/materials/MeshGouraudMaterial.js",
+			"hash": "bUdw9BEtnRtDNKnB8MsHKw1zT/DFO9OSmKuAUhvHfXI=",
+			"size": 9927
+		},
+		{
+			"name": "/examples/jsm/materials/MeshPostProcessingMaterial.js",
+			"hash": "XpTIXe0SZxml3eQz4BYQFjhnRxhHLL9JNBNVajYagF4=",
+			"size": 4134
+		},
+		{
+			"name": "/examples/jsm/math/Capsule.js",
+			"hash": "+VtmVE442mBGst+BCZ9YpfRllCozKlhzrIc7+rv7uuI=",
+			"size": 1524
+		},
+		{
+			"name": "/examples/jsm/math/ColorConverter.js",
+			"hash": "MWkwT4ZxwM86Vmx5x0U+j9MJFYpgNgpMlgW9I7R+Enk=",
+			"size": 723
+		},
+		{
+			"name": "/examples/jsm/math/ConvexHull.js",
+			"hash": "eC5+QiyNMIzWhrrP0jNWvaiE8Bcn+fxKenW8/0Qb0a0=",
+			"size": 21832
+		},
+		{
+			"name": "/examples/jsm/math/ImprovedNoise.js",
+			"hash": "oZnJRdyuGw/X2xUDkJxNDaU7RIRh9PlvLIcksT+bzMA=",
+			"size": 2564
+		},
+		{
+			"name": "/examples/jsm/math/Lut.js",
+			"hash": "g+b1McPUS9V7322FEP3RDw60jIllf56a9MbiVXF0yug=",
+			"size": 3765
+		},
+		{
+			"name": "/examples/jsm/math/MeshSurfaceSampler.js",
+			"hash": "ox6YCu6bFrllaL1hUU54Q1z2pQ1LhRX7mpCuXojDWto=",
+			"size": 5690
+		},
+		{
+			"name": "/examples/jsm/math/OBB.js",
+			"hash": "NEaeyd0SEo/vkaQePiJ2tFcXMT6nkGxDp8VJzX0Kdgg=",
+			"size": 10227
+		},
+		{
+			"name": "/examples/jsm/math/Octree.js",
+			"hash": "WR5essN+92Ijw2BZBw0++5RBEW87lTk3pzF2NM/iPSQ=",
+			"size": 10556
+		},
+		{
+			"name": "/examples/jsm/math/SimplexNoise.js",
+			"hash": "m41UG3ew3cea+qah3olBRSwZG4uQBvBOe4/EIuKyY/c=",
+			"size": 14351
+		},
+		{
+			"name": "/examples/jsm/misc/ConvexObjectBreaker.js",
+			"hash": "BPbzWgS8J1cX5fIoIYW9fVN78o+E31Ch9mnv2dyLeno=",
+			"size": 13577
+		},
+		{
+			"name": "/examples/jsm/misc/GPUComputationRenderer.js",
+			"hash": "OyLksYebpOcQmbt2ObkGWS9aK8Yu4g4Z+kjeBtODaPY=",
+			"size": 11486
+		},
+		{
+			"name": "/examples/jsm/misc/Gyroscope.js",
+			"hash": "MYTixLWhhKbhWV94Y+fTs/jDyf+h9GdLMd+0tflDtvg=",
+			"size": 1188
+		},
+		{
+			"name": "/examples/jsm/misc/MD2Character.js",
+			"hash": "EOLqs9ubdMJByLbcGzsG4HfjDgcjam+V9/pFL1Fm8bE=",
+			"size": 5216
+		},
+		{
+			"name": "/examples/jsm/misc/MD2CharacterComplex.js",
+			"hash": "yA44am5+ZGKEWPb4gv60ddLT4RXrJ6cjMkUJ4C2jxLA=",
+			"size": 11980
+		},
+		{
+			"name": "/examples/jsm/misc/MorphAnimMesh.js",
+			"hash": "zOUMK84SPRXrI/6PJbG7GUXHP3IVlwE1yrgt2Op6jkA=",
+			"size": 1107
+		},
+		{
+			"name": "/examples/jsm/misc/MorphBlendMesh.js",
+			"hash": "hcutbK//ANgIpvehT7cm0xMOzSyJBiFhhrWVU0Gb6VI=",
+			"size": 5459
+		},
+		{
+			"name": "/examples/jsm/misc/ProgressiveLightMap.js",
+			"hash": "fvrSvZB/lXC1zFb/yD9+3ZglNpp+9YXrP8uoqQaNExU=",
+			"size": 11106
+		},
+		{
+			"name": "/examples/jsm/misc/RollerCoaster.js",
+			"hash": "eCCnQ1/gQ/739ZrgIuap2jzk1021N7VnSh2iAO9VWVw=",
+			"size": 13795
+		},
+		{
+			"name": "/examples/jsm/misc/Timer.js",
+			"hash": "F4qVPS4DvX7D95GZ2//SmCij2K2D/ALapNV97DS9OQE=",
+			"size": 1937
+		},
+		{
+			"name": "/examples/jsm/misc/TubePainter.js",
+			"hash": "+zVQXvm7FaG/AevI4gf3FTECtQFSYWZWrx7fSCXywuE=",
+			"size": 4573
+		},
+		{
+			"name": "/examples/jsm/misc/Volume.js",
+			"hash": "NMvZ9GOvX0bwhPrO+Hw/CjEAmktTHt3EY49jPHsqnvE=",
+			"size": 13488
+		},
+		{
+			"name": "/examples/jsm/misc/VolumeSlice.js",
+			"hash": "MHW67j22Heweq9BJrJMBM0G+Cmb/9Px21Crrh5ju3Rg=",
+			"size": 6235
+		},
+		{
+			"name": "/examples/jsm/modifiers/CurveModifier.js",
+			"hash": "Q8XKnAdJpaPJoBKyjEo7oJxcWHJYlZHXWiDcjS2ar5U=",
+			"size": 9594
+		},
+		{
+			"name": "/examples/jsm/modifiers/CurveModifierGPU.js",
+			"hash": "07MePRuBxhcvfQlPeboLHVK9FnUy4XWmjCvsRw+nAAI=",
+			"size": 6614
+		},
+		{
+			"name": "/examples/jsm/modifiers/EdgeSplitModifier.js",
+			"hash": "J1AvaJwJJJaF2ZYGcASCX8UduC0LkL9YR0QQK3aVl4k=",
+			"size": 5296
+		},
+		{
+			"name": "/examples/jsm/modifiers/SimplifyModifier.js",
+			"hash": "2dS9AdbV8qcrkEssJwusEy7aqfwZsVIsAjpC6HEjg+8=",
+			"size": 12228
+		},
+		{
+			"name": "/examples/jsm/modifiers/TessellateModifier.js",
+			"hash": "ndmgk7wkhVQu7Z7IH6i5mS3aSwaED2wkmISmcVwLO04=",
+			"size": 6159
+		},
+		{
+			"name": "/examples/jsm/objects/GroundedSkybox.js",
+			"hash": "xMKHlkRcXHR8kR/iDcMl1Mk+qeXcAsx/WPbmjGJxskk=",
+			"size": 1413
+		},
+		{
+			"name": "/examples/jsm/objects/InstancedPoints.js",
+			"hash": "9Mv86p0FFi/KiZxXAtYZppyRBGMZYtYB7vD/c76A8fQ=",
+			"size": 425
+		},
+		{
+			"name": "/examples/jsm/objects/Lensflare.js",
+			"hash": "QRasUVqWigFHZi1mT8vm6kiXkfAZjadQoJ0jUC7buug=",
+			"size": 8810
+		},
+		{
+			"name": "/examples/jsm/objects/LensflareMesh.js",
+			"hash": "1vAbdSa7WDR28JXj3CT1Sa7eRqIyRi/hV26o6ygKuPg=",
+			"size": 8338
+		},
+		{
+			"name": "/examples/jsm/objects/MarchingCubes.js",
+			"hash": "scZyB+TSqyLGVQ5XqLkQSJbfJZjpvFE//E3FAjiXXns=",
+			"size": 38025
+		},
+		{
+			"name": "/examples/jsm/objects/Reflector.js",
+			"hash": "AS7PmPX8m9Jihx4z15OSolwEwlc+1ohS6zuNLTn5gIs=",
+			"size": 7043
+		},
+		{
+			"name": "/examples/jsm/objects/ReflectorForSSRPass.js",
+			"hash": "XBJ4K9Qo47awBI6oH3/zXiKaFYawbcp7SKRPMsHVF9E=",
+			"size": 10416
+		},
+		{
+			"name": "/examples/jsm/objects/Refractor.js",
+			"hash": "LXC/W8qR3TUJ601D6DQfaOUKY/x+NI4qhNhT8n9kNBY=",
+			"size": 8168
+		},
+		{
+			"name": "/examples/jsm/objects/ShadowMesh.js",
+			"hash": "MIBaeBJudolwm96Qt0etls4eZIjbI14D4k99nqmYyOg=",
+			"size": 2030
+		},
+		{
+			"name": "/examples/jsm/objects/Sky.js",
+			"hash": "6s0X1d6+w7kJ0SCDBNcAJKWcOMWLZTP81HEfimoLY7w=",
+			"size": 6819
+		},
+		{
+			"name": "/examples/jsm/objects/SkyMesh.js",
+			"hash": "M5L4rGRPA0XczCxLSGq1UZtkuuOWZnlHXXyJaaNsSXA=",
+			"size": 6841
+		},
+		{
+			"name": "/examples/jsm/objects/Water.js",
+			"hash": "V+zLDBDl1shqTpKpn1OgBsfGan/cMQKg4UHfyjxhRZQ=",
+			"size": 11216
+		},
+		{
+			"name": "/examples/jsm/objects/Water2.js",
+			"hash": "kW+l3qnprdqs1F8cCKVkjYmTm0lcgbAnrbBotDCgIvE=",
+			"size": 8711
+		},
+		{
+			"name": "/examples/jsm/objects/Water2Mesh.js",
+			"hash": "0PM1Q1yXofZzlPzuEZPhdtWRrFwbO1+9yESSqCuDODg=",
+			"size": 4540
+		},
+		{
+			"name": "/examples/jsm/objects/WaterMesh.js",
+			"hash": "TfWvw0GNA1Qcbqjot9Jm9CLISM1dxiIisQ6ontYuDoI=",
+			"size": 3974
+		},
+		{
+			"name": "/examples/jsm/offscreen/jank.js",
+			"hash": "In+geOjWZmI1ZxhjsxJN/CanH97Qjo/2TV+qlyacBjo=",
+			"size": 645
+		},
+		{
+			"name": "/examples/jsm/offscreen/offscreen.js",
+			"hash": "XtqJfiajx1lj17gr/om0gsKh6ug9mBtOghHI0NUiOdY=",
+			"size": 188
+		},
+		{
+			"name": "/examples/jsm/offscreen/scene.js",
+			"hash": "Hq1pNaEmhZLBiC+Z/Vj97aHqduKvv9r5iGipK1XR+x0=",
+			"size": 2078
+		},
+		{
+			"name": "/examples/jsm/physics/AmmoPhysics.js",
+			"hash": "ShgaT2kkgZIfC8iPLH/vGuhw+/PyeApL1xGyIvhkFqA=",
+			"size": 7018
+		},
+		{
+			"name": "/examples/jsm/physics/JoltPhysics.js",
+			"hash": "hiSenceSRS8QoTGV+H+P7WQJ2PpSal+UKkKB3oxPUqY=",
+			"size": 6753
+		},
+		{
+			"name": "/examples/jsm/physics/RapierPhysics.js",
+			"hash": "bqedPGrQ3Yl+HEE6ueVGu1OSLR0JQpRuCiES2XipoBg=",
+			"size": 4783
+		},
+		{
+			"name": "/examples/jsm/postprocessing/AfterimagePass.js",
+			"hash": "81rnn16KKYXu/Y5peomvazObXcOPbWENGAi7xzKcdyQ=",
+			"size": 2248
+		},
+		{
+			"name": "/examples/jsm/postprocessing/BloomPass.js",
+			"hash": "CL8ttGy/Qoyy5X7vWMnyCvs0f4lluGHehZMG9MWAPsQ=",
+			"size": 4001
+		},
+		{
+			"name": "/examples/jsm/postprocessing/BokehPass.js",
+			"hash": "WBrWBgNXZPkqbFEkmA3et4wJywdtK962x2DKnQqDMuw=",
+			"size": 3394
+		},
+		{
+			"name": "/examples/jsm/postprocessing/ClearPass.js",
+			"hash": "sqfgpHIx2WyRUJAWtLZ+I7OupfLx/DDTjH7WFPm/NUw=",
+			"size": 875
+		},
+		{
+			"name": "/examples/jsm/postprocessing/CubeTexturePass.js",
+			"hash": "uaGWLeDxxoDb+zfX2zJSVI+vVOHot9o7g8WviNDuSGY=",
+			"size": 1940
+		},
+		{
+			"name": "/examples/jsm/postprocessing/DotScreenPass.js",
+			"hash": "cwZpRp/Fv6ccH2z1fw4V38IWxxL3jQ2ZNWy0F1jK8n0=",
+			"size": 1368
+		},
+		{
+			"name": "/examples/jsm/postprocessing/EffectComposer.js",
+			"hash": "0jTleGGPqBaVXr3AWcBJxXfiA+ZQ4zzyK94/Iywp5mk=",
+			"size": 4651
+		},
+		{
+			"name": "/examples/jsm/postprocessing/FilmPass.js",
+			"hash": "2bWq/lyxtu2VNhP9S+/hoqsGyIMgSKyo1SmfAErwFLI=",
+			"size": 1236
+		},
+		{
+			"name": "/examples/jsm/postprocessing/GlitchPass.js",
+			"hash": "WHiaYYbvFuIMD9b/byx+5DOnr0Jjqx/sKQ1Sdj4CWrE=",
+			"size": 2950
+		},
+		{
+			"name": "/examples/jsm/postprocessing/GTAOPass.js",
+			"hash": "mAsDZ2fEOc8qrdDoabLlGy7ABzanWlrRu2nd2wMlT+g=",
+			"size": 16582
+		},
+		{
+			"name": "/examples/jsm/postprocessing/HalftonePass.js",
+			"hash": "aohDLkR8ARpkqDAiXyji9rTHVg66D2lOpAeR4nbHIBk=",
+			"size": 1522
+		},
+		{
+			"name": "/examples/jsm/postprocessing/LUTPass.js",
+			"hash": "eTkIjItN2HqA5Nt93r+8DWPXLNtZDHN0AaBpkaxr2jw=",
+			"size": 1664
+		},
+		{
+			"name": "/examples/jsm/postprocessing/MaskPass.js",
+			"hash": "Moz32w2l2b6D/+OdVLAdWsH93xCMyYGC3bsFb1yLU38=",
+			"size": 2231
+		},
+		{
+			"name": "/examples/jsm/postprocessing/OutlinePass.js",
+			"hash": "6MMhE5/L3YaHL1DUDwIQMD4GC9VOXpxQ7PMFuK9KQ/A=",
+			"size": 20116
+		},
+		{
+			"name": "/examples/jsm/postprocessing/OutputPass.js",
+			"hash": "Mvh50heQh2dmMceZhXqIVYazzdE7lzG9OxPwZCi9WLc=",
+			"size": 2524
+		},
+		{
+			"name": "/examples/jsm/postprocessing/Pass.js",
+			"hash": "s8YSg0Dqo35ApqLxtzjolMhVI5QX1QlZdZs0orXon5I=",
+			"size": 1706
+		},
+		{
+			"name": "/examples/jsm/postprocessing/RenderPass.js",
+			"hash": "bJuKU56hbomPZeR2DxSTfvnqlAQ72YQsFB4DAfQZA+g=",
+			"size": 1941
+		},
+		{
+			"name": "/examples/jsm/postprocessing/RenderPixelatedPass.js",
+			"hash": "a6oNdI3anLgAcw9RaPFuZrFJzmUtv9Kqwh4nC6UuM2M=",
+			"size": 6228
+		},
+		{
+			"name": "/examples/jsm/postprocessing/RenderTransitionPass.js",
+			"hash": "nb+kjvtcL4ZRXHeRT/fgxw2lojzJE7wlpyu/hP3gRzE=",
+			"size": 3163
+		},
+		{
+			"name": "/examples/jsm/postprocessing/SAOPass.js",
+			"hash": "n8YV4K56fQUKzMo1nYad0+Ev5pOf3ZoGRHahPyVbQ9M=",
+			"size": 11339
+		},
+		{
+			"name": "/examples/jsm/postprocessing/SavePass.js",
+			"hash": "HfhhmQQ7m8gtICXz3JNEb8TOcsDCsVcQn1rZC5gVPVY=",
+			"size": 1440
+		},
+		{
+			"name": "/examples/jsm/postprocessing/ShaderPass.js",
+			"hash": "Oyih7ifg65bA6rE3ofRCzPEnqSaQTs7S1R4SXsRK94E=",
+			"size": 1576
+		},
+		{
+			"name": "/examples/jsm/postprocessing/SMAAPass.js",
+			"hash": "81COPhf0DBNYkhtcfrOrYEYNl7Bv2t9rDUC1LThCxEo=",
+			"size": 49467
+		},
+		{
+			"name": "/examples/jsm/postprocessing/SSAARenderPass.js",
+			"hash": "8ZM14iRs4UCmbzN9LRfhciViBILUWOgbnlHA9Ow2Lr0=",
+			"size": 6113
+		},
+		{
+			"name": "/examples/jsm/postprocessing/SSAOPass.js",
+			"hash": "576Uruz7avMeDRInuxsKjKT0Jinf2JUsWE5aFVe83RU=",
+			"size": 11116
+		},
+		{
+			"name": "/examples/jsm/postprocessing/SSRPass.js",
+			"hash": "xlFs485sWsfqbjuR0bvRnLIFjFWYTkVBzt5bfiZCGms=",
+			"size": 18545
+		},
+		{
+			"name": "/examples/jsm/postprocessing/TAARenderPass.js",
+			"hash": "jM9+LEWjZK4rxhD4nvtY8Z6qjE+DRQT/GlTdqqjihKI=",
+			"size": 4878
+		},
+		{
+			"name": "/examples/jsm/postprocessing/TexturePass.js",
+			"hash": "JeXlAMHc3HxM+XBset6/b5Az2j0i0GdTFz+4jcRePRs=",
+			"size": 1345
+		},
+		{
+			"name": "/examples/jsm/postprocessing/UnrealBloomPass.js",
+			"hash": "O9I6EJevdccALQ/8IabBT0XE3XAduvc3Aw38Yft8ZNk=",
+			"size": 12410
+		},
+		{
+			"name": "/examples/jsm/renderers/CSS2DRenderer.js",
+			"hash": "6QDljbxCjY0yEfh/P/AwHlFPbcVjZVxxC82hXJY5f+s=",
+			"size": 4681
+		},
+		{
+			"name": "/examples/jsm/renderers/CSS3DRenderer.js",
+			"hash": "Lfa06KhO5p4v36HV0BWDtcj9deemoVFt04AUqMIeLLk=",
+			"size": 8073
+		},
+		{
+			"name": "/examples/jsm/renderers/Projector.js",
+			"hash": "Q+t1t4Z7tB6rmkj8UtiJP61fF3oW6OPH0OhHztv2fW4=",
+			"size": 19380
+		},
+		{
+			"name": "/examples/jsm/renderers/SVGRenderer.js",
+			"hash": "iA7YFWa2w9fllpPH42azVaqIFBQ6Q7+SEohRJeCzt04=",
+			"size": 12669
+		},
+		{
+			"name": "/examples/jsm/shaders/ACESFilmicToneMappingShader.js",
+			"hash": "icJg0UuuypXMuURpiaKVgrALk47M0jjCP5Uguzpy35g=",
+			"size": 1910
+		},
+		{
+			"name": "/examples/jsm/shaders/AfterimageShader.js",
+			"hash": "zJfpq/Sd4hrtMT9pofqvvAupG71HOXNaYN2dTlacyGs=",
+			"size": 903
+		},
+		{
+			"name": "/examples/jsm/shaders/BasicShader.js",
+			"hash": "NaSGlHYiQ3nA1r5P+JsmYDTrngEsAqxEfOrrfsznRhQ=",
+			"size": 351
+		},
+		{
+			"name": "/examples/jsm/shaders/BleachBypassShader.js",
+			"hash": "Q6a5Y/FV18eVVruzLdERb82LRIb0RHEE9Hpiqcn1HqI=",
+			"size": 1164
+		},
+		{
+			"name": "/examples/jsm/shaders/BlendShader.js",
+			"hash": "bPLQafXCjTOzDplId5fVwW1fyoIR1xXBZhnkyFIrQuo=",
+			"size": 754
+		},
+		{
+			"name": "/examples/jsm/shaders/BokehShader.js",
+			"hash": "plWMxLryw3LBkoKOn//PCI0i+AKRrHKhOlvm07ehjdw=",
+			"size": 5769
+		},
+		{
+			"name": "/examples/jsm/shaders/BokehShader2.js",
+			"hash": "1rhRlKY3NkXOtfchARWG7h4VTX/b80hAIzmWtBtExz0=",
+			"size": 9678
+		},
+		{
+			"name": "/examples/jsm/shaders/BrightnessContrastShader.js",
+			"hash": "LEbhyydnXypdvnj0jUK+Vu1e9acMOhXnAv2qRnP4Jv0=",
+			"size": 1066
+		},
+		{
+			"name": "/examples/jsm/shaders/ColorCorrectionShader.js",
+			"hash": "hz0+Flaow+j3N2rBmp7/Ms2OHW5k5+asTCr14/I7pUg=",
+			"size": 822
+		},
+		{
+			"name": "/examples/jsm/shaders/ColorifyShader.js",
+			"hash": "eo3W4dd2idhr+aFn6/Sfpvd2wdTMIOq4DbhciPZTSZw=",
+			"size": 660
+		},
+		{
+			"name": "/examples/jsm/shaders/ConvolutionShader.js",
+			"hash": "x6fKsBy6LNUhlKZmRWvRrSVVN9xy5nnqrNPX0A2Zh68=",
+			"size": 1809
+		},
+		{
+			"name": "/examples/jsm/shaders/CopyShader.js",
+			"hash": "TjNG2xlNtWpZbNB06b2zn7XrUgQMMz4NKdxOsTJNOx0=",
+			"size": 571
+		},
+		{
+			"name": "/examples/jsm/shaders/DepthLimitedBlurShader.js",
+			"hash": "jq3sgKx/U+Tc23vsRiwj0J9a0GB75gZxvu1sdAAb6ZY=",
+			"size": 3707
+		},
+		{
+			"name": "/examples/jsm/shaders/DigitalGlitch.js",
+			"hash": "XAWfe4e45aG/QIJtWGj2CncMtMpy1LAeg2B6bCgq6iU=",
+			"size": 2574
+		},
+		{
+			"name": "/examples/jsm/shaders/DOFMipMapShader.js",
+			"hash": "pVO2mb/M/26nzQ/BK1Qen9STdh2VPK24U4Q2K1yEjWc=",
+			"size": 918
+		},
+		{
+			"name": "/examples/jsm/shaders/DotScreenShader.js",
+			"hash": "GTh/F/O2B0r4jVmk+g2Y/mDl+C9qzo6uNFAdQL/uu60=",
+			"size": 1204
+		},
+		{
+			"name": "/examples/jsm/shaders/ExposureShader.js",
+			"hash": "ropb/glF++k7tRhP15zy3G5aLH+m+5vMzRu7mKsVVHY=",
+			"size": 567
+		},
+		{
+			"name": "/examples/jsm/shaders/FilmShader.js",
+			"hash": "TClXPi5Jw9oz7VBx4I8d1FcmpehMbjx/Z/D0Qzvovmw=",
+			"size": 923
+		},
+		{
+			"name": "/examples/jsm/shaders/FocusShader.js",
+			"hash": "EfDpmyzxRUItIwx+ijuK63Cn9Q+qXBdFCI4yLSwvpCY=",
+			"size": 2305
+		},
+		{
+			"name": "/examples/jsm/shaders/FreiChenShader.js",
+			"hash": "FE1LJW+4gAhqhDzaFc8a3YA76H76CAM2lnW+wtSxuUg=",
+			"size": 2970
+		},
+		{
+			"name": "/examples/jsm/shaders/FXAAShader.js",
+			"hash": "xm8X58EvGdrc4/2552HJKD/0MugAK3TnhOz/dneLc4Q=",
+			"size": 8426
+		},
+		{
+			"name": "/examples/jsm/shaders/GammaCorrectionShader.js",
+			"hash": "LEvib/6Qfqm3SG0pyJsxE2Av+LbdgZYA2f7kSqBcKwU=",
+			"size": 595
+		},
+		{
+			"name": "/examples/jsm/shaders/GodRaysShader.js",
+			"hash": "mDIaJrcu2HyzCwYFaEHCNvYzeBs0PR/FBcoeCtpS07o=",
+			"size": 6826
+		},
+		{
+			"name": "/examples/jsm/shaders/GTAOShader.js",
+			"hash": "4fXdibyk7meaSspQw+81E5Jr5x9oYMOOMaYsydcSCzk=",
+			"size": 12990
+		},
+		{
+			"name": "/examples/jsm/shaders/HalftoneShader.js",
+			"hash": "i0sb/TXCD0qkEoi1jiwxzTzf/Z05Q3qnz6/ef50Kk8E=",
+			"size": 8584
+		},
+		{
+			"name": "/examples/jsm/shaders/HorizontalBlurShader.js",
+			"hash": "6M7A1WoER1XgEKGhTlIykA4/Du99IU6CUR0/0yfygf4=",
+			"size": 1452
+		},
+		{
+			"name": "/examples/jsm/shaders/HorizontalTiltShiftShader.js",
+			"hash": "9zPs9ZX46xhuCvR8yTXQVEtF5tLyOGMYYBJvc1c7gjA=",
+			"size": 1585
+		},
+		{
+			"name": "/examples/jsm/shaders/HueSaturationShader.js",
+			"hash": "upYLscBZjq6hGvDZHipP+h7aDRPdNe9+P8pNwhIiJDI=",
+			"size": 1480
+		},
+		{
+			"name": "/examples/jsm/shaders/KaleidoShader.js",
+			"hash": "xfC66RRCaSdSrLCieFEHDimOc07Aly+YzonkQfwU0r0=",
+			"size": 1014
+		},
+		{
+			"name": "/examples/jsm/shaders/LuminosityHighPassShader.js",
+			"hash": "n0hm+auy2W/YPuxGukvyFlsiFVp6N/9CXA9g66GAB8s=",
+			"size": 1147
+		},
+		{
+			"name": "/examples/jsm/shaders/LuminosityShader.js",
+			"hash": "vZhQ3lTTV6WyerhjpLZHMt8gPWk8I1lmOPKCMnLb1Vw=",
+			"size": 624
+		},
+		{
+			"name": "/examples/jsm/shaders/MirrorShader.js",
+			"hash": "rsnI1R7/SKzW4sYi94IDRNYGyBX0h6frJlZeYfxKa1g=",
+			"size": 914
+		},
+		{
+			"name": "/examples/jsm/shaders/MMDToonShader.js",
+			"hash": "seAasEQsPATsf7+wJMFddjbB/5TeJgqDmrTsvWn/yls=",
+			"size": 3466
+		},
+		{
+			"name": "/examples/jsm/shaders/NormalMapShader.js",
+			"hash": "ZaegnCy+c9vwEa3iHLC1UY3jWaLl9nikXwTVy55BXKc=",
+			"size": 995
+		},
+		{
+			"name": "/examples/jsm/shaders/OutputShader.js",
+			"hash": "SUTOzUnA1NFSCk2Se96KWQ/UPwQe6RMlK5RRhVoB0PA=",
+			"size": 1490
+		},
+		{
+			"name": "/examples/jsm/shaders/PoissonDenoiseShader.js",
+			"hash": "PatBmyNSn4/VnicTRYUC+fUdLdOvPhKF3GcfzEUdSfs=",
+			"size": 6614
+		},
+		{
+			"name": "/examples/jsm/shaders/RGBShiftShader.js",
+			"hash": "s9dWkQ7MUs7MOIoCAd6m0lc3TWKFw7Qjm7pBaHdUhLE=",
+			"size": 1115
+		},
+		{
+			"name": "/examples/jsm/shaders/SAOShader.js",
+			"hash": "6mEr0OlPN+qosoVyu4odYoSIa9C58DFzM+R4JMsVM4o=",
+			"size": 4879
+		},
+		{
+			"name": "/examples/jsm/shaders/SepiaShader.js",
+			"hash": "skEBMchmrhAKhSGcxx9jeIY+GhIRdK8TLhs5hm4JeoY=",
+			"size": 936
+		},
+		{
+			"name": "/examples/jsm/shaders/SMAAShader.js",
+			"hash": "PH6UKiXLCd1DHjlebpGQRxWoNLKm5i7Aubd8L4ZVw2k=",
+			"size": 14628
+		},
+		{
+			"name": "/examples/jsm/shaders/SobelOperatorShader.js",
+			"hash": "jAWyevOF15mQmxyOAtuRKxV4AbRvxsH//4dYkax1Zo4=",
+			"size": 2352
+		},
+		{
+			"name": "/examples/jsm/shaders/SSAOShader.js",
+			"hash": "vVzaNNa1KUHBEht3lHZkhIrxDcaP69RT39xWxZ5YugY=",
+			"size": 6478
+		},
+		{
+			"name": "/examples/jsm/shaders/SSRShader.js",
+			"hash": "ia9SD3Xv33EUapTTMV/ST4FkJjgT9skK005eWFtgTBI=",
+			"size": 9405
+		},
+		{
+			"name": "/examples/jsm/shaders/SubsurfaceScatteringShader.js",
+			"hash": "ko/NdoiTs06bhGUY4GHy+QmRSJXJeq1zTSuSuyAnMk0=",
+			"size": 3238
+		},
+		{
+			"name": "/examples/jsm/shaders/TechnicolorShader.js",
+			"hash": "mVUpYYC7TtjHL6N4GtSuKUfFP9GEs97sfA3XzU/dlUQ=",
+			"size": 864
+		},
+		{
+			"name": "/examples/jsm/shaders/ToonShader.js",
+			"hash": "Y85FOX9M0+sAODWktuD6O+bCZSWTbzDPdrQBL38APmw=",
+			"size": 6779
+		},
+		{
+			"name": "/examples/jsm/shaders/TriangleBlurShader.js",
+			"hash": "FaVdpmUkR/Cf8aKGX+L0Dp0906p8XGlpLfeQ+pzKobY=",
+			"size": 1278
+		},
+		{
+			"name": "/examples/jsm/shaders/UnpackDepthRGBAShader.js",
+			"hash": "UNaUOKGYNQZ/pG8Q0ug6VLNAUllBrpeGrZ1ff2zGrX8=",
+			"size": 709
+		},
+		{
+			"name": "/examples/jsm/shaders/VelocityShader.js",
+			"hash": "JhDtfJVjXX1AmKQ/XVvdSipzBgXrEUGRzBzrt0OrvsE=",
+			"size": 2996
+		},
+		{
+			"name": "/examples/jsm/shaders/VerticalBlurShader.js",
+			"hash": "JFM1RpCoOZHOt2JT1iOTq1/u7FN+Euy2qsBsqQ0EZmE=",
+			"size": 1446
+		},
+		{
+			"name": "/examples/jsm/shaders/VerticalTiltShiftShader.js",
+			"hash": "rRGErG/1DPb5EQ988HxUK7sj3f+dhThWSjlCXvQPoXI=",
+			"size": 1579
+		},
+		{
+			"name": "/examples/jsm/shaders/VignetteShader.js",
+			"hash": "4WLzixE9hwFawecwSxlGv3iD1MTP2P1KABYEqQf5P2c=",
+			"size": 893
+		},
+		{
+			"name": "/examples/jsm/shaders/VolumeShader.js",
+			"hash": "6ZG+AqSpp1jd70jF9z97g0s0oBUC6aGapGJgK01XevE=",
+			"size": 9745
+		},
+		{
+			"name": "/examples/jsm/shaders/WaterRefractionShader.js",
+			"hash": "QB8VEa3AJ4kRKKaL8D9taJHim/clV+yi+8wjeiBVl74=",
+			"size": 1809
+		},
+		{
+			"name": "/examples/jsm/textures/FlakesTexture.js",
+			"hash": "d9RYkE+cjiCQtqnw9naKEn7tbbx417YiO4yFtjPoawI=",
+			"size": 876
+		},
+		{
+			"name": "/examples/jsm/transpiler/AST.js",
+			"hash": "BKXwOBDVUBb7Jut9BK/adgt5Nox1LH49bq13k4Gm2rs=",
+			"size": 3116
+		},
+		{
+			"name": "/examples/jsm/transpiler/GLSLDecoder.js",
+			"hash": "rTL73qfHQNaEmNyUqYfWVnyElE+G/+Yv1MsE8G7jikA=",
+			"size": 17787
+		},
+		{
+			"name": "/examples/jsm/transpiler/ShaderToyDecoder.js",
+			"hash": "Loe4zUsEqzkVOPxhPX3rVSKId+J2EWlfq66mlRfySBE=",
+			"size": 1019
+		},
+		{
+			"name": "/examples/jsm/transpiler/Transpiler.js",
+			"hash": "AoSZLRsrAhwTuqWeRclQWGh+1TI43qcZOmLZNtWmfqw=",
+			"size": 228
+		},
+		{
+			"name": "/examples/jsm/transpiler/TSLEncoder.js",
+			"hash": "dlbuao8a/gZcLArvyPufLnvTCLsYIZ2oOljrefvx1hI=",
+			"size": 13658
+		},
+		{
+			"name": "/examples/jsm/utils/BufferGeometryUtils.js",
+			"hash": "wlt5MOVw6exWFzzTuGbsjS4QAWYw2zk377Q52vHO2/Y=",
+			"size": 31768
+		},
+		{
+			"name": "/examples/jsm/utils/CameraUtils.js",
+			"hash": "z1XBLXLea6Im09uEeh8Gkf+BtOeHn8/hhl7FgkzjK74=",
+			"size": 2850
+		},
+		{
+			"name": "/examples/jsm/utils/GeometryCompressionUtils.js",
+			"hash": "7HUNx2Sg/uQqv38jfpzY7CbUXCJZjUQnHiAMKV7NEpU=",
+			"size": 12530
+		},
+		{
+			"name": "/examples/jsm/utils/GeometryUtils.js",
+			"hash": "892Kf7tp7AqL36Bt+3WIcOjSqhqIf6g5ku7u4yHOw0s=",
+			"size": 5113
+		},
+		{
+			"name": "/examples/jsm/utils/LDrawUtils.js",
+			"hash": "chvZQZOPnqZxghyGSGLWrWmvzdXSyZDuR5Hb/8XX2Zc=",
+			"size": 5808
+		},
+		{
+			"name": "/examples/jsm/utils/SceneUtils.js",
+			"hash": "oO7nLZtGOoTdvR7Qe0oElI57qTUDzIZyq45vnYHrp9g=",
+			"size": 6588
+		},
+		{
+			"name": "/examples/jsm/utils/ShadowMapViewer.js",
+			"hash": "Syoa4PUN0T6CIS9os72bQUSwrfaueeshmulS2bR9vuM=",
+			"size": 5454
+		},
+		{
+			"name": "/examples/jsm/utils/ShadowMapViewerGPU.js",
+			"hash": "dp9jyAyyQDzlGNrtLfIugM15XoUmWT4MSaRMi8V+Zzc=",
+			"size": 5255
+		},
+		{
+			"name": "/examples/jsm/utils/SkeletonUtils.js",
+			"hash": "7kEr4aoF8wUcK9qOqJYSwbpwxch95itWBAKCEg1euZE=",
+			"size": 8802
+		},
+		{
+			"name": "/examples/jsm/utils/SortUtils.js",
+			"hash": "PHMLX56TTtsAkw14s7ToXkobnN3puB7K5GGEN8RYmyI=",
+			"size": 3112
+		},
+		{
+			"name": "/examples/jsm/utils/TextureUtils.js",
+			"hash": "2aQnsiVYkayfK/qcEOHrIwWr55qq+4MVg/xKQQMHFRw=",
+			"size": 2420
+		},
+		{
+			"name": "/examples/jsm/utils/TextureUtilsGPU.js",
+			"hash": "+wdMBppx6rWIPCaC8J6n1cxuL/pVyfdL6Ts5MmEakYo=",
+			"size": 1567
+		},
+		{
+			"name": "/examples/jsm/utils/UVsDebug.js",
+			"hash": "jW6XOjjEuFhMYWxgaDVmHvPqYpzLpzp9ZxqUvLCYVFg=",
+			"size": 3097
+		},
+		{
+			"name": "/examples/jsm/utils/WorkerPool.js",
+			"hash": "lP97YIyvO4J/+pW9YJK50XRzK4VpFbOO0Aa08En5VnU=",
+			"size": 1712
+		},
+		{
+			"name": "/examples/jsm/webxr/ARButton.js",
+			"hash": "foC8FGSxu4gYqGox8pbj8ttEtm/Bu9ICTKEdrCH2zhE=",
+			"size": 4800
+		},
+		{
+			"name": "/examples/jsm/webxr/OculusHandModel.js",
+			"hash": "20kMu0uHAn5zx90q2/X6ogt0THmXuXMfoghE757e6ww=",
+			"size": 1808
+		},
+		{
+			"name": "/examples/jsm/webxr/OculusHandPointerModel.js",
+			"hash": "jJoYfx7Aut37FOfLML7Df4sRabDbWxoMUJ5s21BKP2U=",
+			"size": 10102
+		},
+		{
+			"name": "/examples/jsm/webxr/Text2D.js",
+			"hash": "93erFmE9MsANsmDHXN9yZ/V19IH+1rUMVa4CJoTbHzI=",
+			"size": 1018
+		},
+		{
+			"name": "/examples/jsm/webxr/VRButton.js",
+			"hash": "6jbtuw8ucsMDaSfG1cE3x1DrhfVDhWmahq0wOYMHtV0=",
+			"size": 4801
+		},
+		{
+			"name": "/examples/jsm/webxr/XRButton.js",
+			"hash": "DRgMtZKYyQf1YH44HnVsd9E7KGa7Bz4FUyaGduW6rU4=",
+			"size": 4074
+		},
+		{
+			"name": "/examples/jsm/webxr/XRControllerModelFactory.js",
+			"hash": "jSBtyn6bb5mD2Uj4QJR9nMTLNM5NFRNRTk7wR92VMq8=",
+			"size": 7207
+		},
+		{
+			"name": "/examples/jsm/webxr/XREstimatedLight.js",
+			"hash": "IY02WYzWmSNXK5SMfslT4IWmYiua6ClHWd1GzDGzAW4=",
+			"size": 5308
+		},
+		{
+			"name": "/examples/jsm/webxr/XRHandMeshModel.js",
+			"hash": "Cu3tqVsHxZwkdh6A/wCsFeoByQESPN54CGuLP9/faIQ=",
+			"size": 2449
+		},
+		{
+			"name": "/examples/jsm/webxr/XRHandModelFactory.js",
+			"hash": "e+QIOm6Ut+jvhb9ft/lHQ8Dw+CAvyWz+SNnRjc4zt/I=",
+			"size": 1961
+		},
+		{
+			"name": "/examples/jsm/webxr/XRHandPrimitiveModel.js",
+			"hash": "TeYt1Kx3UJKlRlRNcRmeKWcQydxNbjFOVFPn/DVXs2E=",
+			"size": 2316
+		},
+		{
+			"name": "/examples/jsm/webxr/XRPlanes.js",
+			"hash": "HDtf3w6JkEqk8Lcz8/vaHJp919ORjnHR1ObRJfknCic=",
+			"size": 1937
+		},
+		{
+			"name": "/LICENSE",
+			"hash": "TECh72JFC4V8OyqvKUk2MEzVUtll+82dMtTFvPS6RFQ=",
+			"size": 1081
+		},
+		{
+			"name": "/package.json",
+			"hash": "LeqDG5kVqUsjpcHsxLzgQz8MtryiE0Af9mAnfoXD/gE=",
+			"size": 4373
+		},
+		{
+			"name": "/README.md",
+			"hash": "vhp51YpZSwtODtIXkNtytgM1bdwVAy6oSAX+V9V2vBM=",
+			"size": 3000
+		},
+		{
+			"name": "/src/animation/AnimationAction.js",
+			"hash": "LPidryxjE8Z3iD/uu6uUNqmXGTaTBq+U4MtQamn5LoU=",
+			"size": 12606
+		},
+		{
+			"name": "/src/animation/AnimationClip.js",
+			"hash": "O/LmEC0jfLyBUuX+CqiUZ5IwVYtB54nw85cCQb7UnCA=",
+			"size": 9545
+		},
+		{
+			"name": "/src/animation/AnimationMixer.js",
+			"hash": "hEipW3/ADp3fsEpYLk0TiyydGbBAqlCUgVuTQiG7pNY=",
+			"size": 16463
+		},
+		{
+			"name": "/src/animation/AnimationObjectGroup.js",
+			"hash": "x5G6zm8bjltnO83fuIT3XyU7AS0eaz+c6kc7LSFXwEk=",
+			"size": 9230
+		},
+		{
+			"name": "/src/animation/AnimationUtils.js",
+			"hash": "Yq+miGPKuYytXDAA7IIqW/GukyUtWhYdDNXOnabeqLg=",
+			"size": 7758
+		},
+		{
+			"name": "/src/animation/KeyframeTrack.js",
+			"hash": "S+7d4zCh1gJBTUSQ95xThACLBY+Z8QuYfxl237rORPE=",
+			"size": 9099
+		},
+		{
+			"name": "/src/animation/PropertyBinding.js",
+			"hash": "sJHsb2tciUOKZU79feMEHRYUvs1/SzXgQDxUzVo0WJ4=",
+			"size": 16381
+		},
+		{
+			"name": "/src/animation/PropertyMixer.js",
+			"hash": "v4EP59BhByztL2eY5pA9gknOWcvQr4pMB5hnO3Mey0k=",
+			"size": 6825
+		},
+		{
+			"name": "/src/animation/tracks/BooleanKeyframeTrack.js",
+			"hash": "QOEInehDDzQmveOwb0kn+FWNi0Jl30Iaf5QkZwaGh54=",
+			"size": 909
+		},
+		{
+			"name": "/src/animation/tracks/ColorKeyframeTrack.js",
+			"hash": "S0dDUby90y/0qxAXZr5Kj+KiyBBtfs2W/x60co0sg/Y=",
+			"size": 445
+		},
+		{
+			"name": "/src/animation/tracks/NumberKeyframeTrack.js",
+			"hash": "RwE9ap/TJDU0TE8Ba3fAjN2CaBhwQ36J+FAFbQJVIH4=",
+			"size": 311
+		},
+		{
+			"name": "/src/animation/tracks/QuaternionKeyframeTrack.js",
+			"hash": "+d6wc5KivvZ/BJgghrWoTV5LkBPHaJT3vWMZ1eAkFt4=",
+			"size": 661
+		},
+		{
+			"name": "/src/animation/tracks/StringKeyframeTrack.js",
+			"hash": "tG23QQL2KfTUIu/iq/tfw/ID19COvhXaS0AF86SU7V0=",
+			"size": 727
+		},
+		{
+			"name": "/src/animation/tracks/VectorKeyframeTrack.js",
+			"hash": "KAYFxUCaDwQkuyY3TajPfbccs9GmuQqQyppNxnLHNLY=",
+			"size": 312
+		},
+		{
+			"name": "/src/audio/Audio.js",
+			"hash": "3WOi60IJIrRkdErSVhiwiS0AXRMzhnv43RqDPwio2Vk=",
+			"size": 6067
+		},
+		{
+			"name": "/src/audio/AudioAnalyser.js",
+			"hash": "ujEZvAwetuZuD4kmnz1eyCjiqrQd6O8LzVC3X0vv2wI=",
+			"size": 591
+		},
+		{
+			"name": "/src/audio/AudioContext.js",
+			"hash": "SjRXEbpIAtN8JeU6MX0IVRfCaz3tfuQJfipTjUxpe+g=",
+			"size": 284
+		},
+		{
+			"name": "/src/audio/AudioListener.js",
+			"hash": "Zy9zkDMgsIr60rbyaBUwUsxP0BcOQAW31Dx673F5hVs=",
+			"size": 2893
+		},
+		{
+			"name": "/src/audio/PositionalAudio.js",
+			"hash": "JubOPuwTpllJPeEFDFKrmlZ0RjVFGY37YwBaK7pjX4k=",
+			"size": 2653
+		},
+		{
+			"name": "/src/cameras/ArrayCamera.js",
+			"hash": "w0eadMPvPy4Q/ipwuh9oXOG5Sr8zRy7cyzQ+pBwyKY0=",
+			"size": 236
+		},
+		{
+			"name": "/src/cameras/Camera.js",
+			"hash": "WJp+Hbxsl8oe019KoX7AJ0vVHC8vWMR7BeRqoLjHtWA=",
+			"size": 1273
+		},
+		{
+			"name": "/src/cameras/CubeCamera.js",
+			"hash": "0g65C2Ojat0sONPGuBq9l+436iaHmal+3PKTn6sYmCY=",
+			"size": 4449
+		},
+		{
+			"name": "/src/cameras/OrthographicCamera.js",
+			"hash": "MdJt8CG8DcjOAa4Kjzpucbk2hEiqhpoELH8npA+5RnU=",
+			"size": 2753
+		},
+		{
+			"name": "/src/cameras/PerspectiveCamera.js",
+			"hash": "tMOYWuUVK937ttcUx3ijngDJrWF/32aKz2/VaUTo53M=",
+			"size": 6470
+		},
+		{
+			"name": "/src/cameras/StereoCamera.js",
+			"hash": "e2PbgvuwVhcI8MdK/8tHkQ45Wb/kw4CU/5lNQJEoXAI=",
+			"size": 2694
+		},
+		{
+			"name": "/src/constants.js",
+			"hash": "oP/o2WfkN0wCHrcWZCYadxQya4EmJB2/qmDFCQ2WsOs=",
+			"size": 8021
+		},
+		{
+			"name": "/src/core/BufferAttribute.js",
+			"hash": "w5NkSOD79hEo5NdHZ+jpXP2JUTQ8MMDQqJ2tsnleYKk=",
+			"size": 10308
+		},
+		{
+			"name": "/src/core/BufferGeometry.js",
+			"hash": "yOuqmVYdlH+ySF7FgtQ0H4UAkcCZ3KyOH+8rRx4pVRE=",
+			"size": 20685
+		},
+		{
+			"name": "/src/core/Clock.js",
+			"hash": "LQNHVVs88iI0lf/vB/WVGBUHDBAm+exwyTciTRokOEI=",
+			"size": 828
+		},
+		{
+			"name": "/src/core/EventDispatcher.js",
+			"hash": "rUGSeNTe2n6GbtK0nPGZZs8NO1V9ADHVvdACk7FLTqo=",
+			"size": 1479
+		},
+		{
+			"name": "/src/core/GLBufferAttribute.js",
+			"hash": "F9zRSQk5RGXV+HeZ47b+2DtgXPHjJ0BInGXzE/EOswQ=",
+			"size": 725
+		},
+		{
+			"name": "/src/core/InstancedBufferAttribute.js",
+			"hash": "6ZdNUX2s9lFhk6CpqPbcj0+Hu5aOnc0r096QdLSYZxU=",
+			"size": 631
+		},
+		{
+			"name": "/src/core/InstancedBufferGeometry.js",
+			"hash": "X3KCBx9znUO9k3lJHH8nw4fDzxp+uQXBMBtLRMOumso=",
+			"size": 562
+		},
+		{
+			"name": "/src/core/InstancedInterleavedBuffer.js",
+			"hash": "sT4v5Vb/7PmzdxWiDZeK+ivo8QXOcmkAYlWZ93GhDTY=",
+			"size": 747
+		},
+		{
+			"name": "/src/core/InterleavedBuffer.js",
+			"hash": "IlHd4BFRjgzoD0gjSLopYTtB1W96huc8mvy5gSTQCDs=",
+			"size": 2513
+		},
+		{
+			"name": "/src/core/InterleavedBufferAttribute.js",
+			"hash": "wbvG7PU3lw87KVyzL/tEeneuhyZwueQObwgakVkPpz4=",
+			"size": 6272
+		},
+		{
+			"name": "/src/core/Layers.js",
+			"hash": "ciX9cJM20QZ0WKVK+8FwHWazFwhKqPLk7gkhhQ/U1PI=",
+			"size": 577
+		},
+		{
+			"name": "/src/core/Object3D.js",
+			"hash": "Hs0qsGu9B2Q7Zwbk6W4o3g9OKGMwEnYBKZznujZB/ik=",
+			"size": 19843
+		},
+		{
+			"name": "/src/core/Raycaster.js",
+			"hash": "o0Ka6o/NqTu//k94OsDRi3fXwwx0Y3+sE9o4rI6bC3M=",
+			"size": 2663
+		},
+		{
+			"name": "/src/core/RenderTarget.js",
+			"hash": "7lhjJEgi1YJKEUYL9l3Iwsr6tVUgl+uKINGviPW/QiI=",
+			"size": 3654
+		},
+		{
+			"name": "/src/core/Uniform.js",
+			"hash": "WfkDSPvpTXMsRCjXxeSeuHHcEQR00wxhD0epHvwa5OA=",
+			"size": 199
+		},
+		{
+			"name": "/src/core/UniformsGroup.js",
+			"hash": "iwO7mlAzkR9sGKoTwucX4X8reNxQO18BoxScoUZTLxg=",
+			"size": 1340
+		},
+		{
+			"name": "/src/extras/Controls.js",
+			"hash": "bUFyVuhEQn+38J6PQqMKBVZhuFEDvC5MucR6Y8sg1+4=",
+			"size": 494
+		},
+		{
+			"name": "/src/extras/core/Curve.js",
+			"hash": "TufH/RDwdMnfKBRmr07GY++88ipCRgATYWzgS9N7o5g=",
+			"size": 8025
+		},
+		{
+			"name": "/src/extras/core/CurvePath.js",
+			"hash": "Wfg1Atda59G1GMmMRfihl5+caB/TaMWVNtS+NkE6D3E=",
+			"size": 4737
+		},
+		{
+			"name": "/src/extras/core/Interpolations.js",
+			"hash": "HvFtX89yWuZaZYgdGOq1yvS+eecy3KHhtcTluf3z6HQ=",
+			"size": 1223
+		},
+		{
+			"name": "/src/extras/core/Path.js",
+			"hash": "e3i3QA7AmlN7XUxXWKsMibihxUBk3jgNdtki3npMOPk=",
+			"size": 3562
+		},
+		{
+			"name": "/src/extras/core/Shape.js",
+			"hash": "z5kHqD83iSp+aTuFN70erwl0BRPya3seZG4rzkxUbuM=",
+			"size": 1419
+		},
+		{
+			"name": "/src/extras/core/ShapePath.js",
+			"hash": "e/yJNELADmgfXynvXPeLVCM/XnrmkdL02pgp5e+oPUQ=",
+			"size": 5801
+		},
+		{
+			"name": "/src/extras/curves/ArcCurve.js",
+			"hash": "cbPAbCVq3n0pMvMyjfNbvoweIWkRf6eRLYsDPwEAQqU=",
+			"size": 317
+		},
+		{
+			"name": "/src/extras/curves/CatmullRomCurve3.js",
+			"hash": "axNIb89YUHRkA1GEznXwy5JW0TWfDetgYqrBCSJwD74=",
+			"size": 5479
+		},
+		{
+			"name": "/src/extras/curves/CubicBezierCurve.js",
+			"hash": "k0AqI7PXeifGxnxe/AI5oenylqsvP4oIXhIq+Tb9KaY=",
+			"size": 1315
+		},
+		{
+			"name": "/src/extras/curves/CubicBezierCurve3.js",
+			"hash": "zK7mklRotfNqz1oJ1HJoBcmEhiDq86Lz7s7k0yPQrjA=",
+			"size": 1364
+		},
+		{
+			"name": "/src/extras/curves/Curves.js",
+			"hash": "UGw19zu6crbryyYYmWf9/3OyICqWFWzgodtO/n0Dblw=",
+			"size": 540
+		},
+		{
+			"name": "/src/extras/curves/EllipseCurve.js",
+			"hash": "b9dx+Xym+neXZa/wm1iwt9U/3MdaZsoTk1PIHub5ysY=",
+			"size": 2752
+		},
+		{
+			"name": "/src/extras/curves/LineCurve.js",
+			"hash": "0/BCdAkAWFLJMBCZo/Omlf3eK4slGYTMhSdCMUtN5fk=",
+			"size": 1318
+		},
+		{
+			"name": "/src/extras/curves/LineCurve3.js",
+			"hash": "pbX/9KtDjfO+FM88fBI5IA2QABR4cFsQu5+ywGj2EcY=",
+			"size": 1322
+		},
+		{
+			"name": "/src/extras/curves/QuadraticBezierCurve.js",
+			"hash": "ZxHEok6eGnrP7ZbyF9k9OoSOwPSJ2JPnlMksQA9GjDs=",
+			"size": 1189
+		},
+		{
+			"name": "/src/extras/curves/QuadraticBezierCurve3.js",
+			"hash": "ao9XGMvE3q9EmAgv93ABRlLNfEkht3A6zvaT2cigptg=",
+			"size": 1236
+		},
+		{
+			"name": "/src/extras/curves/SplineCurve.js",
+			"hash": "sbK/O2yN4bwrebNDTdCQwzjSpq2eqhZ6UM7XPQ9Rz7A=",
+			"size": 1678
+		},
+		{
+			"name": "/src/extras/DataUtils.js",
+			"hash": "3fUfBOZwO+bJ/crXg44ozkdkA8Ryu8TKRnmuqzgpNRA=",
+			"size": 3482
+		},
+		{
+			"name": "/src/extras/Earcut.js",
+			"hash": "QvLL/ZMYGLcmRmaIuhoaunORgv5AWHchlOU980mFxLI=",
+			"size": 17687
+		},
+		{
+			"name": "/src/extras/ImageUtils.js",
+			"hash": "p0GXu6ihd2gVci+ofnhIE9mW/9vrhTEI2TYdRL8TboY=",
+			"size": 2496
+		},
+		{
+			"name": "/src/extras/PMREMGenerator.js",
+			"hash": "1N2D1/g9fYHEtFEdggoOvNOuAnw7GcE1N9fZZjrOoA0=",
+			"size": 22530
+		},
+		{
+			"name": "/src/extras/ShapeUtils.js",
+			"hash": "5HylKwRvjFt3bSFl1w30ctE6xUZsSXbM7RoRMlYAbhA=",
+			"size": 1516
+		},
+		{
+			"name": "/src/extras/TextureUtils.js",
+			"hash": "XLE8kONXpOzpwEcfQdd4t5yhMS21esRb+nw3yzJB8j8=",
+			"size": 7670
+		},
+		{
+			"name": "/src/geometries/BoxGeometry.js",
+			"hash": "88NfCnEustDLtSh5ZczQ/mCX/Bwhay21pRyM8V0XMnU=",
+			"size": 4339
+		},
+		{
+			"name": "/src/geometries/CapsuleGeometry.js",
+			"hash": "Yasdfkqhq99gQaToD1qHZ8ixvtSK5IuJRV8cVagJWaw=",
+			"size": 760
+		},
+		{
+			"name": "/src/geometries/CircleGeometry.js",
+			"hash": "QTZYp7uGxsDI7PoH1zT/+Cr5qR87wIOptYVmjOiOxsQ=",
+			"size": 1960
+		},
+		{
+			"name": "/src/geometries/ConeGeometry.js",
+			"hash": "/4IAVZsE/sgA5uDhUeDr2/vNfRjcO1V85O5k8o1V2sE=",
+			"size": 810
+		},
+		{
+			"name": "/src/geometries/CylinderGeometry.js",
+			"hash": "ExaJXoe2/gVs4OXWi4ZyQu3yV28pBHN5bm3xt14ySFI=",
+			"size": 5938
+		},
+		{
+			"name": "/src/geometries/DodecahedronGeometry.js",
+			"hash": "dvoXiZCdvZcWbr91ctQjo/ht9ZgzkNn+Tt1RM/NOv2k=",
+			"size": 1351
+		},
+		{
+			"name": "/src/geometries/EdgesGeometry.js",
+			"hash": "ZRx/TsHqlYw4tQOOpLrjX2gH06k+MvEvJ9IikgAVeSw=",
+			"size": 4116
+		},
+		{
+			"name": "/src/geometries/ExtrudeGeometry.js",
+			"hash": "kd11aMFWhYBfMv6pKHF5FEY7I2daWgESPUiDtrwzyhY=",
+			"size": 18337
+		},
+		{
+			"name": "/src/geometries/Geometries.js",
+			"hash": "6JobkGAMNPA5KD+YF00Cb0sfjhDuG+hAXy+z5rCmSlw=",
+			"size": 797
+		},
+		{
+			"name": "/src/geometries/IcosahedronGeometry.js",
+			"hash": "osEPojSJb7wldDa9pzwK5H9pexwodi5nCWXwZtv17Qo=",
+			"size": 896
+		},
+		{
+			"name": "/src/geometries/LatheGeometry.js",
+			"hash": "aw44qEu1cNONQ5IRCOoqK7h8Nn0qflEZKLiEi3ymcKU=",
+			"size": 3934
+		},
+		{
+			"name": "/src/geometries/OctahedronGeometry.js",
+			"hash": "IMYAImyUt3Dz4nZghia+DeRNQLrlHAfTZIQTMPMoSmo=",
+			"size": 641
+		},
+		{
+			"name": "/src/geometries/PlaneGeometry.js",
+			"hash": "ZOySGGL827s65/BGupQUfBFeR0VyUZ53Rnq7FBnPMW4=",
+			"size": 1999
+		},
+		{
+			"name": "/src/geometries/PolyhedronGeometry.js",
+			"hash": "RSRn//cBwuxIOSr7vj530lX5dl4ZSLdCLucy2wYsqOM=",
+			"size": 6436
+		},
+		{
+			"name": "/src/geometries/RingGeometry.js",
+			"hash": "mWPmYJkFbxBsPTCSKqM/61Jytc/QmcZVdX17XzqGa5Y=",
+			"size": 2760
+		},
+		{
+			"name": "/src/geometries/ShapeGeometry.js",
+			"hash": "6CjTx852GWxX8oD15bTPtTaqAwlZztFomZKy+K2o/l0=",
+			"size": 3687
+		},
+		{
+			"name": "/src/geometries/SphereGeometry.js",
+			"hash": "dOuiCZ90jnjLw5prH5a3HRzooe2n7vKK8GnCXi+83ug=",
+			"size": 3129
+		},
+		{
+			"name": "/src/geometries/TetrahedronGeometry.js",
+			"hash": "HsJ+12nPYJooDtInSYXXlaPTv8iZNP9i0mJVjfmQbSA=",
+			"size": 590
+		},
+		{
+			"name": "/src/geometries/TorusGeometry.js",
+			"hash": "Pugc7q/3cR6SL08zPDDNVYhXtkexAU6DQac+lkL1e4k=",
+			"size": 2607
+		},
+		{
+			"name": "/src/geometries/TorusKnotGeometry.js",
+			"hash": "2D347owOuR7/CQPGokk5bRUoXfPiDnvvdu5bPwJoH2E=",
+			"size": 4255
+		},
+		{
+			"name": "/src/geometries/TubeGeometry.js",
+			"hash": "TMavl6oMwLoKY37CDmsDHs/vc1rR/+a8l4WNp3IUqYE=",
+			"size": 4364
+		},
+		{
+			"name": "/src/geometries/WireframeGeometry.js",
+			"hash": "Dv85gP3nT+EcUhpQ1zt7kSO8C3VuMbSf6Wqc1ljTl2Q=",
+			"size": 3004
+		},
+		{
+			"name": "/src/helpers/ArrowHelper.js",
+			"hash": "MJ164XUNd6urLbUKSLtZzStMtXJw/KwT2BC4hKaqSpU=",
+			"size": 2740
+		},
+		{
+			"name": "/src/helpers/AxesHelper.js",
+			"hash": "rt6VyodnpFmvcjX4/MfXo1sCU3Wf/lpj9av6d+LlBHE=",
+			"size": 1486
+		},
+		{
+			"name": "/src/helpers/Box3Helper.js",
+			"hash": "2CiniCtqmOA61HoW/lDc3QIClWxLduE5eDhvCdnCWUA=",
+			"size": 1287
+		},
+		{
+			"name": "/src/helpers/BoxHelper.js",
+			"hash": "BFZMuSsU3PKEGxAVsxlOs/uS6O3AIzBgAM56mgClvoM=",
+			"size": 2481
+		},
+		{
+			"name": "/src/helpers/CameraHelper.js",
+			"hash": "EvO6gLIb5+pBSK3vt8V264++9zw8QCfSmri6GfCLNXM=",
+			"size": 8392
+		},
+		{
+			"name": "/src/helpers/DirectionalLightHelper.js",
+			"hash": "0obP632KEhD1ZkrsVc/h6GuWo+zvTRFCUxhBP0ny+KE=",
+			"size": 2243
+		},
+		{
+			"name": "/src/helpers/GridHelper.js",
+			"hash": "eZ98d9qjMLTRQzaV6euVyxc+JxHROuvPX0ntP8j/5z0=",
+			"size": 1477
+		},
+		{
+			"name": "/src/helpers/HemisphereLightHelper.js",
+			"hash": "hlRBiUzJkx1nCVyhjsdxDpP7JeJnW9RL0NRSfdPsrok=",
+			"size": 2047
+		},
+		{
+			"name": "/src/helpers/PlaneHelper.js",
+			"hash": "ATZheZjwobhAl7+2gz0yHqckLcLsrpVlXHvG4/hG9m4=",
+			"size": 1737
+		},
+		{
+			"name": "/src/helpers/PointLightHelper.js",
+			"hash": "7W9f01OHOKdM0c9BnREbaznJXjnuak8yLe0xkY2T6KE=",
+			"size": 1724
+		},
+		{
+			"name": "/src/helpers/PolarGridHelper.js",
+			"hash": "vq7wag+iUe5h/+4gsGh1mfGtNwsK9bf4xRJpz7Hus0U=",
+			"size": 2096
+		},
+		{
+			"name": "/src/helpers/SkeletonHelper.js",
+			"hash": "UHWmYbnPjQ8JR6E35XX+eJT2Xq32b2BZU31oEIOkKNE=",
+			"size": 2854
+		},
+		{
+			"name": "/src/helpers/SpotLightHelper.js",
+			"hash": "4hLuMYriLnqGY8a54kfIZzc3jITmQ3VyFVIzIkhUziw=",
+			"size": 2346
+		},
+		{
+			"name": "/src/lights/AmbientLight.js",
+			"hash": "hhSUdRX6nx8cwz/rZ8xRWuk4n2SkydyeD/dkD4rofF4=",
+			"size": 233
+		},
+		{
+			"name": "/src/lights/DirectionalLight.js",
+			"hash": "OW/jhiqZ0ZaJxVdGsUKdtPKYd87B7vmjmFqEK+1BKsA=",
+			"size": 703
+		},
+		{
+			"name": "/src/lights/DirectionalLightShadow.js",
+			"hash": "gPuW1PXsoT0rakkdcHpoTgpgDNXvd2ZY7Hvm01qCzqE=",
+			"size": 337
+		},
+		{
+			"name": "/src/lights/HemisphereLight.js",
+			"hash": "RZcu3QbLnekpCGL0cBK8Pmwc6VxMDsSvC/E7XBSqApU=",
+			"size": 605
+		},
+		{
+			"name": "/src/lights/Light.js",
+			"hash": "pZdUHFyW3Z2Sqh36zUECTIOdLxOMTEWNRL/Spqovbsg=",
+			"size": 1242
+		},
+		{
+			"name": "/src/lights/LightProbe.js",
+			"hash": "XgSwcSH2hlMvgTeh4VoV6tDh0iyFnhcSUZ1u2N5KtjY=",
+			"size": 679
+		},
+		{
+			"name": "/src/lights/LightShadow.js",
+			"hash": "vLWljzlbIGk81LIpEfu7op/z/1Qya4zplHL2WxL5zPE=",
+			"size": 2764
+		},
+		{
+			"name": "/src/lights/PointLight.js",
+			"hash": "W0ZDmAiWfRUxDEbTVav+25gST7XS/wFs+gkhEBjwLE8=",
+			"size": 1026
+		},
+		{
+			"name": "/src/lights/PointLightShadow.js",
+			"hash": "M9bnXaQ0K0vXirB8udgVPqyYNUH14Eq+S1fv++U2al4=",
+			"size": 2566
+		},
+		{
+			"name": "/src/lights/RectAreaLight.js",
+			"hash": "JQkp5H3asuIvu4aDJ06ZwrrteKfvT8I6SI8rdcWSyGk=",
+			"size": 926
+		},
+		{
+			"name": "/src/lights/SpotLight.js",
+			"hash": "bklByk67y4NEeKgPiX3Gv9I0E7cj3w/m+R5ZVqgy1MY=",
+			"size": 1366
+		},
+		{
+			"name": "/src/lights/SpotLightShadow.js",
+			"hash": "zfciuQpqpON3i4RMx0YZy9KA/ixwcJkM1jzh49td5UQ=",
+			"size": 925
+		},
+		{
+			"name": "/src/lights/webgpu/IESSpotLight.js",
+			"hash": "cAvAyHaFDwqxwKB78atOsfbggD6r0YCL0S1u+W976SQ=",
+			"size": 397
+		},
+		{
+			"name": "/src/loaders/AnimationLoader.js",
+			"hash": "XpeutMHK2r/3HwCssv+g9vh6PKSpUWpsms4DFu5qKmY=",
+			"size": 1009
+		},
+		{
+			"name": "/src/loaders/AudioLoader.js",
+			"hash": "GRmq9gDyhnj2zVhidUr77op+7BnPwbrCm36681XVE5Y=",
+			"size": 1186
+		},
+		{
+			"name": "/src/loaders/BufferGeometryLoader.js",
+			"hash": "FsOObGj+d93T4SWj5tnp/nrpWkitEAjfq0P536AwWQc=",
+			"size": 5400
+		},
+		{
+			"name": "/src/loaders/Cache.js",
+			"hash": "oCba8shEVj4ZC9BPrF8OVanTD56SQI8q7gubGe+68Hc=",
+			"size": 503
+		},
+		{
+			"name": "/src/loaders/CompressedTextureLoader.js",
+			"hash": "d926XxY92gtwZKIGTmOgwyDQJNO86EITWY+R+THNhK8=",
+			"size": 2666
+		},
+		{
+			"name": "/src/loaders/CubeTextureLoader.js",
+			"hash": "Rt9fHJwAK5nQ0G7zZ2fl8GrsfcaS75SSQntlSl5Ug/Q=",
+			"size": 959
+		},
+		{
+			"name": "/src/loaders/DataTextureLoader.js",
+			"hash": "e8VQv17m7bkQsdy//tpOIvGmj6Ii+koEJ4bmbdIMpwI=",
+			"size": 2659
+		},
+		{
+			"name": "/src/loaders/FileLoader.js",
+			"hash": "VvW3memKvYfoX990BKB8+Jb3X7RfCHI6trpX8VOG2ow=",
+			"size": 5610
+		},
+		{
+			"name": "/src/loaders/ImageBitmapLoader.js",
+			"hash": "Blw3NFe8CE9cslG+/pDzg+S603JOwBt/0aeCEAAyUHU=",
+			"size": 2218
+		},
+		{
+			"name": "/src/loaders/ImageLoader.js",
+			"hash": "z8b1ewuoa9UqCAZYuhhZbknBb4Sz0X7D2Xx71VieLdE=",
+			"size": 1505
+		},
+		{
+			"name": "/src/loaders/Loader.js",
+			"hash": "DlgK2LUOUdD88tUw33U2Fc1J7BsME0o9DNBAN7LJvqE=",
+			"size": 1064
+		},
+		{
+			"name": "/src/loaders/LoaderUtils.js",
+			"hash": "gYZBTwvWfofMRn9Mctev3Ivwsc+YNvK+PHfjeJXnX7o=",
+			"size": 1469
+		},
+		{
+			"name": "/src/loaders/LoadingManager.js",
+			"hash": "WHNQcc1A+Ria3ZQoeOfIUXqTqtBAEmhDbWrHWC1MwZs=",
+			"size": 2033
+		},
+		{
+			"name": "/src/loaders/MaterialLoader.js",
+			"hash": "wbDdbHghUR2avoCsYg0wEfft7pgN8SAy/98uBJZukNg=",
+			"size": 14925
+		},
+		{
+			"name": "/src/loaders/nodes/NodeLoader.js",
+			"hash": "Gp/J+tYmZ+XWmWY9OfMhJwMMwYI2rOTTNj3lMuu9VoA=",
+			"size": 1964
+		},
+		{
+			"name": "/src/loaders/nodes/NodeMaterialLoader.js",
+			"hash": "TcmL1XZBKy8y64LRidVxuAxAzvueFH7iVgJ88VliWo0=",
+			"size": 896
+		},
+		{
+			"name": "/src/loaders/nodes/NodeObjectLoader.js",
+			"hash": "vmlQnuo73BkrXd8XcHHw+nMGSUUSX/PuZgswEJeW8N4=",
+			"size": 1397
+		},
+		{
+			"name": "/src/loaders/ObjectLoader.js",
+			"hash": "02VL6ZqbzFycvkfmaXhL7989qupG/1BWuwG5QFgJQm8=",
+			"size": 27565
+		},
+		{
+			"name": "/src/loaders/TextureLoader.js",
+			"hash": "GMpB6Ach0LNE/c7S4rZ4J/iB1VCz0Xtjy4hiYXRXfAc=",
+			"size": 679
+		},
+		{
+			"name": "/src/materials/LineBasicMaterial.js",
+			"hash": "Zz5tuLlhX1nUHehiDBKLac82xQBhGbHse9QLBMADwuQ=",
+			"size": 727
+		},
+		{
+			"name": "/src/materials/LineDashedMaterial.js",
+			"hash": "eSSC1F3jP7BaLyMLCOctNW9zkPqdJkl6Ff4Nxf3eQug=",
+			"size": 524
+		},
+		{
+			"name": "/src/materials/Material.js",
+			"hash": "ebMlVSTYxfHWK13JbyCWuadduGHENtZDrB++2s7qe0A=",
+			"size": 16295
+		},
+		{
+			"name": "/src/materials/Materials.js",
+			"hash": "xlkykXAavUPzwkftMH0B0dfKCl2aEfUTeKyQvNv53u8=",
+			"size": 1428
+		},
+		{
+			"name": "/src/materials/MeshBasicMaterial.js",
+			"hash": "IuEdoHsqu+ul+w8r3sLiYuiWZM9tKT2qGYNBSgy7zN4=",
+			"size": 1744
+		},
+		{
+			"name": "/src/materials/MeshDepthMaterial.js",
+			"hash": "h6/jm4N+BnIEsFttS9BZOWoUZ2boAADVnWzlzs1ZE1E=",
+			"size": 977
+		},
+		{
+			"name": "/src/materials/MeshDistanceMaterial.js",
+			"hash": "i2VDj/QA1N01DJdULw/VENvWTEFzOLt1lqfQ7PmCNL4=",
+			"size": 699
+		},
+		{
+			"name": "/src/materials/MeshLambertMaterial.js",
+			"hash": "rzcSqDVQrGJ7S3XXoHWHAxtCWxd9zRplG7sFOGoSgTU=",
+			"size": 2734
+		},
+		{
+			"name": "/src/materials/MeshMatcapMaterial.js",
+			"hash": "bUWfM8bfC1wAJiT0rbJHiKZMgCMwEoiklEKY9+8cAtE=",
+			"size": 1528
+		},
+		{
+			"name": "/src/materials/MeshNormalMaterial.js",
+			"hash": "emia5p2R4AiT/D/TlS+cl09eCRGy3QGs57JsPtkC1gc=",
+			"size": 1270
+		},
+		{
+			"name": "/src/materials/MeshPhongMaterial.js",
+			"hash": "CuhRykE+uD6gskYD3KFe+2oP6a5ZxnmnxTqSM7xqFFI=",
+			"size": 2868
+		},
+		{
+			"name": "/src/materials/MeshPhysicalMaterial.js",
+			"hash": "qFBs1X2QNWAKum2mWEZy54oprAsZyjG2MiX0Gm/vLHQ=",
+			"size": 4571
+		},
+		{
+			"name": "/src/materials/MeshStandardMaterial.js",
+			"hash": "Vu4r9q+zheRqKzQ7L0ciuhAAi6XucnsJyElTLd0xLPs=",
+			"size": 2855
+		},
+		{
+			"name": "/src/materials/MeshToonMaterial.js",
+			"hash": "9OQF+1R6xvZyRSrSt2fQ25Njt1mrq1izNcVIu/9v4OI=",
+			"size": 2249
+		},
+		{
+			"name": "/src/materials/nodes/InstancedPointsNodeMaterial.js",
+			"hash": "VAJYbpmqqtplD7ONwbY190fn7a26a+8yUIGL/Xn9mPM=",
+			"size": 3272
+		},
+		{
+			"name": "/src/materials/nodes/Line2NodeMaterial.js",
+			"hash": "HbzXrxhNd+CMKvos43IUaDNyj9PQtSibPaVqiRGFpZo=",
+			"size": 11663
+		},
+		{
+			"name": "/src/materials/nodes/LineBasicNodeMaterial.js",
+			"hash": "UpiXEHeLV89lW3qY8x0ZD8ArvpBaJm+UTUplj7LN+zI=",
+			"size": 513
+		},
+		{
+			"name": "/src/materials/nodes/LineDashedNodeMaterial.js",
+			"hash": "PaMsyWTXjG6YRu02ny0OoseIhtjMUGn2sTXoabTAcLg=",
+			"size": 1621
+		},
+		{
+			"name": "/src/materials/nodes/manager/NodeMaterialObserver.js",
+			"hash": "MuXhOHNQp43FfhIrpLA+ko9gjx5evaNTknGixqo7iH0=",
+			"size": 5265
+		},
+		{
+			"name": "/src/materials/nodes/MeshBasicNodeMaterial.js",
+			"hash": "up1U6zEs0eFoHIAX/2rvbAmvInwP8iajFJfsQD53XD0=",
+			"size": 1447
+		},
+		{
+			"name": "/src/materials/nodes/MeshLambertNodeMaterial.js",
+			"hash": "XioRFFeaA8gxqeS9hI2wIIthIQOL8/3sZdSe5kH8ZrA=",
+			"size": 957
+		},
+		{
+			"name": "/src/materials/nodes/MeshMatcapNodeMaterial.js",
+			"hash": "lEI/xxm7ELpkGhviLGv/8mBuU/5i2CHUhfV1wYpT4oY=",
+			"size": 1187
+		},
+		{
+			"name": "/src/materials/nodes/MeshNormalNodeMaterial.js",
+			"hash": "U/7DawmVziqBaDtMeAC1WC40q19FnCHYv8109LX/tRg=",
+			"size": 1059
+		},
+		{
+			"name": "/src/materials/nodes/MeshPhongNodeMaterial.js",
+			"hash": "486mMi9GkWMTfDo38RsP1f2dTy64xrogVV0yaCo6k8k=",
+			"size": 1671
+		},
+		{
+			"name": "/src/materials/nodes/MeshPhysicalNodeMaterial.js",
+			"hash": "1wzfINa8S6qFIkpyNkSlITzMZ5u/8yGlm+GmEN5grNo=",
+			"size": 7652
+		},
+		{
+			"name": "/src/materials/nodes/MeshSSSNodeMaterial.js",
+			"hash": "ySqsiVC9oao4NzdxiTFLdOaVTC8LXjXQw6H+Odd2Eu8=",
+			"size": 2544
+		},
+		{
+			"name": "/src/materials/nodes/MeshStandardNodeMaterial.js",
+			"hash": "0etI/ZJlgFx77mbIWEmprAo16xP0naZ8fy570KNRsD8=",
+			"size": 2422
+		},
+		{
+			"name": "/src/materials/nodes/MeshToonNodeMaterial.js",
+			"hash": "5QNY3hnWq1/IgFK20hJuY4PBQQnssItp+KahgtH88CI=",
+			"size": 658
+		},
+		{
+			"name": "/src/materials/nodes/NodeMaterial.js",
+			"hash": "HkYkc5zabdM+o0Bvda/MXFxVfcA0ILTpVSCkZQbBDvg=",
+			"size": 13498
+		},
+		{
+			"name": "/src/materials/nodes/NodeMaterials.js",
+			"hash": "6LGjXLop7noIKZu85su6XiJp5GaLQ91bGwgPuGDTaMM=",
+			"size": 1637
+		},
+		{
+			"name": "/src/materials/nodes/PointsNodeMaterial.js",
+			"hash": "FUaC3KLBqxdHFj5MARjLe3XawCtdj8//BR0tMmxhJH8=",
+			"size": 635
+		},
+		{
+			"name": "/src/materials/nodes/ShadowNodeMaterial.js",
+			"hash": "XcIDqhddR38AyVfkUIsgyPCLix1v5TRPysWk0bdbmKM=",
+			"size": 638
+		},
+		{
+			"name": "/src/materials/nodes/SpriteNodeMaterial.js",
+			"hash": "xReQsilvNOO20VRz6PXN0HN5qPOsQqbKAppl+L6Hsws=",
+			"size": 2684
+		},
+		{
+			"name": "/src/materials/nodes/VolumeNodeMaterial.js",
+			"hash": "VkeUZHdABLFEUJIoNjHU4QJLj0yuiV40oAKfKTUyEOc=",
+			"size": 2867
+		},
+		{
+			"name": "/src/materials/PointsMaterial.js",
+			"hash": "WduNJAynqliR5w7xjCy/YLYYEPtRziM9H8CK34ILw28=",
+			"size": 719
+		},
+		{
+			"name": "/src/materials/RawShaderMaterial.js",
+			"hash": "/seVs5bvhqxfgDNOy5oWvzyn/q7FX3EN5dVwr/+nzq4=",
+			"size": 268
+		},
+		{
+			"name": "/src/materials/ShaderMaterial.js",
+			"hash": "RETaxnOAu+LFznPmWfXnsrJFQ7+1W+IOQE2E3KATE+8=",
+			"size": 3931
+		},
+		{
+			"name": "/src/materials/ShadowMaterial.js",
+			"hash": "cfukOeCxSWAzziYO/z/+61lheN1E8q9HyHwMNazrsrs=",
+			"size": 513
+		},
+		{
+			"name": "/src/materials/SpriteMaterial.js",
+			"hash": "JJQrJ0+ozQMqop4yvvVBXTwg5/VoG9xWCYdpnoPvaK4=",
+			"size": 761
+		},
+		{
+			"name": "/src/math/Box2.js",
+			"hash": "KBsGxCNtHKJMaFfgRfRxHzdC2hayBAWhrg2ZTuNnCRs=",
+			"size": 3193
+		},
+		{
+			"name": "/src/math/Box3.js",
+			"hash": "paVTZaUJNCyBQGlN2K9wXfadKfpT28hr8pbNPzQCdnk=",
+			"size": 11453
+		},
+		{
+			"name": "/src/math/Color.js",
+			"hash": "FUjvSHkCm/HsiWyvcJiiXXrWQnVYt2vnHvzgJjZYbaA=",
+			"size": 13676
+		},
+		{
+			"name": "/src/math/ColorManagement.js",
+			"hash": "LKp8l7P8KAB9IFg6vUy7Z5l8paA5Q3nQgTiWEXpnB9s=",
+			"size": 4210
+		},
+		{
+			"name": "/src/math/Cylindrical.js",
+			"hash": "rw5zuyjzg1FaQfnc7Vb9jqVBOeFaXoIKbjsvL03Es7Q=",
+			"size": 953
+		},
+		{
+			"name": "/src/math/Euler.js",
+			"hash": "LcOB8lYlewJSqJfSD0FcOngVKZdOORuwHfQ+y65CwfE=",
+			"size": 4760
+		},
+		{
+			"name": "/src/math/Frustum.js",
+			"hash": "P+BWNeL2zrwJoJXyeyr/xUD36eHczZ0H8qrGwlzMYqo=",
+			"size": 3890
+		},
+		{
+			"name": "/src/math/Interpolant.js",
+			"hash": "SVQ2NQ/V3fXVGs7O5mt6u6fT8GzhHf96a9XvIYtfPYI=",
+			"size": 4271
+		},
+		{
+			"name": "/src/math/interpolants/CubicInterpolant.js",
+			"hash": "6umha2HkKCuW+37IJNC5fLtbj0AEX/tJ1JZ1f90R0kU=",
+			"size": 2966
+		},
+		{
+			"name": "/src/math/interpolants/DiscreteInterpolant.js",
+			"hash": "yMUT0kGde2OFk/UMpM943M5hwT79ioixRMPlKpj4FlI=",
+			"size": 482
+		},
+		{
+			"name": "/src/math/interpolants/LinearInterpolant.js",
+			"hash": "403Mww1QC0/7HfI4ku21+CuTVPceP+1Fqhq0/nmSoKk=",
+			"size": 704
+		},
+		{
+			"name": "/src/math/interpolants/QuaternionLinearInterpolant.js",
+			"hash": "3qqY+QlLDM27jtHyhV0uYY88+WudvmCZibNIMvRhXMk=",
+			"size": 789
+		},
+		{
+			"name": "/src/math/Line3.js",
+			"hash": "ljUv7hJShD5yZ2eCzyKKWp60jbNRs5LYZd8w8qh+jUQ=",
+			"size": 1776
+		},
+		{
+			"name": "/src/math/MathUtils.js",
+			"hash": "OxrHMKs49wMMuv2znbN9UMCebxuybPDuc96PO88xdaA=",
+			"size": 8547
+		},
+		{
+			"name": "/src/math/Matrix2.js",
+			"hash": "xou4A7NCNJ07hAHFTKPqXZtHDM3NoUkABSgZ2Q/hgtQ=",
+			"size": 579
+		},
+		{
+			"name": "/src/math/Matrix3.js",
+			"hash": "M1vHXUDidp+X6cWb6uPBg1Aj/k/CwZp+MUwOXjtwwhc=",
+			"size": 6056
+		},
+		{
+			"name": "/src/math/Matrix4.js",
+			"hash": "EJyjVDlCvm+zVjxN+V3DmI5B+GXnAX8fLmzUxthgaas=",
+			"size": 19714
+		},
+		{
+			"name": "/src/math/Plane.js",
+			"hash": "Za2fOfyWc4JWgaevWWA4jVuvk6N+EPncoklxiBOqwWg=",
+			"size": 3649
+		},
+		{
+			"name": "/src/math/Quaternion.js",
+			"hash": "S4xrtlsMWWRln4Ue7NowAr4PRQLG8OzfjQ842o433wo=",
+			"size": 12618
+		},
+		{
+			"name": "/src/math/Ray.js",
+			"hash": "vQ7GQajuDPhThHHwBl3Nxpi7cviStbKeHECHTTrleXU=",
+			"size": 9979
+		},
+		{
+			"name": "/src/math/Sphere.js",
+			"hash": "dj97ILXHb/rcK1hQh/g5DP9CWpLxcw8FtkLfsT+SJgY=",
+			"size": 3682
+		},
+		{
+			"name": "/src/math/Spherical.js",
+			"hash": "V2wbJKL0wITXQhM8cqQYf/k6xK4zGwoQx+f6DDSYg5g=",
+			"size": 1354
+		},
+		{
+			"name": "/src/math/SphericalHarmonics3.js",
+			"hash": "6r+ozFeRllpBtrOtOgU1sdaHNjU/1Ffbr0xoVlI9Xy8=",
+			"size": 4498
+		},
+		{
+			"name": "/src/math/Triangle.js",
+			"hash": "pSxwAU+PgHuQo/RdK3rM4JHSe6O2TLQbrpiaEjT4Ytw=",
+			"size": 7148
+		},
+		{
+			"name": "/src/math/Vector2.js",
+			"hash": "Np1eyq7l3OylL5ektRniKaiAA+QGcOL0fsGGDo/kZYA=",
+			"size": 5709
+		},
+		{
+			"name": "/src/math/Vector3.js",
+			"hash": "zZIy8jxKBS2zf0WXI80ncBrvkaqz8sJFX7FEmQAZdPI=",
+			"size": 10881
+		},
+		{
+			"name": "/src/math/Vector4.js",
+			"hash": "ir0uMykuSY60Sj/+gCzezJ7Ro6BH7e034qnBwMUJM3A=",
+			"size": 10234
+		},
+		{
+			"name": "/src/nodes/accessors/AccessorsUtils.js",
+			"hash": "j3sxOW0Soup/4UgGrfppR+4IjvYLmi++E1dMchDK68w=",
+			"size": 1104
+		},
+		{
+			"name": "/src/nodes/accessors/BatchNode.js",
+			"hash": "uKv0Nw+QJTNRU+UBc+8nh4Sdba7RtCG7sHhtmXKXsYY=",
+			"size": 3017
+		},
+		{
+			"name": "/src/nodes/accessors/Bitangent.js",
+			"hash": "Lg7PdABSp9IE+G4OF6Ycmpiorz/ZDHrcVza8D66e6Q4=",
+			"size": 1424
+		},
+		{
+			"name": "/src/nodes/accessors/BufferAttributeNode.js",
+			"hash": "/c1r9DJpZv71F4lNang4fMBm8Aw/8/jgIkbHWYiTAvw=",
+			"size": 3760
+		},
+		{
+			"name": "/src/nodes/accessors/BufferNode.js",
+			"hash": "Si9lMgDIbgut1kX3DB5PFHlYlY2N/1Rh230CUsbXoxo=",
+			"size": 634
+		},
+		{
+			"name": "/src/nodes/accessors/Camera.js",
+			"hash": "agfsGd4LaaPxP2CVKolDrdPZyOwn+cH13a6i96wRQfg=",
+			"size": 1810
+		},
+		{
+			"name": "/src/nodes/accessors/ClippingNode.js",
+			"hash": "rAy9wK+nJAHCTOc2ySWiOuwNl1VTfotnXxOdob1SVNM=",
+			"size": 3792
+		},
+		{
+			"name": "/src/nodes/accessors/CubeTextureNode.js",
+			"hash": "SehSvBrSyX2ldVGoLl9rj3cfVyLm75l6U0U3XtGAqW4=",
+			"size": 1486
+		},
+		{
+			"name": "/src/nodes/accessors/InstancedPointsMaterialNode.js",
+			"hash": "Ks29NMgnXhT3OwxTuEvMODEuzB2IRHyz9m3f0zj2IEQ=",
+			"size": 531
+		},
+		{
+			"name": "/src/nodes/accessors/InstanceNode.js",
+			"hash": "yUR4ar8xdxbSOMeBBYH9LSRiUVu12lGpGFKtyODyCj4=",
+			"size": 3950
+		},
+		{
+			"name": "/src/nodes/accessors/Lights.js",
+			"hash": "ruOjI2Iawz1zJx0tw4+NzIsS+IpWLLmnO2IqS+hVe9A=",
+			"size": 1546
+		},
+		{
+			"name": "/src/nodes/accessors/MaterialNode.js",
+			"hash": "Vp1ZNBB5U5weyxT9tMQoKK+CGMSeCKYpJ1Si+JDbLXI=",
+			"size": 13520
+		},
+		{
+			"name": "/src/nodes/accessors/MaterialProperties.js",
+			"hash": "cvWd3fQ+XahL9YsVEcDZkbsgrWUpKLThj39JsKQcsNI=",
+			"size": 225
+		},
+		{
+			"name": "/src/nodes/accessors/MaterialReferenceNode.js",
+			"hash": "1w/vu22B9C+N8BpUumDEPbjfwpMjrIyafCQi6IZvExM=",
+			"size": 951
+		},
+		{
+			"name": "/src/nodes/accessors/ModelNode.js",
+			"hash": "RVmkZ9nXB4L0gKRk1it5I7TeJQSg96cgpMjVvkSxmFY=",
+			"size": 2374
+		},
+		{
+			"name": "/src/nodes/accessors/ModelViewProjectionNode.js",
+			"hash": "bNpO5aR4/cb2WnlgcXMQFvx+5lyI/o9Awn6yIEjIJuo=",
+			"size": 920
+		},
+		{
+			"name": "/src/nodes/accessors/MorphNode.js",
+			"hash": "+Iqs6yUR2Sw7DXwn2Jx9gEhmMk1zPu79Bpyt2Y3oIzE=",
+			"size": 6876
+		},
+		{
+			"name": "/src/nodes/accessors/Normal.js",
+			"hash": "BY9qGuUMyzn64F9R988upWJ0NfBuQZsflcrpaxWaf7E=",
+			"size": 2628
+		},
+		{
+			"name": "/src/nodes/accessors/Object3DNode.js",
+			"hash": "P7xHOSDEfSkp8TZi5ejtiFas6tIa7Z1u27griQia/zI=",
+			"size": 3117
+		},
+		{
+			"name": "/src/nodes/accessors/PointUVNode.js",
+			"hash": "T7p7covZ5998jEWIy2mfCsBYCweaNSck/Xx2XvV/nuI=",
+			"size": 436
+		},
+		{
+			"name": "/src/nodes/accessors/Position.js",
+			"hash": "LcN+RwUeGd1yIbHyGwvnp5p/gXcKXaYM4Ki7Cxw63zw=",
+			"size": 957
+		},
+		{
+			"name": "/src/nodes/accessors/ReferenceBaseNode.js",
+			"hash": "upGtBj9qwXe15ganRIpQ9NMYZ6qOzIS8X2zAVFXfgks=",
+			"size": 2814
+		},
+		{
+			"name": "/src/nodes/accessors/ReferenceNode.js",
+			"hash": "dUc0nqfMavhI4XJTRtUcjn5sVsw3Yw265eNKmH89J88=",
+			"size": 3545
+		},
+		{
+			"name": "/src/nodes/accessors/ReflectVector.js",
+			"hash": "7SbBII0KtCZPDAOFD1Jws6Avfd7lhsbB+aZ3AiGqhVA=",
+			"size": 702
+		},
+		{
+			"name": "/src/nodes/accessors/RendererReferenceNode.js",
+			"hash": "xauTmFP8oI5ZQNW17N798Vfj0dhOu66NCvbWbCf5cCg=",
+			"size": 751
+		},
+		{
+			"name": "/src/nodes/accessors/SceneNode.js",
+			"hash": "p/aH2JiQY8L8VApjfyUCr6vTDjhJe8W50g7yMOfIExQ=",
+			"size": 1194
+		},
+		{
+			"name": "/src/nodes/accessors/SkinningNode.js",
+			"hash": "v4Dih7ZwxAdLky85CrY6XnmgkQgcZo6IQjnekLVdjEM=",
+			"size": 5094
+		},
+		{
+			"name": "/src/nodes/accessors/StorageBufferNode.js",
+			"hash": "GjYgSGXd6YgO3NEC7weBSpjUHrDzqSg4aUNLutkqTP4=",
+			"size": 2742
+		},
+		{
+			"name": "/src/nodes/accessors/StorageTextureNode.js",
+			"hash": "aVapI3IuJGPmVp5H49RT4kRDvzhazbEyQAAnohwBF0M=",
+			"size": 1918
+		},
+		{
+			"name": "/src/nodes/accessors/Tangent.js",
+			"hash": "7ECfxthCFM4jGKTJ0sEN6UvnbVmAUJHxgnj/tr1olBI=",
+			"size": 1084
+		},
+		{
+			"name": "/src/nodes/accessors/Texture3DNode.js",
+			"hash": "CBrH4uiDUYDjf6ObQqHY0UBDNriik5RCn0xZS2lFTlk=",
+			"size": 1934
+		},
+		{
+			"name": "/src/nodes/accessors/TextureBicubic.js",
+			"hash": "jneO1+WqUU+jcRiw+uB2NNfso1IDyFga18esJnTe8q4=",
+			"size": 2452
+		},
+		{
+			"name": "/src/nodes/accessors/TextureNode.js",
+			"hash": "1fjYy+WowmMY7VOpnZGhf8FMp6pA6WrPOPo4zhI/M9M=",
+			"size": 9497
+		},
+		{
+			"name": "/src/nodes/accessors/TextureSizeNode.js",
+			"hash": "Jpda0CgAW4RMwV1YeScyRjqIQZ08BFjGMR6Q1xepm1w=",
+			"size": 805
+		},
+		{
+			"name": "/src/nodes/accessors/UniformArrayNode.js",
+			"hash": "SyDpXFMnMQjaYhxvLwfSGZtjR4KkEfgakU9BO16mVYY=",
+			"size": 3170
+		},
+		{
+			"name": "/src/nodes/accessors/UserDataNode.js",
+			"hash": "amTu7pe7Mu3v7Opb2Jt2ex9bY6hZ+5N7KJ2DDFv1HEg=",
+			"size": 619
+		},
+		{
+			"name": "/src/nodes/accessors/UV.js",
+			"hash": "p2upoZgWmYokqhBGDxrYvziyTC5WATCQiRL1hudbsiQ=",
+			"size": 142
+		},
+		{
+			"name": "/src/nodes/accessors/VelocityNode.js",
+			"hash": "l2+F09/EqSavbC1oQwsyaNKxAtpdOw940pWxdCwmWt4=",
+			"size": 3468
+		},
+		{
+			"name": "/src/nodes/accessors/VertexColorNode.js",
+			"hash": "ac783nYfiSNWFi4rlx214t5Zwy1vhEInQeCxKonXomk=",
+			"size": 1199
+		},
+		{
+			"name": "/src/nodes/code/CodeNode.js",
+			"hash": "d2RbVPZ4VpkFMROgYs1cePXLIYK5bYXJxnq0FjMkx74=",
+			"size": 1339
+		},
+		{
+			"name": "/src/nodes/code/ExpressionNode.js",
+			"hash": "dqHG1koVGNWIUS0VIFVq6mMPIQszEIrn1uAFb3UwkrA=",
+			"size": 650
+		},
+		{
+			"name": "/src/nodes/code/FunctionCallNode.js",
+			"hash": "7dZiutGINx0DDI2+3CgP/WJ5hnkue0HDWKrwMnNu/Lc=",
+			"size": 1781
+		},
+		{
+			"name": "/src/nodes/code/FunctionNode.js",
+			"hash": "qfBHDfT9PqRVA0OxKPLgh7HtucbiCb/8aXDJ4jJ9ZHI=",
+			"size": 2051
+		},
+		{
+			"name": "/src/nodes/code/ScriptableNode.js",
+			"hash": "jewAHz+k9linMebgLpUDF+MeoO7AsazizWzjhuz5+4E=",
+			"size": 8067
+		},
+		{
+			"name": "/src/nodes/code/ScriptableValueNode.js",
+			"hash": "pdj79wgRSA1EclvSDWNWOZ6AC3CHFuId9NHv6bsQbxs=",
+			"size": 3184
+		},
+		{
+			"name": "/src/nodes/core/AssignNode.js",
+			"hash": "cDqxZT4Hq3NylsSGK+1CDL64nyiUvTl/Vg2/0lp5epA=",
+			"size": 2622
+		},
+		{
+			"name": "/src/nodes/core/AttributeNode.js",
+			"hash": "iOyCzjcaPgcxiyQS2Mj5gVYjksz3L8KeRlm/4oHTomc=",
+			"size": 2225
+		},
+		{
+			"name": "/src/nodes/core/BypassNode.js",
+			"hash": "1itP+5Q2xHnmw022hubRSDjMPmVDy+YkViHbAahZMv4=",
+			"size": 748
+		},
+		{
+			"name": "/src/nodes/core/CacheNode.js",
+			"hash": "PiRDLz8Pk7j+Qf6UdmdE0DXiby1He30y+FA/L3YJTEE=",
+			"size": 839
+		},
+		{
+			"name": "/src/nodes/core/constants.js",
+			"hash": "zomBEz2szhNYOrTHig0y5BSXw8qClFvlAHLquYvsyWw=",
+			"size": 626
+		},
+		{
+			"name": "/src/nodes/core/ConstNode.js",
+			"hash": "Gd+BbGkLt3QWI2G0RFWNPMIDTJBLZCrS97cWWmKf5Rk=",
+			"size": 522
+		},
+		{
+			"name": "/src/nodes/core/ContextNode.js",
+			"hash": "K3xpV4NSAzCvuArjiueNhW+mIltO+6buXcTtIMcthOM=",
+			"size": 1243
+		},
+		{
+			"name": "/src/nodes/core/IndexNode.js",
+			"hash": "FrtURUGR5/1O55t/9jPO+zQoXoNuFbLi7F7eIIzHiQA=",
+			"size": 2533
+		},
+		{
+			"name": "/src/nodes/core/InputNode.js",
+			"hash": "QRig4YH6WJUQ0lzdB8+Q88yf7lxm0+2tTuACmAVYmVw=",
+			"size": 1450
+		},
+		{
+			"name": "/src/nodes/core/LightingModel.js",
+			"hash": "ej02sfc+aOQueln1dbRrm/ABV5bETfghjecp5FWICgU=",
+			"size": 326
+		},
+		{
+			"name": "/src/nodes/core/MRTNode.js",
+			"hash": "nTdrMYagAtKKLJ2FvGnapWGc1ekwCGaGlDz5Vke4QCA=",
+			"size": 1198
+		},
+		{
+			"name": "/src/nodes/core/Node.js",
+			"hash": "i9GVUjai3lno3GKDrxkAbUnAbimnYt+7DVB1JMjSOtg=",
+			"size": 8604
+		},
+		{
+			"name": "/src/nodes/core/NodeAttribute.js",
+			"hash": "exnfTkg6WJEyCIk7ErdhpA7ud4jM4l2DDGQSe6dO4BM=",
+			"size": 196
+		},
+		{
+			"name": "/src/nodes/core/NodeBuilder.js",
+			"hash": "oi5i89ExisMeVm+F3gvmquSYWQny9KO9vPCi5m1sYQE=",
+			"size": 28957
+		},
+		{
+			"name": "/src/nodes/core/NodeCache.js",
+			"hash": "F7iQKtItU0BX1EG1qXrQrvhrnMIiEgV1/pQPoJWHi9Y=",
+			"size": 426
+		},
+		{
+			"name": "/src/nodes/core/NodeCode.js",
+			"hash": "ze7597WqPnZIQ/pnDOm1bb4YEoU6YWutyjU5+Hhe0XU=",
+			"size": 217
+		},
+		{
+			"name": "/src/nodes/core/NodeFrame.js",
+			"hash": "pguX73G5h49nlz8aWffRNw5XJR3FpkCO3OIjCDtQB+Y=",
+			"size": 3354
+		},
+		{
+			"name": "/src/nodes/core/NodeFunction.js",
+			"hash": "r3GQJKNI1ldtf0UOpnf/hsUp0gRs9iab/eCQnvVWF/0=",
+			"size": 330
+		},
+		{
+			"name": "/src/nodes/core/NodeFunctionInput.js",
+			"hash": "lmmWQmperIkkptSA05nskpC0zY7eB+yxF6EF7KhIti0=",
+			"size": 311
+		},
+		{
+			"name": "/src/nodes/core/NodeParser.js",
+			"hash": "/t+bT1kREZ9I7h1bptC7Y8Zs6girj0wTotgBgTKy3KY=",
+			"size": 127
+		},
+		{
+			"name": "/src/nodes/core/NodeUniform.js",
+			"hash": "wpSY0fPmUnS8IOXYQIzOFIcdoJm8ZYISQtQJixYIQRg=",
+			"size": 387
+		},
+		{
+			"name": "/src/nodes/core/NodeUtils.js",
+			"hash": "fz5fUj0pNrrHN47Po5PELovgs4qPrpcv+mU+aZGWA1E=",
+			"size": 5390
+		},
+		{
+			"name": "/src/nodes/core/NodeVar.js",
+			"hash": "N0pOTuHBn57nsTowmJkNXQbD5lF6pJOxjwa5DtahvVs=",
+			"size": 145
+		},
+		{
+			"name": "/src/nodes/core/NodeVarying.js",
+			"hash": "KWBy/c1JSrS1uiE0K7TWzSPcVXsonMV6I35Tpb8W4wQ=",
+			"size": 229
+		},
+		{
+			"name": "/src/nodes/core/OutputStructNode.js",
+			"hash": "ESlGIe2k2HEYBwtbFRNryur2cECAYSI6rFP+2CliHjE=",
+			"size": 1152
+		},
+		{
+			"name": "/src/nodes/core/ParameterNode.js",
+			"hash": "m4re6UEVO1o+rCCZbYO6L6nVpDX0sqshRK+zyyKlxvw=",
+			"size": 500
+		},
+		{
+			"name": "/src/nodes/core/PropertyNode.js",
+			"hash": "HZJ4fJqs7hPk1aKZ84hUmOwQe5OS6q2swumCDsB7ucE=",
+			"size": 3658
+		},
+		{
+			"name": "/src/nodes/core/StackNode.js",
+			"hash": "qBrW6Iz9+9pfcbL1Uhu3VEMryg10ujbAFpAx0xyW7dM=",
+			"size": 1838
+		},
+		{
+			"name": "/src/nodes/core/StructTypeNode.js",
+			"hash": "6ZtdQ4/qtijDb0nugYmgt6b4g+oZyx7jVS1XOznup+E=",
+			"size": 299
+		},
+		{
+			"name": "/src/nodes/core/TempNode.js",
+			"hash": "5fMqnx15SviFp5sd+0XKq5FI4WmG8gHB9wfxb+fV0So=",
+			"size": 1204
+		},
+		{
+			"name": "/src/nodes/core/UniformGroup.js",
+			"hash": "BFrHvC/Rd2QUhFcLMvINi7nbDDkGwIkkApvwjQX1Eq0=",
+			"size": 134
+		},
+		{
+			"name": "/src/nodes/core/UniformGroupNode.js",
+			"hash": "F9tkOixgw5Z8QhR4JKX11o6wxI7qq7bHB17j6qD9hLE=",
+			"size": 1099
+		},
+		{
+			"name": "/src/nodes/core/UniformNode.js",
+			"hash": "VJHgMrv427FXU2DPsXMhjI8MT5vXWw9Zuo1YLfXAvTY=",
+			"size": 1961
+		},
+		{
+			"name": "/src/nodes/core/VarNode.js",
+			"hash": "7BPfOscBrFUTNwAZatCJYBNGeBj2AFBKaN6vqs6jdqQ=",
+			"size": 1082
+		},
+		{
+			"name": "/src/nodes/core/VaryingNode.js",
+			"hash": "J4jkmSQecHolbOeTGb26pLrORVcfDYWgg1wci9a7Yew=",
+			"size": 1972
+		},
+		{
+			"name": "/src/nodes/display/AfterImageNode.js",
+			"hash": "WFF8Xy6ZXzJW6sajTgtFApD3IwuR8leRJkTMFpKzcNM=",
+			"size": 3594
+		},
+		{
+			"name": "/src/nodes/display/AnaglyphPassNode.js",
+			"hash": "EoTpEl6YlM3dOTcQdjfwH8V1mVRgnTIqOr9MWmkERaE=",
+			"size": 1833
+		},
+		{
+			"name": "/src/nodes/display/AnamorphicNode.js",
+			"hash": "zCkp2t1Ri37PTw00RQuZyHeWmBrhRsJiXSHhQdOXE1Q=",
+			"size": 3630
+		},
+		{
+			"name": "/src/nodes/display/BleachBypass.js",
+			"hash": "Bu/05jFoW0+W3keQuO8hOfm5uisJnL995yOweUJQZiY=",
+			"size": 756
+		},
+		{
+			"name": "/src/nodes/display/BlendMode.js",
+			"hash": "3g84+/ERi5TKhNYonhHWLZ4Kg3xX+5Z4GaPPFdlmgE4=",
+			"size": 1224
+		},
+		{
+			"name": "/src/nodes/display/BloomNode.js",
+			"hash": "K8u5WMcmGh4ZeBvMktVVYkpMKGed95sSpFplnfcBeio=",
+			"size": 10620
+		},
+		{
+			"name": "/src/nodes/display/BumpMapNode.js",
+			"hash": "r1I1Hi4V4RkW4wuUeQ0i5xqIrJuY/8WqfKFv8u/39dM=",
+			"size": 2255
+		},
+		{
+			"name": "/src/nodes/display/ColorAdjustment.js",
+			"hash": "JNIOwL0sWDtMK09SgevcVShWF1Ck1INv76glg2fv+ow=",
+			"size": 1524
+		},
+		{
+			"name": "/src/nodes/display/ColorSpaceFunctions.js",
+			"hash": "ekeDPYxvRd6zIwOmZZIR0hfWbL3R9GpEB5WGUHHz8dM=",
+			"size": 868
+		},
+		{
+			"name": "/src/nodes/display/ColorSpaceNode.js",
+			"hash": "bKCJYMnxRSl0D3q7vx2r6bj13zdkWJdXB740zQyjrP8=",
+			"size": 2828
+		},
+		{
+			"name": "/src/nodes/display/DenoiseNode.js",
+			"hash": "bkLXqjfELMWW92UX0o/tpSRgiLOeCSxpqVHnLq0jfTs=",
+			"size": 6083
+		},
+		{
+			"name": "/src/nodes/display/DepthOfFieldNode.js",
+			"hash": "goU3DJB9Cxdh+pBP1pQ/vCzUBcLxPhhJvMM8e8etxPI=",
+			"size": 6278
+		},
+		{
+			"name": "/src/nodes/display/DotScreenNode.js",
+			"hash": "X8p5AwKoKc0TA7eUN213t6K8KE81E0nbdG1r5fVxEWY=",
+			"size": 1568
+		},
+		{
+			"name": "/src/nodes/display/FilmNode.js",
+			"hash": "JVsD96Cf4dgykG183xEmysGaqwWLcybdK7cYsG9/fiM=",
+			"size": 1061
+		},
+		{
+			"name": "/src/nodes/display/FrontFacingNode.js",
+			"hash": "qeqtcFYo0ez1TM8+wv1gs7tbTyaj/P1RJpV659aQXG8=",
+			"size": 776
+		},
+		{
+			"name": "/src/nodes/display/FXAANode.js",
+			"hash": "/x2jetBFvZ52Pf34EA5Lxdxdl4IfXWk3I7I7iWFHlzA=",
+			"size": 9518
+		},
+		{
+			"name": "/src/nodes/display/GaussianBlurNode.js",
+			"hash": "Ti5eIE6JrOzPxnRlbb4zvKs3bTOFkSzRBSN9Na1aUlQ=",
+			"size": 5302
+		},
+		{
+			"name": "/src/nodes/display/GTAONode.js",
+			"hash": "ngtJJD4vD+5XC63wYDF/OZw7Zd1p4x0mi1agT7mw1VE=",
+			"size": 10114
+		},
+		{
+			"name": "/src/nodes/display/Lut3DNode.js",
+			"hash": "w68UtvRWdyYK2x0F2cjy61APvicoB1HKkAKw7HfP3Jg=",
+			"size": 1326
+		},
+		{
+			"name": "/src/nodes/display/MotionBlur.js",
+			"hash": "PfoVbBaYaJ234XM10yyBzmsUE/E8rUX9cAtIsEcTpH0=",
+			"size": 707
+		},
+		{
+			"name": "/src/nodes/display/NormalMapNode.js",
+			"hash": "EdpcQAdqwSY1hVmO10N5mlLv2bGDpcpWjCbDKnr88JQ=",
+			"size": 2368
+		},
+		{
+			"name": "/src/nodes/display/ParallaxBarrierPassNode.js",
+			"hash": "gYfI2l1RXvpnlopjRsMt0/1zx1aAbJVUoTuRIe6B7Ic=",
+			"size": 1295
+		},
+		{
+			"name": "/src/nodes/display/PassNode.js",
+			"hash": "Ygzx5vJxrX73qPKD5bpso+ovAPItf59W+r/ZUJFrW20=",
+			"size": 7702
+		},
+		{
+			"name": "/src/nodes/display/PixelationPassNode.js",
+			"hash": "YLt05unAB0h+pTIkpwlwx0yJkDN8e+2OGztD/OSqXK0=",
+			"size": 6320
+		},
+		{
+			"name": "/src/nodes/display/PosterizeNode.js",
+			"hash": "ccWMJ873ToJwZTbTZvcqEa49g8UoghntqrfzQxp0atU=",
+			"size": 529
+		},
+		{
+			"name": "/src/nodes/display/RenderOutputNode.js",
+			"hash": "3EjbLCrJ9lXAAkPlK0h9kvHo2rjeO5xSpt+wg4Z+ze4=",
+			"size": 1514
+		},
+		{
+			"name": "/src/nodes/display/RGBShiftNode.js",
+			"hash": "1STKhbKm7YjjhNqnyyv1yR092b0t01Kdb2XwgmtjC8c=",
+			"size": 1228
+		},
+		{
+			"name": "/src/nodes/display/ScreenNode.js",
+			"hash": "BEktQgnjm/qKQkzrENjgpdgY/4gJ22nUFIdToBfWhdU=",
+			"size": 3695
+		},
+		{
+			"name": "/src/nodes/display/Sepia.js",
+			"hash": "QXn4BjnqCa4ESLN47BcKzLE7sjCewQJT7wqXFuNONdA=",
+			"size": 417
+		},
+		{
+			"name": "/src/nodes/display/SobelOperatorNode.js",
+			"hash": "X62faP9+cEzIuMnoMnKq8EkOuYHplsIWpiGfESVDIfo=",
+			"size": 3382
+		},
+		{
+			"name": "/src/nodes/display/SSAAPassNode.js",
+			"hash": "SDcIF5DATJjMNJJ7u+5rFu5lj3sYhKQn8pBQDBv0mKI=",
+			"size": 7346
+		},
+		{
+			"name": "/src/nodes/display/StereoCompositePassNode.js",
+			"hash": "Dt9NoBolS9ckWo2jU0OiGStp3o6EIDRoaLLhEcj2/ww=",
+			"size": 2557
+		},
+		{
+			"name": "/src/nodes/display/StereoPassNode.js",
+			"hash": "ayKVSmtXffV3EK9x03FKmYXRtl5mzuHQd0HfLZz54DU=",
+			"size": 2151
+		},
+		{
+			"name": "/src/nodes/display/ToneMappingFunctions.js",
+			"hash": "fOlTbeHLVq3UOnXUb9ry2Q+CljqbgosmszhJh6CPfc4=",
+			"size": 5990
+		},
+		{
+			"name": "/src/nodes/display/ToneMappingNode.js",
+			"hash": "iDn7DFDe4CI9esEu2qDN7xkg0zMkHUPM1ApHguLkn9c=",
+			"size": 1667
+		},
+		{
+			"name": "/src/nodes/display/ToonOutlinePassNode.js",
+			"hash": "y8+ZOD0VNCFYb8dB9JDhThotLm9B1LSgIAgO9EpeDP0=",
+			"size": 3119
+		},
+		{
+			"name": "/src/nodes/display/TransitionNode.js",
+			"hash": "HDTTQ0jgCDp76iH5/wk19ZK9jRHlOlY2QdiojH07Tjg=",
+			"size": 2120
+		},
+		{
+			"name": "/src/nodes/display/ViewportDepthNode.js",
+			"hash": "kFHsYfuWo1GLIyKso4kbZZdK09oy9L9G3HWcRQVxPrA=",
+			"size": 3066
+		},
+		{
+			"name": "/src/nodes/display/ViewportDepthTextureNode.js",
+			"hash": "f+CaJstStn57WRbaYogu5RDrUanumZcOaWSf4JBFohc=",
+			"size": 704
+		},
+		{
+			"name": "/src/nodes/display/ViewportSharedTextureNode.js",
+			"hash": "H04kRvzZKVv4DHM4aTN1WDpkNys/HB5Mv9tJcd7ywX4=",
+			"size": 773
+		},
+		{
+			"name": "/src/nodes/display/ViewportTextureNode.js",
+			"hash": "zYBoMeF8kWrt009ZkHI9gIymlOGq2JU7UoVcy/VjSfs=",
+			"size": 2074
+		},
+		{
+			"name": "/src/nodes/fog/FogExp2Node.js",
+			"hash": "iveLLUx8tkclcH2pHUfNJ7ulnOA0+XSfEo7MqXIADKQ=",
+			"size": 586
+		},
+		{
+			"name": "/src/nodes/fog/FogNode.js",
+			"hash": "XsOntdxvDRg1dbkXCjObdcj22eZeZTvcmLVsVa8bXQk=",
+			"size": 709
+		},
+		{
+			"name": "/src/nodes/fog/FogRangeNode.js",
+			"hash": "zTF/BWE+LTPh5bwsdgPYobdQuMC1KBzQmc0LHB2TKps=",
+			"size": 615
+		},
+		{
+			"name": "/src/nodes/functions/BasicLightingModel.js",
+			"hash": "ug+eDo7xhi+vC+swug/KlZapk/ydnIYL2teBfgW2+T4=",
+			"size": 2015
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/BRDF_GGX.js",
+			"hash": "IfxUnX/FPe1bg0iwxMOj62ANZCItoNvPRKO69r+PNQM=",
+			"size": 2070
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/BRDF_Lambert.js",
+			"hash": "MSTlsi+KGGocOklMKj2xww3YycCM+qUZDCUI5Q/stLg=",
+			"size": 215
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/BRDF_Sheen.js",
+			"hash": "zlZttOMgm8p9OdcE0vFl7gnDho6LUSNzRF7kFEsDRIc=",
+			"size": 1889
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/D_GGX.js",
+			"hash": "b7hh6tTKk+Znx0gLD5qM/RTfgSHGGmNMAJ85suWeIQs=",
+			"size": 666
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/D_GGX_Anisotropic.js",
+			"hash": "KIN6qS+7/yakXFAv4HbqT9czPeLhjRw0YlpcGMyL5oA=",
+			"size": 916
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/DFGApprox.js",
+			"hash": "lG01glr7Rv7BwucLuKdPokFOj7yV44/myetn3+zu2Jo=",
+			"size": 859
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/EnvironmentBRDF.js",
+			"hash": "4h+Cc5ha3/BXh1tnsWMbn179PdXapcYchN15h3HxLwU=",
+			"size": 365
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/F_Schlick.js",
+			"hash": "xX4VNo6yDGi4UuqtnKExJcPHv3SPJIqBYi05gyz3+Gw=",
+			"size": 547
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/LTC.js",
+			"hash": "51JwuG1u6r1qf4wX2PFEENb59JvvTzll1yii5AxUotI=",
+			"size": 3964
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/Schlick_to_F0.js",
+			"hash": "XoXBxAzKssYSEdlAB+5vw7mDgTJ/sKNmXNLC+8PRgfI=",
+			"size": 498
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/V_GGX_SmithCorrelated.js",
+			"hash": "kFbSCwOxRSYAwtfQwLe1g6c4jc5tvRaGJG4utRWDMEo=",
+			"size": 871
+		},
+		{
+			"name": "/src/nodes/functions/BSDF/V_GGX_SmithCorrelated_Anisotropic.js",
+			"hash": "B6Ou5QcNVBMJnj5UY32WCRaHehBfesEbnL2wMXMG95I=",
+			"size": 1157
+		},
+		{
+			"name": "/src/nodes/functions/material/getGeometryRoughness.js",
+			"hash": "ZvJbI7B+Fv7WRQty+03WqwL4a5reNhliB0Xk5JYlECc=",
+			"size": 357
+		},
+		{
+			"name": "/src/nodes/functions/material/getRoughness.js",
+			"hash": "JLOCGdfUyGbPNP30/jiNsX4k6oQFroeAcDd4Fvwy6X8=",
+			"size": 520
+		},
+		{
+			"name": "/src/nodes/functions/material/getShIrradianceAt.js",
+			"hash": "KfRky3TD2ScO5zPc4V9NIVPOEfHeSbdaN1wdXk4wOj0=",
+			"size": 1116
+		},
+		{
+			"name": "/src/nodes/functions/PhongLightingModel.js",
+			"hash": "UeZ4hYg4hpe3G2vRH7EQhhrQ10ZdElgNXHYtJNaqIQ8=",
+			"size": 2077
+		},
+		{
+			"name": "/src/nodes/functions/PhysicalLightingModel.js",
+			"hash": "oxxpWSj5UIuF5BYGV58x5lC7mjO607O64TurSOjbnNc=",
+			"size": 21492
+		},
+		{
+			"name": "/src/nodes/functions/ShadowMaskModel.js",
+			"hash": "g9Gn3p+mss2Uutau4BgRvOJeceLYK4Xh8CdKg1mAPqw=",
+			"size": 598
+		},
+		{
+			"name": "/src/nodes/functions/ToonLightingModel.js",
+			"hash": "1BnnT5NMmtJw8vt1sjTFkCrK9frG//cEcKxiY7qa0IU=",
+			"size": 1630
+		},
+		{
+			"name": "/src/nodes/geometry/RangeNode.js",
+			"hash": "+hPdvCi+pfQ7lLHLfPW/wgqgYCtenY6HgF6lOgLMb2Y=",
+			"size": 3052
+		},
+		{
+			"name": "/src/nodes/gpgpu/AtomicFunctionNode.js",
+			"hash": "W9Hg+oo1ugoNGVyMJwg2O3wn6YuQODz+QCcP/k9Eid8=",
+			"size": 3152
+		},
+		{
+			"name": "/src/nodes/gpgpu/BarrierNode.js",
+			"hash": "1bw+3eeQJQs+AYfAYzRTFsc1TQJ02BOe0QUUkqvNl7s=",
+			"size": 732
+		},
+		{
+			"name": "/src/nodes/gpgpu/ComputeBuiltinNode.js",
+			"hash": "p1GvI6U16CvOawRbYjYDQBKSrew17f8jcz1hcgTM0aA=",
+			"size": 1816
+		},
+		{
+			"name": "/src/nodes/gpgpu/ComputeNode.js",
+			"hash": "YrOkXyB8ayI9PkrVzs/6NCcz5T9TwQTsC+A5pgj/fFA=",
+			"size": 1501
+		},
+		{
+			"name": "/src/nodes/gpgpu/WorkgroupInfoNode.js",
+			"hash": "hibDy8U6DhQfmOI25HD1hZ7eywGDNOkF+4MB1YEihSs=",
+			"size": 1656
+		},
+		{
+			"name": "/src/nodes/lighting/AmbientLightNode.js",
+			"hash": "wSEdtFKja8rLWwiNsYkj3G10kLfjhNfLzoTIxch/1as=",
+			"size": 336
+		},
+		{
+			"name": "/src/nodes/lighting/AnalyticLightNode.js",
+			"hash": "A1Ddc56D4hZ7aGnv+sDZCpoX2vLgqJJw0LrtOsSlNTc=",
+			"size": 15903
+		},
+		{
+			"name": "/src/nodes/lighting/AONode.js",
+			"hash": "f9MKEPWVKHi0TmoLUreaVqqaxajGah2f0Eb7eaoizQc=",
+			"size": 317
+		},
+		{
+			"name": "/src/nodes/lighting/BasicEnvironmentNode.js",
+			"hash": "s7hMW3ZaxL7l74ZXNqfTx0XnfZHVuV1RW25O5n1IU0k=",
+			"size": 497
+		},
+		{
+			"name": "/src/nodes/lighting/BasicLightMapNode.js",
+			"hash": "YxO3ISrd0hy2goKPg5Hb91z/EKVXG/HKbPdltFwuh8E=",
+			"size": 572
+		},
+		{
+			"name": "/src/nodes/lighting/DirectionalLightNode.js",
+			"hash": "LkqERBcOLslrlH7+tU3D5HrK33cW3VnEMLXnay1i6bw=",
+			"size": 705
+		},
+		{
+			"name": "/src/nodes/lighting/EnvironmentNode.js",
+			"hash": "rnzKUi1eSNL/4GB3iiv9ECgNo7bUOptciPzmcMHHbtc=",
+			"size": 3474
+		},
+		{
+			"name": "/src/nodes/lighting/HemisphereLightNode.js",
+			"hash": "4laOmLDb3VKMF9AR0yX3AnOuo0hxusRi1FApkctF3kc=",
+			"size": 1310
+		},
+		{
+			"name": "/src/nodes/lighting/IESSpotLightNode.js",
+			"hash": "+BKZl+z0QNr+6iqjuAfAPd7Q0njZacB9C9wuHK2irD0=",
+			"size": 674
+		},
+		{
+			"name": "/src/nodes/lighting/IrradianceNode.js",
+			"hash": "54/WHyHvz7q5xG9UrhZKyIDv64GDxYj5CRnUcPa6AP0=",
+			"size": 320
+		},
+		{
+			"name": "/src/nodes/lighting/LightingContextNode.js",
+			"hash": "4xJgARzLG4DgbCS7Z9H90PpBCTRiViXlmY66CRGN27o=",
+			"size": 1541
+		},
+		{
+			"name": "/src/nodes/lighting/LightingNode.js",
+			"hash": "mxnaJFnH7yW6ijWmmbFOPI59tUmD6Rogv7IscZ0R96s=",
+			"size": 302
+		},
+		{
+			"name": "/src/nodes/lighting/LightProbeNode.js",
+			"hash": "E/boJH0SnnjSNvNymRpdEG6oxHpfFt9Yu4u/KDi1oU8=",
+			"size": 1000
+		},
+		{
+			"name": "/src/nodes/lighting/LightsNode.js",
+			"hash": "jFdIrqOzXVqL4ec06N5RqY/VF5vDjwhwA5hKQEUsy6E=",
+			"size": 4332
+		},
+		{
+			"name": "/src/nodes/lighting/LightUtils.js",
+			"hash": "IOpGEYEZJBLGl/9AL/xeqzcYnCCLPktVk+ar/e/ZYOc=",
+			"size": 649
+		},
+		{
+			"name": "/src/nodes/lighting/PointLightNode.js",
+			"hash": "HHmpxE8zX1HtghUWqMoGBbP8MJx0QXwOvK8Imz5pZSc=",
+			"size": 1547
+		},
+		{
+			"name": "/src/nodes/lighting/RectAreaLightNode.js",
+			"hash": "2R9NBnBCgW9jaVE9nlLDt8a5HDDU3KxSCYz9JtZb+qE=",
+			"size": 2109
+		},
+		{
+			"name": "/src/nodes/lighting/SpotLightNode.js",
+			"hash": "PKPcWxHx4jZ+UOV3kJy1Okv1WySHN6l+PW33Sr9SkeU=",
+			"size": 2236
+		},
+		{
+			"name": "/src/nodes/materialx/DISCLAIMER.md",
+			"hash": "Q9CDB88ZtnKw7WgUUtIP2lGFHtk+PqGu24yaLUMYDH0=",
+			"size": 10562
+		},
+		{
+			"name": "/src/nodes/materialx/lib/mx_hsv.js",
+			"hash": "pcQrnruUE8PXzqBvTZmCAaSBaTCqYXMJF05taLo1Sq8=",
+			"size": 2652
+		},
+		{
+			"name": "/src/nodes/materialx/lib/mx_noise.js",
+			"hash": "WUM4VWBeODDx2yvvNpmMmUpg7Koox2Eyr66sdVcWqwM=",
+			"size": 41266
+		},
+		{
+			"name": "/src/nodes/materialx/lib/mx_transform_color.js",
+			"hash": "/hcDwzfCxJoAy4XArxjBsPQnqnygySqyK94cEeHarms=",
+			"size": 862
+		},
+		{
+			"name": "/src/nodes/materialx/MaterialXNodes.js",
+			"hash": "Jb0cSnLweSElqagsDVXoJ6idbXUjR+M9jQuKTiUc+Rc=",
+			"size": 4252
+		},
+		{
+			"name": "/src/nodes/math/ConditionalNode.js",
+			"hash": "oHmhyQdHEFXC9TsfHji9CgRIzN7N3bJxxUTH1iKWX/o=",
+			"size": 3198
+		},
+		{
+			"name": "/src/nodes/math/Hash.js",
+			"hash": "BJ/3LGWDXXC+iHMKAe/HyVFjyecHL0RbruV/W7Skw8w=",
+			"size": 482
+		},
+		{
+			"name": "/src/nodes/math/MathNode.js",
+			"hash": "w9Au5ggonCAM7OeLhkXyt2WeKFmG6eX7Ajo1oOVpaUA=",
+			"size": 12993
+		},
+		{
+			"name": "/src/nodes/math/MathUtils.js",
+			"hash": "76ORHis5Q/YvXWFGPXxfNCo4QLSy0MDABbcGGEntAJw=",
+			"size": 638
+		},
+		{
+			"name": "/src/nodes/math/OperatorNode.js",
+			"hash": "wPRqQ7jamDsxw6h6JmoD24sUoWQGaH4lRAv5lRoHL5Y=",
+			"size": 7884
+		},
+		{
+			"name": "/src/nodes/math/TriNoise3D.js",
+			"hash": "kTy8fZdraa5LsXakQS2fli1gsyKLW4hnHartDO+YHLQ=",
+			"size": 1443
+		},
+		{
+			"name": "/src/nodes/Nodes.js",
+			"hash": "x5NfdEBeoSJztBnAZ3llk7KPguoyiTcBPLgFcCRXZRQ=",
+			"size": 9840
+		},
+		{
+			"name": "/src/nodes/parsers/GLSLNodeFunction.js",
+			"hash": "bRaH1jPY7FiOMrbpfm89NIlfe5O6o6azLATDtjkPj+4=",
+			"size": 2894
+		},
+		{
+			"name": "/src/nodes/parsers/GLSLNodeParser.js",
+			"hash": "iTP71i7w6UhiTu/DzVutyFHaT+t+CDmC1hqxP7+QiMc=",
+			"size": 254
+		},
+		{
+			"name": "/src/nodes/pmrem/PMREMNode.js",
+			"hash": "Hlu1vc6jM+FQUeW46MCz94VxmVvhuMT93VTz41uFSh8=",
+			"size": 4158
+		},
+		{
+			"name": "/src/nodes/pmrem/PMREMUtils.js",
+			"hash": "uV0w/IygEMA2CuB1p4JrKsSI2VCVmPklIZlzvufRc2M=",
+			"size": 9027
+		},
+		{
+			"name": "/src/nodes/procedural/Checker.js",
+			"hash": "sq/DqSXb1tkpTI+bI0r8WzBSqieIt8WqrHlONCfSuZQ=",
+			"size": 304
+		},
+		{
+			"name": "/src/nodes/TSL.js",
+			"hash": "j9SagLVGPwnTMfBmZE+jTHpTppj9HvRfcMsdM8jNCEw=",
+			"size": 6775
+		},
+		{
+			"name": "/src/nodes/tsl/TSLBase.js",
+			"hash": "lupcIB9/WmFYxruUa61igELoSbLABS/t9q82GBalXoM=",
+			"size": 1675
+		},
+		{
+			"name": "/src/nodes/tsl/TSLCore.js",
+			"hash": "5brb4m1u7izH/9rWoqkYOnMxXlqtNAYsg17ZBDy6lyI=",
+			"size": 15029
+		},
+		{
+			"name": "/src/nodes/utils/ArrayElementNode.js",
+			"hash": "BAm/PoWr5CjShjX3pSDQVmKC6TWaPdxNc5Ar63UEM8c=",
+			"size": 635
+		},
+		{
+			"name": "/src/nodes/utils/ConvertNode.js",
+			"hash": "9mw0w0ZtSFU2BeIjTrTsPOELapnxIc7CgkAV/tKdVfY=",
+			"size": 1007
+		},
+		{
+			"name": "/src/nodes/utils/CubeMapNode.js",
+			"hash": "I7sDXQ2n45ch5QeH405fg+wReXamu7+Ph8tpZwTSkXE=",
+			"size": 3371
+		},
+		{
+			"name": "/src/nodes/utils/Discard.js",
+			"hash": "icSLR0UdnKW7pd3w0clSVvtb7E6uLvKVtO141wRN2/U=",
+			"size": 411
+		},
+		{
+			"name": "/src/nodes/utils/EquirectUVNode.js",
+			"hash": "FNrd/439lmYbnZWNXRsOFxf7T8banD38uw+MSWyyrd8=",
+			"size": 685
+		},
+		{
+			"name": "/src/nodes/utils/FlipNode.js",
+			"hash": "jqT+b7+RWwUTxmHD9Ng8TRx8qP0NtZE/QM7vxopSPBc=",
+			"size": 1309
+		},
+		{
+			"name": "/src/nodes/utils/FunctionOverloadingNode.js",
+			"hash": "qpXOB6tnBps0HSNIqbcBKKHtwwdyh6Dso0N50S2EAr8=",
+			"size": 1769
+		},
+		{
+			"name": "/src/nodes/utils/JoinNode.js",
+			"hash": "R8QBElsCwuk6cq+9/k/ovm41hDqNDBQSRt/MsrdI4Pk=",
+			"size": 1208
+		},
+		{
+			"name": "/src/nodes/utils/LoopNode.js",
+			"hash": "XHboQjlhSnDKpbJwvFz/BunDD2FLa8Ps1C4VOawq8zU=",
+			"size": 4466
+		},
+		{
+			"name": "/src/nodes/utils/MatcapUVNode.js",
+			"hash": "S+xwids4xz4sUEL/lheTjcgtbqB3oXuvc0zrVbguZhs=",
+			"size": 799
+		},
+		{
+			"name": "/src/nodes/utils/MaxMipLevelNode.js",
+			"hash": "76M1h4h1H1ELPJStKOPJ57M/LMltRlrtAFi+LPAczjA=",
+			"size": 953
+		},
+		{
+			"name": "/src/nodes/utils/OscNode.js",
+			"hash": "BcAdYBRqMiH5ybbquPi0oMUmPoVZK5p2QX2/urXf7Yg=",
+			"size": 1614
+		},
+		{
+			"name": "/src/nodes/utils/Packing.js",
+			"hash": "DuhoVBV5vWGy/IRZMMw8uNm4VU1j46hEvcBKnpUbiGw=",
+			"size": 219
+		},
+		{
+			"name": "/src/nodes/utils/ReflectorNode.js",
+			"hash": "wZKWVoy3CfBIFTxoB+7CFJGaoTS23ORpYnU8ObkjBxo=",
+			"size": 6362
+		},
+		{
+			"name": "/src/nodes/utils/RemapNode.js",
+			"hash": "YMFMh/SfKvn5hguWb3wiwp4dp2VIMxlA9EFGBJE41v4=",
+			"size": 1026
+		},
+		{
+			"name": "/src/nodes/utils/RotateNode.js",
+			"hash": "n1iE3pN8EkKMbKbl+kERMVTbJqctS2SXxehj8EcQXiQ=",
+			"size": 1731
+		},
+		{
+			"name": "/src/nodes/utils/RTTNode.js",
+			"hash": "J9ldwYrJRz1oWqswAM8yELjIGN7GVXULAmQ//+ubLHg=",
+			"size": 2829
+		},
+		{
+			"name": "/src/nodes/utils/SetNode.js",
+			"hash": "tVlUrCQWlJH1WP8xBJJYN80MCfcuM3NrshbgU35SKoo=",
+			"size": 1282
+		},
+		{
+			"name": "/src/nodes/utils/SplitNode.js",
+			"hash": "AqMyp7Odt2DDZ14tVtm1MtlpiuSY/jh0oBeFXrOTbNI=",
+			"size": 2050
+		},
+		{
+			"name": "/src/nodes/utils/SpriteSheetUVNode.js",
+			"hash": "wWQXdj6MQSlakmDM+v+YxZSMdogbHsnelZGnxuJXR1Q=",
+			"size": 943
+		},
+		{
+			"name": "/src/nodes/utils/SpriteUtils.js",
+			"hash": "/OU3whO5CzCr1nDRXkaTKT0k+x0BWu96oxA+wQz0EJk=",
+			"size": 1193
+		},
+		{
+			"name": "/src/nodes/utils/StorageArrayElementNode.js",
+			"hash": "FfGtFJ0ti72RQLPnNMZF0bQZq+mVq/HOcENNSQQ2Ik8=",
+			"size": 1380
+		},
+		{
+			"name": "/src/nodes/utils/TimerNode.js",
+			"hash": "7FVRoXlbHjJIwfi1dhyIEojlOeC4KfFaNFIcNF2wFaY=",
+			"size": 1844
+		},
+		{
+			"name": "/src/nodes/utils/TriplanarTexturesNode.js",
+			"hash": "n8+17sJmUQ/PSnRcTzmCC3/it7BPprTWohInUJYCwBY=",
+			"size": 1853
+		},
+		{
+			"name": "/src/nodes/utils/UVUtils.js",
+			"hash": "MleX/3nXaDU2CZn2OeMK1FAzVWwDLcAo7shI+9RqquY=",
+			"size": 543
+		},
+		{
+			"name": "/src/nodes/utils/ViewportUtils.js",
+			"hash": "LuIoeOmDdEsB19VaPYKgB4VmPFk5Dk6M+T6EOuUKo6o=",
+			"size": 502
+		},
+		{
+			"name": "/src/objects/BatchedMesh.js",
+			"hash": "Yg41CidPnPC+B1tGQP2bdeXinUINPBdwKoU9COhWNVo=",
+			"size": 28220
+		},
+		{
+			"name": "/src/objects/Bone.js",
+			"hash": "eYtBsaOd1KEGcB/FAYG+nimkyerfyWEtpO77lrYshkM=",
+			"size": 180
+		},
+		{
+			"name": "/src/objects/Group.js",
+			"hash": "Ikl+Uz3C/hQkAkSvDxm90h3b6vf4KpkBloLSs07RgAk=",
+			"size": 184
+		},
+		{
+			"name": "/src/objects/InstancedMesh.js",
+			"hash": "Vbz6570muFpmolhJRyNtZ0frsvAyU8u8IxpZHz+I5n0=",
+			"size": 5901
+		},
+		{
+			"name": "/src/objects/Line.js",
+			"hash": "bCC2bZNeDcP5sKS3tTl6Ehu0pCubNo7/Rbx39pMVW1Y=",
+			"size": 5862
+		},
+		{
+			"name": "/src/objects/LineLoop.js",
+			"hash": "VIjLM9qX71nY3GAfUz3+kpNnZz0XhRliSwmlXALCxHc=",
+			"size": 218
+		},
+		{
+			"name": "/src/objects/LineSegments.js",
+			"hash": "fuIAWhlOn3IaucRZnfkrXtcW7EVAHBYghYD/pX5tpQ0=",
+			"size": 1249
+		},
+		{
+			"name": "/src/objects/LOD.js",
+			"hash": "/I7ix6URLbXG9YKMpfi8k8yalutzY9otuWVV4KMCqeM=",
+			"size": 3477
+		},
+		{
+			"name": "/src/objects/Mesh.js",
+			"hash": "H/I54V962I1nk9Q81mAVjMY88cHDjH7TUoZbCAg0mTc=",
+			"size": 9945
+		},
+		{
+			"name": "/src/objects/Points.js",
+			"hash": "KQfhu7BFJXuxgdsK8MkOc8xesK+6MVbZojdBmwx2new=",
+			"size": 4038
+		},
+		{
+			"name": "/src/objects/Skeleton.js",
+			"hash": "Lw/6Fu3DtgTDZ8jwN8BqUPt6x3n5WRILRcxaZEX79i8=",
+			"size": 5156
+		},
+		{
+			"name": "/src/objects/SkinnedMesh.js",
+			"hash": "lfe9SZTRkJKHonsxLgYJPKteDpobdid9f3SKyzg4e68=",
+			"size": 5428
+		},
+		{
+			"name": "/src/objects/Sprite.js",
+			"hash": "A3MnYx0jjOhFqPnbgsMPONJ9gTzsEthXCsuXMXwE4ko=",
+			"size": 4767
+		},
+		{
+			"name": "/src/renderers/common/Animation.js",
+			"hash": "N5KNvoz2CSQ/dXaSz8Po0NMPd2n0CEEUhTXh464jE58=",
+			"size": 713
+		},
+		{
+			"name": "/src/renderers/common/Attributes.js",
+			"hash": "N/3tV/CRnTj4oDJ2BmoFdNq6XRZV+ePetYQINKQLGq4=",
+			"size": 1378
+		},
+		{
+			"name": "/src/renderers/common/Backend.js",
+			"hash": "463gzvSyr3CqrCAguyCl2imjMezgxWtBzCGUh8WaogE=",
+			"size": 3365
+		},
+		{
+			"name": "/src/renderers/common/Background.js",
+			"hash": "d6wtbA5i4JIXhHTqJOUrI+Y8EgWjAWL8vPp0iGfwGxw=",
+			"size": 3985
+		},
+		{
+			"name": "/src/renderers/common/BindGroup.js",
+			"hash": "SjDvDMiFwn76Bmv/J9YCtNa+qyG30/Z+P+53vkyBShI=",
+			"size": 283
+		},
+		{
+			"name": "/src/renderers/common/Binding.js",
+			"hash": "8J/mUtPboww+oXdk9gkhd8U5kAgdKvEVf4N2zE59Qa4=",
+			"size": 265
+		},
+		{
+			"name": "/src/renderers/common/Bindings.js",
+			"hash": "VSrAlVpT+vlXkBC7TUjM71Met1o7taxWmQE/KSHhRB8=",
+			"size": 3915
+		},
+		{
+			"name": "/src/renderers/common/Buffer.js",
+			"hash": "KX+lplQkJD+ePGRRoFscbLMtaM8HVp7KzNBaM9cWdO8=",
+			"size": 472
+		},
+		{
+			"name": "/src/renderers/common/BufferUtils.js",
+			"hash": "dGjtxYCboHzNUmVbdSCR3eoccVihpubVnqmP//hYoOM=",
+			"size": 677
+		},
+		{
+			"name": "/src/renderers/common/BundleGroup.js",
+			"hash": "p+9A6UEKSnpU3N0gYhd6fYAVcvQ4B1qAfymff+9uob8=",
+			"size": 327
+		},
+		{
+			"name": "/src/renderers/common/ChainMap.js",
+			"hash": "jG/nAELLAkosm1Hf5IKW51o6CKb8LI8BgCJ3eb7BxeY=",
+			"size": 816
+		},
+		{
+			"name": "/src/renderers/common/ClippingContext.js",
+			"hash": "aaFRCeU0Hp1ni9P3yHgN3U2TXQLd6pluYINrwj/xiZw=",
+			"size": 3595
+		},
+		{
+			"name": "/src/renderers/common/Color4.js",
+			"hash": "IYycSE16bu4yW09x1ST0yyl0BZlTyo92Ea54JbhjEGw=",
+			"size": 438
+		},
+		{
+			"name": "/src/renderers/common/ComputePipeline.js",
+			"hash": "CaKAPXUc7Lpc7FLUIV4mPgGSHwaLAeCCjdbVUcb1xj4=",
+			"size": 261
+		},
+		{
+			"name": "/src/renderers/common/Constants.js",
+			"hash": "OmVGQJJHyNMw2CLViByaLMPlRgTGgq99Dcpwp9mhFfs=",
+			"size": 269
+		},
+		{
+			"name": "/src/renderers/common/CubeRenderTarget.js",
+			"hash": "kyUZOomjCOKmnfz+rLntfAvDroDqKofaX3L8PQ6BCUY=",
+			"size": 2228
+		},
+		{
+			"name": "/src/renderers/common/DataMap.js",
+			"hash": "CzjOX7agYOsFEUMTWp3PZzyIEHdAKVd8XL/M9GpSH6c=",
+			"size": 518
+		},
+		{
+			"name": "/src/renderers/common/extras/PMREMGenerator.js",
+			"hash": "vMZystaf6Odxb5fsnnYGtJkqz0VB1/ZHUOBDdz8gd/E=",
+			"size": 20480
+		},
+		{
+			"name": "/src/renderers/common/Geometries.js",
+			"hash": "UqokcmNJMfOaFxf4rGcxaXQNa+3cOddMrRLkmUCV7Ck=",
+			"size": 4744
+		},
+		{
+			"name": "/src/renderers/common/Info.js",
+			"hash": "D60ALhoehqkRit8s+T3RL29P3knnUH1d/C3n9GCJuqU=",
+			"size": 1983
+		},
+		{
+			"name": "/src/renderers/common/nodes/NodeBuilderState.js",
+			"hash": "C8IB4nvwHTL3grFd/svxwgx3A7af3rRYXkFOQ/sq7bE=",
+			"size": 1210
+		},
+		{
+			"name": "/src/renderers/common/nodes/NodeLibrary.js",
+			"hash": "wCLxjRglY2u+54viXZwvTfA13flL6WrW4zQUq5T6io8=",
+			"size": 2331
+		},
+		{
+			"name": "/src/renderers/common/nodes/Nodes.js",
+			"hash": "haeZ+8dn/aNAXW69MSdlBgqwXn6RBaTRQK7KG9WigG4=",
+			"size": 11774
+		},
+		{
+			"name": "/src/renderers/common/nodes/NodeSampledTexture.js",
+			"hash": "r8kOBOlrtjAKcPh0AuVx8Oioi9lGP2hNvjAnpvBwmVs=",
+			"size": 1135
+		},
+		{
+			"name": "/src/renderers/common/nodes/NodeSampler.js",
+			"hash": "v2MVvPL8G0PQ9Te4SQt4ey5ie7ilOXLC49znMQwyXig=",
+			"size": 340
+		},
+		{
+			"name": "/src/renderers/common/nodes/NodeStorageBuffer.js",
+			"hash": "Y/5b4LDoi5ZwJd3c/94LcXQUHFHdEqAf+WRdGkZd58s=",
+			"size": 555
+		},
+		{
+			"name": "/src/renderers/common/nodes/NodeUniform.js",
+			"hash": "5kc4UO3aaETMZBuQyEQcEtFMI7blR2UpDRh49Nu0GRs=",
+			"size": 1870
+		},
+		{
+			"name": "/src/renderers/common/nodes/NodeUniformBuffer.js",
+			"hash": "HHxnXsLrTpBl12Ho1J2iA5nFYhrGr8FAiF5ybK0Srng=",
+			"size": 395
+		},
+		{
+			"name": "/src/renderers/common/nodes/NodeUniformsGroup.js",
+			"hash": "BsTasEJYeSScmcDlaJQ4TaHlIj3Ajol+qqLnrgyBnh0=",
+			"size": 547
+		},
+		{
+			"name": "/src/renderers/common/Pipeline.js",
+			"hash": "GMxYm3XPI40xRH6EiQxxTst0sFAK+tz8gwMNFoNKEpw=",
+			"size": 130
+		},
+		{
+			"name": "/src/renderers/common/Pipelines.js",
+			"hash": "CWLPaL6iPaoRFWzctPyzgyeLXTaMv9RDbQhQaSx5R84=",
+			"size": 7085
+		},
+		{
+			"name": "/src/renderers/common/PostProcessing.js",
+			"hash": "xudv7ZEetIe4hO7XBfkWi2oKAbuyuhgJGULQnR0h6Z8=",
+			"size": 1937
+		},
+		{
+			"name": "/src/renderers/common/ProgrammableStage.js",
+			"hash": "DEODR+/FnX2/q2gsSBeInw5B7NtmvM2oIXd57Km19u8=",
+			"size": 300
+		},
+		{
+			"name": "/src/renderers/common/QuadMesh.js",
+			"hash": "vRyEWudD3mwwiUMWXgvum3VEKua134pVTwnkt3fX//I=",
+			"size": 1190
+		},
+		{
+			"name": "/src/renderers/common/RenderBundle.js",
+			"hash": "1dRI03qTmbA12MkOqzXTQs6YYmuFLm/qcMSuc4DsaSU=",
+			"size": 211
+		},
+		{
+			"name": "/src/renderers/common/RenderBundles.js",
+			"hash": "doYWDBjd1xXfdBfuLjRzJpJRWDpW4rCG79cQHt4xsHo=",
+			"size": 496
+		},
+		{
+			"name": "/src/renderers/common/RenderContext.js",
+			"hash": "EhkuDIbdb1xboWRWjMsL3E5rQ3yAMBp9u8yY7Tm7x2U=",
+			"size": 1077
+		},
+		{
+			"name": "/src/renderers/common/RenderContexts.js",
+			"hash": "LY7yzKV/p219N8TkmWsluJw6zdDov20omcqCRLEEYug=",
+			"size": 1168
+		},
+		{
+			"name": "/src/renderers/common/Renderer.js",
+			"hash": "kRJZFI9HTAORP0NL/pV88ER2dk0ZfBpm5Z7cH+OPyV0=",
+			"size": 36909
+		},
+		{
+			"name": "/src/renderers/common/RenderList.js",
+			"hash": "2JXrgFPuD/85aqexkki2mGPOGMI6Byidjxm7RK6j9wI=",
+			"size": 3675
+		},
+		{
+			"name": "/src/renderers/common/RenderLists.js",
+			"hash": "iQO6zSQ9Y2jlJbyZqYP9bPhzJTfWLrMqQoCnlSjUbAA=",
+			"size": 471
+		},
+		{
+			"name": "/src/renderers/common/RenderObject.js",
+			"hash": "sfEvTm9WCPEc5ZDa/gbJgQA10iGvvtPOEsn/Iug2sbs=",
+			"size": 8035
+		},
+		{
+			"name": "/src/renderers/common/RenderObjects.js",
+			"hash": "G2YvZ9/hxDWzvsHMgZHsm4MFmekERFdmdMFOPAp6Yho=",
+			"size": 2186
+		},
+		{
+			"name": "/src/renderers/common/RenderPipeline.js",
+			"hash": "bD+XK8tGDWSXx5NFHe8CvS6OftB/BqANTB+yo3/WNGA=",
+			"size": 281
+		},
+		{
+			"name": "/src/renderers/common/SampledTexture.js",
+			"hash": "b7NRT6J61Tc5poa+fx7aEk0lcPmL+lsEdxuPhMHthWw=",
+			"size": 1249
+		},
+		{
+			"name": "/src/renderers/common/Sampler.js",
+			"hash": "Hh67nnxVY1Su0B+fwz7xjpcl4XwPbiWeAdtxc+Ugtbc=",
+			"size": 253
+		},
+		{
+			"name": "/src/renderers/common/StorageBuffer.js",
+			"hash": "O7EviXZy0ePPwLWhE6zP392n3/vN5agJj2cmPmi452U=",
+			"size": 262
+		},
+		{
+			"name": "/src/renderers/common/StorageBufferAttribute.js",
+			"hash": "Iv0nUwA08YGcJneclg2mEpRP1VNRuEElvOBts7GMmnw=",
+			"size": 390
+		},
+		{
+			"name": "/src/renderers/common/StorageInstancedBufferAttribute.js",
+			"hash": "O1jj/eRne+LjoYcMP4xs7j9C4WVZDTLfnZtAd5qfF6U=",
+			"size": 444
+		},
+		{
+			"name": "/src/renderers/common/StorageTexture.js",
+			"hash": "05g9U1UwXRsPd9jFBCQau8yVnm8rOnSXEyncVWReXzE=",
+			"size": 371
+		},
+		{
+			"name": "/src/renderers/common/Textures.js",
+			"hash": "CP/Oa35yCd46MrIE2wNS+vofIgfpxEwiLVAgmnYFWWU=",
+			"size": 7594
+		},
+		{
+			"name": "/src/renderers/common/Uniform.js",
+			"hash": "N5OF7HHxJNL9bz9qBQIwrnzokMQwNJU3F2MAvpiw/Ok=",
+			"size": 2182
+		},
+		{
+			"name": "/src/renderers/common/UniformBuffer.js",
+			"hash": "V8GSXKMWkMZ1CjvMDiY2vT+KZqiVwRZqXnfKViCVlrM=",
+			"size": 207
+		},
+		{
+			"name": "/src/renderers/common/UniformsGroup.js",
+			"hash": "d1SZcO2CyCX5CxcPoMuwFxnBD17I0HNoMb5SDgvzrvY=",
+			"size": 6283
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk.js",
+			"hash": "7cPDtx71ThhXSU9+OT3i+adQvDFTHSTNZQhmo2gJ7Uw=",
+			"size": 15520
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/alphahash_fragment.glsl.js",
+			"hash": "2zu/dHdMmsrlN/PEbQ3px6aOp/ATzBCMzz0YZgqWlxw=",
+			"size": 129
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/alphahash_pars_fragment.glsl.js",
+			"hash": "p1vciyc5jhk+uw/7+9EVa7HWwWTJ6Y1pw5G8lqCznfI=",
+			"size": 1816
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/alphamap_fragment.glsl.js",
+			"hash": "l9l9ConiODzumqFbKJAWeP9b9zslXo05xBNIM5qsiuY=",
+			"size": 116
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/alphamap_pars_fragment.glsl.js",
+			"hash": "DZHSmksGP4akLW+HHIcVxd9CF9qVvrJ0YAMt7GSb2yg=",
+			"size": 88
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/alphatest_fragment.glsl.js",
+			"hash": "LAsIhOZfMY6llDddO/6NLuAH/UASir12QbqzdBnUqu0=",
+			"size": 285
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/alphatest_pars_fragment.glsl.js",
+			"hash": "cmKYQ4a93RAza6Slyqb2PWY3ll0j0zXLeoLSSajWdGA=",
+			"size": 84
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/aomap_fragment.glsl.js",
+			"hash": "/vzESoQlS5MxeiAC8C9AiRWyaWEigxRTi0muAZ6lhMo=",
+			"size": 700
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/aomap_pars_fragment.glsl.js",
+			"hash": "mWBQFv325uEak+9a/sZTTdCjwOVZpdoSiDPVos/JYxI=",
+			"size": 113
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/batching_pars_vertex.glsl.js",
+			"hash": "UKeTC+mJQgJCOISDmtfnA27baPDUGmiUtP0+UkdiUuE=",
+			"size": 1223
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/batching_vertex.glsl.js",
+			"hash": "Jm9jrRGXVxJp9uuTY6LJFuEg/M7j2JcYGAXIMZGO80s=",
+			"size": 132
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/begin_vertex.glsl.js",
+			"hash": "Xdq0jMtQx7r5WAR/g0SWzxwr4ZfgDQPXd2sw81Pzk5I=",
+			"size": 129
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/beginnormal_vertex.glsl.js",
+			"hash": "FPGq6XuSk/f6YvagSfdVCAkE77r3rTUbYMv/7EXiKqg=",
+			"size": 138
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/bsdfs.glsl.js",
+			"hash": "qe0xBJMkHLvRTljb3Dfj/PrEJ3nIoORfWNrNQFGF31E=",
+			"size": 845
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/bumpmap_pars_fragment.glsl.js",
+			"hash": "JikDcHqLJxrcGILanx1g6RlyZmDAgukbsQyDtcVL92w=",
+			"size": 1263
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/clearcoat_normal_fragment_begin.glsl.js",
+			"hash": "UQ0GxSlVnLI9a4FKDMrc8ykgHuRLRpzPaGtkCnXplC4=",
+			"size": 104
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/clearcoat_normal_fragment_maps.glsl.js",
+			"hash": "TgrGuQLX2xr/XsFuVsIduOKQt624W63Uixkg8Jdcvf4=",
+			"size": 262
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/clearcoat_pars_fragment.glsl.js",
+			"hash": "QOwdqpwierNBsDLAUzZP3AiOg8p/cKKEYrd9VsYENmI=",
+			"size": 299
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/clipping_planes_fragment.glsl.js",
+			"hash": "u+XBKVopLiMSZC+SpllFqXCGks/NAGN+Z8QmDp/QUTw=",
+			"size": 1762
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/clipping_planes_pars_fragment.glsl.js",
+			"hash": "i9ZGM72m0curtOdo6eMCp851lgMGok+NY0ros4e9shs=",
+			"size": 150
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/clipping_planes_pars_vertex.glsl.js",
+			"hash": "MIMsP14NRpHHb+GDouMdO3j6xvorTI/7UqzoUUCRlRI=",
+			"size": 96
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/clipping_planes_vertex.glsl.js",
+			"hash": "t/6DwqILXYLRyx2VNAwdfPk2kb643NJYwp5eg6MAMrY=",
+			"size": 102
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/color_fragment.glsl.js",
+			"hash": "HGEp2bcL60mU7D7+mBExllQ6e93vXQ5jpcgIjIlwZ0Q=",
+			"size": 153
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/color_pars_fragment.glsl.js",
+			"hash": "6RpWDgQ63+buDN3OxvaocfiKAFiXbrEwg/Y7MFdICL0=",
+			"size": 143
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/color_pars_vertex.glsl.js",
+			"hash": "8uXxwZ/9HLNNi5XseQmIXoqjMfinWSIdxJ3SatsRPTg=",
+			"size": 211
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/color_vertex.glsl.js",
+			"hash": "OWdVrAmvZl+sldqYS0RcxkmgDMWEQONCFSaiRKD6tLs=",
+			"size": 474
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/colorspace_fragment.glsl.js",
+			"hash": "o+uu7QTXKMBMSz+NDcUrg7Et13R0kHRQ+P5SZZVe07A=",
+			"size": 82
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/colorspace_pars_fragment.glsl.js",
+			"hash": "1/PWt3trOMIX8RJKU2fTyTsDX2M8A3k6JsoZ5j5HbxM=",
+			"size": 1046
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/common.glsl.js",
+			"hash": "+EsvkUMAMFXdi8WezbwZTfwuMAFfklJG60PLZQLua10=",
+			"size": 3592
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/cube_uv_reflection_fragment.glsl.js",
+			"hash": "hhDyWYuZjIRDyJwk9xLKjDYZf11xUoEccXb54OJVVTw=",
+			"size": 3878
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/default_fragment.glsl.js",
+			"hash": "YXcfThKxN7BdqB3AoIwPE0uCu028jTmTT9/gJWUZ60o=",
+			"size": 90
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/default_vertex.glsl.js",
+			"hash": "yT7QpNONzzblIFiPs1UuZSil+n1RN3yE8kcOqBhHfbI=",
+			"size": 121
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/defaultnormal_vertex.glsl.js",
+			"hash": "ZWZofvjT3dPM9hejHU/ORe+FSdGmDL+vEIGNhthfCv0=",
+			"size": 1270
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/displacementmap_pars_vertex.glsl.js",
+			"hash": "L0w6QXDJqsAYlUUyaJsovLYIsgtYSNJWLfnJ/9gko5k=",
+			"size": 169
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/displacementmap_vertex.glsl.js",
+			"hash": "vLfOQaypMdm8E7801dAQ0Hx3KifsXHedLZELHDs1iew=",
+			"size": 205
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/dithering_fragment.glsl.js",
+			"hash": "/uH51AEkS99sG0uiODw3hucRn+C+plMufeWl1NlB2r4=",
+			"size": 107
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/dithering_pars_fragment.glsl.js",
+			"hash": "gbCc+p1tvE0E0OQvh/tF7PVRNv7El9LB3yVUs363gN8=",
+			"size": 608
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/emissivemap_fragment.glsl.js",
+			"hash": "zao+qlJWqPoglE73lMiW5TEu16gp2b6UwDao6NIfpAk=",
+			"size": 172
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/emissivemap_pars_fragment.glsl.js",
+			"hash": "zKFzJ/XTrrqZA8Q6I0vulb1k+9nmKzS/s+kLyRz+7XQ=",
+			"size": 94
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/envmap_common_pars_fragment.glsl.js",
+			"hash": "s6YuMMYytGaPsI7isr4YoBvKu1GM6t4a2xppe6qVXYU=",
+			"size": 246
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/envmap_fragment.glsl.js",
+			"hash": "VmlCJmpvhbVCcXAwmQrPuS2OLNAMmpJpIKMYavvdwx8=",
+			"size": 1259
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/envmap_pars_fragment.glsl.js",
+			"hash": "BL2aJnWoslj57Emeo0VvyKpu0Yy7p4oojyYAStBQ0Ao=",
+			"size": 345
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/envmap_pars_vertex.glsl.js",
+			"hash": "mMeQdtIRsPirrEcdEMC6vLSKwfC3wITJqBgL9JPePWs=",
+			"size": 320
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/envmap_physical_pars_fragment.glsl.js",
+			"hash": "j2C71E18+mObYDkj6I/hehswhPV+kiGP34xcSVwV/e0=",
+			"size": 1697
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/envmap_vertex.glsl.js",
+			"hash": "C2O5MyBHI9l2+1sl7omT3PmXMkFVwPEM/treotDYWl4=",
+			"size": 647
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/fog_fragment.glsl.js",
+			"hash": "YR01/lj4LNG6P4XaYSBjUbb7e+laEA+7ezgAAYByMJo=",
+			"size": 303
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/fog_pars_fragment.glsl.js",
+			"hash": "QEf1+dusWYwncXqaSndEcjD7q0gQbmrGeAVl3r/qVYI=",
+			"size": 218
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/fog_pars_vertex.glsl.js",
+			"hash": "pfjA6tmtA8NJF7Is6F8/9+4ZO1M1uG8xA/DbsDpOD1U=",
+			"size": 80
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/fog_vertex.glsl.js",
+			"hash": "jXQzqIlQPO7lb1BeRkL1cM4HnLGHwTulReKP4XR2qbg=",
+			"size": 83
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/gradientmap_pars_fragment.glsl.js",
+			"hash": "TM44ozdHzurKDAd6/A+YhsoFATswbprvzKkHydTqiwQ=",
+			"size": 512
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/iridescence_fragment.glsl.js",
+			"hash": "klaKepdJOsGveZX6BU1fr803ibHHFcgFmDr5eQq080U=",
+			"size": 3612
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/iridescence_pars_fragment.glsl.js",
+			"hash": "Nwvqups2ZKg2VtY/fvAP9lPo0akbG8FEyhHfjt7lCi8=",
+			"size": 191
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lightmap_pars_fragment.glsl.js",
+			"hash": "m6uF0gDA8vUl5Ou0lOXqcnL0BxMqkucdlXzqer88s2Y=",
+			"size": 122
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_fragment_begin.glsl.js",
+			"hash": "gnX01CM2vHFexGbIe53aKHPJGjaFjC9YXzMIUz8ENo0=",
+			"size": 6245
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_fragment_end.glsl.js",
+			"hash": "xFqiI0w/e+1tmFvOY2xlgT16+IhHSjGhrcwHJ9htF8o=",
+			"size": 425
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_fragment_maps.glsl.js",
+			"hash": "vhodjZ4cWdGtJ4X4WYUZd5qmtE7IytD6nkYvGcbm5a0=",
+			"size": 897
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_lambert_fragment.glsl.js",
+			"hash": "7Fqqomuc4PmM5gA1Uk3KcpqmYG5SnQTcRxuBUCel0Fw=",
+			"size": 144
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_lambert_pars_fragment.glsl.js",
+			"hash": "RVCwLoP6j/1QZESeM7+XRXh47e/GM+tMo1A0v4xDwI0=",
+			"size": 1064
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_pars_begin.glsl.js",
+			"hash": "zr3jmrKyTVosBZrYaXQ0ZKskcGJKSS9X0qB7HqiM+ng=",
+			"size": 5245
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_phong_fragment.glsl.js",
+			"hash": "qAAxTpfOr9751S5ajV6EE6XsMh0QX0hexx5zjMnonnI=",
+			"size": 222
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_phong_pars_fragment.glsl.js",
+			"hash": "+L5ycfwgdlGDeTBYO3Tgj5X8pdlRryr2oWrR+gCsSHE=",
+			"size": 1335
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_physical_fragment.glsl.js",
+			"hash": "m4t9hvpw4gZJd66iB8DPzUS8aXWobjbOOOvACfwiou4=",
+			"size": 4124
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_physical_pars_fragment.glsl.js",
+			"hash": "gijhLWkE7+z/du8h8heDa89XEAq4xTMmt0qKbyc7BKg=",
+			"size": 18421
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_toon_fragment.glsl.js",
+			"hash": "w3MmJNpbEOQfso6V9CEMnf70Bx5FI2CGaCGnT/RNObM=",
+			"size": 95
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/lights_toon_pars_fragment.glsl.js",
+			"hash": "Me8Ieb112yCTe5lDKO9biABTBDIk0cgBpuML91qgdeg=",
+			"size": 1002
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/logdepthbuf_fragment.glsl.js",
+			"hash": "x6NwPxzYukwFB+G4G4DPQmvP/50H2meXk7y0YMMEvwk=",
+			"size": 278
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/logdepthbuf_pars_fragment.glsl.js",
+			"hash": "DukkMUAstjP8J5xZ61WSPJPW9vK5RAsX1IGMSPcRTuE=",
+			"size": 158
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/logdepthbuf_pars_vertex.glsl.js",
+			"hash": "Luc50iRIkefD5f8vvmhCvGtnk/ymUrCoNaZwfXUPlMw=",
+			"size": 120
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/logdepthbuf_vertex.glsl.js",
+			"hash": "VE7W9telYY0uw/OYPpTnXOY6zaReBxMaPn5ODFKdJ9U=",
+			"size": 165
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/map_fragment.glsl.js",
+			"hash": "buBfQj+8eVrl5QVEGo70zlfhsdW7HpmsWuqZ5teM1ls=",
+			"size": 543
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/map_pars_fragment.glsl.js",
+			"hash": "s+/GL6mhvTjXDNDx0mErQOaIyO9wgh1bWXM6AytyKB4=",
+			"size": 78
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/map_particle_fragment.glsl.js",
+			"hash": "jrSx31w5JhUmSLBo9jZVFnh3A+4VDldNohvSiWuN8P4=",
+			"size": 381
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/map_particle_pars_fragment.glsl.js",
+			"hash": "+x8F3JZl3PljQWhaW2yckQcClCClZui+UtVZtDLhbsc=",
+			"size": 292
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/metalnessmap_fragment.glsl.js",
+			"hash": "Wxw98Wl9CWwxXHIxA+Ven9UG2CnamPRfI9bGQ8vZTGQ=",
+			"size": 294
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/metalnessmap_pars_fragment.glsl.js",
+			"hash": "35OOu1etIpy7FxKKv+TmnQalzaZTBoAeEXWz0aekZl0=",
+			"size": 96
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/morphcolor_vertex.glsl.js",
+			"hash": "lh0HtnK6OUUIM8+qKUnrK0TBRIGrZbrBHDzcI7hiaIY=",
+			"size": 826
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/morphinstance_vertex.glsl.js",
+			"hash": "QVjUwEv3OpviMSQK1ty+k8bbrKIPDsnYrzCSlId8QVA=",
+			"size": 364
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/morphnormal_vertex.glsl.js",
+			"hash": "pYM7LSuP/HCk2f92qf/tpr9cJ1Q3TN5qPzK8CJmj4ww=",
+			"size": 641
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/morphtarget_pars_vertex.glsl.js",
+			"hash": "LFrssNiqtgV9J5Gwa5KrzeNjiWzJXbKwxVycN+94sIo=",
+			"size": 678
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/morphtarget_vertex.glsl.js",
+			"hash": "nRurrVC8ix//luG6nWv/HiEmws6cWAt6lTZUY/uoTqk=",
+			"size": 641
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/normal_fragment_begin.glsl.js",
+			"hash": "N5Rc+A8SQe+j0wFsCfbnYCoXZx68unrLSx+Ck8BSLCM=",
+			"size": 1339
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/normal_fragment_maps.glsl.js",
+			"hash": "EuJZ6fxsyRjMnZgbBiYQa9SGJV2Ih1XqQHbZFW163L8=",
+			"size": 642
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/normal_pars_fragment.glsl.js",
+			"hash": "4XHtmMFcuP/w+lXCEljTiEoVhBqynTuTGPYdqPq38TE=",
+			"size": 165
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/normal_pars_vertex.glsl.js",
+			"hash": "4XHtmMFcuP/w+lXCEljTiEoVhBqynTuTGPYdqPq38TE=",
+			"size": 165
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/normal_vertex.glsl.js",
+			"hash": "yGMLIjMf/ySSNpYKVb1GMuoJOdXotWhHTyyCUoBOsz0=",
+			"size": 303
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/normalmap_pars_fragment.glsl.js",
+			"hash": "nq9U5ya7yXJ/YVl/Q/pvnkRvqhM4nZak0CXK6l/cAd4=",
+			"size": 971
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/opaque_fragment.glsl.js",
+			"hash": "MkhiZAFEZh8ptE9MtIW/QHztvN75mrt48FhoD3WGiWY=",
+			"size": 206
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/packing.glsl.js",
+			"hash": "CoPaUlcLBmIf2Jc6nnbDVX+sh3uNVJPmZxKh7wdVOYo=",
+			"size": 3241
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/premultiplied_alpha_fragment.glsl.js",
+			"hash": "zWruYX6iZci/+X/O9THEO7qA5DugnWaUXRHjTv3CHhU=",
+			"size": 223
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/project_vertex.glsl.js",
+			"hash": "dGMsqlzEqYErG7QjqsdXR0jmSGE8GImMa/V9JrhWANM=",
+			"size": 312
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/roughnessmap_fragment.glsl.js",
+			"hash": "ZWZlIGjVX1Tt4j9tb05YAJzdO3ZMkXQ0Drv7ZIh7/6o=",
+			"size": 294
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/roughnessmap_pars_fragment.glsl.js",
+			"hash": "H7MESPo/YWhgysD80OvF1xQo58zOapcnQelfPuBH1O8=",
+			"size": 96
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/shadowmap_pars_fragment.glsl.js",
+			"hash": "OCR4kmwqwJVqh/Pg0L51XQOWgMkr6pwt/jiKIq/mr7I=",
+			"size": 10387
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/shadowmap_pars_vertex.glsl.js",
+			"hash": "c82rSUfVH+vSs3cz0KqPzYQpY2tX7KV78C2n952yNWE=",
+			"size": 1446
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/shadowmap_vertex.glsl.js",
+			"hash": "6TBVUc8VEIXjKrf8UiE5OXn/4sHwDbbuQYYfTBdf9Yo=",
+			"size": 1798
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/shadowmask_pars_fragment.glsl.js",
+			"hash": "O1K3ZJZE5be0Y0cw3pB8z5AbPO1vFu5SgQWttSKwmbU=",
+			"size": 1598
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/skinbase_vertex.glsl.js",
+			"hash": "t8O9UUcemT+PrgRjcztTRSnjLLkc2rtCO02J7Tynxb8=",
+			"size": 247
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/skinning_pars_vertex.glsl.js",
+			"hash": "a2erz/MEOhYcVaEeKZSh0O6cN2JqpvvjWoH2OJPnziY=",
+			"size": 589
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/skinning_vertex.glsl.js",
+			"hash": "RCJGcAE0hjZVHOZPHmYx2KUDK3rCeIWWwtxSaWGMdgI=",
+			"size": 400
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/skinnormal_vertex.glsl.js",
+			"hash": "Xm8YV9GW58p5zE4u41+9EoynQAOti5ZIRyPZGMpjHkk=",
+			"size": 481
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/specularmap_fragment.glsl.js",
+			"hash": "CY2KtZsRxbBqzRdsVu9xq0dJoBOlG8XPmB5HAeRYkwo=",
+			"size": 221
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/specularmap_pars_fragment.glsl.js",
+			"hash": "rJIduQNTYuIGoaGif+bdWAjnbwLoWcTRGO/vjpBoucw=",
+			"size": 94
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/tonemapping_fragment.glsl.js",
+			"hash": "8D+IdATOtXLhGX16j5pHqiPjxe9T3fO4SvIuvOSVTyE=",
+			"size": 120
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/tonemapping_pars_fragment.glsl.js",
+			"hash": "RHlYuT0HYWyD2Sc4Ke2BDrc00C675g8S/JvdpPeSj0Q=",
+			"size": 5260
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/transmission_fragment.glsl.js",
+			"hash": "w8X546/TE57VWyC4dudjZpQ6mZjy1muPV931lH8MNnY=",
+			"size": 1117
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/transmission_pars_fragment.glsl.js",
+			"hash": "bJHSg8pO89dlS2P5HBif5SS6wMMCcIQq7u9cWZ04H40=",
+			"size": 7327
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/uv_pars_fragment.glsl.js",
+			"hash": "G38k8KELZzVahiliD/AHXrDoWUP4VGY5roJ/WzbKV1E=",
+			"size": 1633
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/uv_pars_vertex.glsl.js",
+			"hash": "JMwNjE0y37qDx4gOXuqz9qadYldDJ5E5LI3ohc+edvA=",
+			"size": 2496
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/uv_vertex.glsl.js",
+			"hash": "XSn15QuL/VnbGrDWutpAbab6xTHUXtT8Pei+2U/ZryE=",
+			"size": 2758
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderChunk/worldpos_vertex.glsl.js",
+			"hash": "0pHKBZiPVzEsBgsz+icUcrN1a2prc3k09aBPiCv08X8=",
+			"size": 439
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib.js",
+			"hash": "gViU9wmrmJ0LJFD8extJs8ybMwudbqf762qmCnwSQkE=",
+			"size": 8410
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/background.glsl.js",
+			"hash": "TYGZCGnFS5WnrlUt1yGcqPtTEaFUsKLTOA15QO4pRNY=",
+			"size": 829
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/backgroundCube.glsl.js",
+			"hash": "xZSfbECZRSq12yQtyS95CANEEMesp6/jMqOoNt1dozg=",
+			"size": 1155
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/cube.glsl.js",
+			"hash": "pj2xVyFoEiU6uILNR3e38WXLvDTjjfSce3oAP2G7w24=",
+			"size": 654
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/depth.glsl.js",
+			"hash": "WelaxSI+A8CQAuCo6GFhypfikAcjAhP7NRxv2ASKwWo=",
+			"size": 2414
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/distanceRGBA.glsl.js",
+			"hash": "RgrmaF6Loq/KkyfQG1/FgVW4k/R7zKZS9mK7btEe4lo=",
+			"size": 1659
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/equirect.glsl.js",
+			"hash": "1R8OJjVxT/puTgTTYPJ+ets+hWOjIBPrTNhroxKrkeg=",
+			"size": 568
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/linedashed.glsl.js",
+			"hash": "G4UP8ab4aQyOvl0Z+SaNrAiimNPw65LP4RpSqzsA4NI=",
+			"size": 1556
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/meshbasic.glsl.js",
+			"hash": "2glE3B5z0Nd6XN6bk/fRvcXB6CXijoxYKrHwZpKZJJU=",
+			"size": 2720
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/meshlambert.glsl.js",
+			"hash": "oyhEc2vbKbVY9rkt11o9Bnf5w+8DBP/8IHoYr3l9b4U=",
+			"size": 3192
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/meshmatcap.glsl.js",
+			"hash": "bg83Cv2DKkgCvJqgXZtvtlQ+oBhL/ch8j2Nd5WS0BdY=",
+			"size": 2692
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/meshnormal.glsl.js",
+			"hash": "BoytN+iG8sMDlkRbaEwRdJRLISqzaPgDLZjG7ipMtYU=",
+			"size": 1872
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/meshphong.glsl.js",
+			"hash": "uMP7jRd58bXNHgoRYstWf1vbv7oBqD4rBzqFfHc/4/s=",
+			"size": 3298
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/meshphysical.glsl.js",
+			"hash": "fUikAX8BRgZZnrt8cyXziS66ktdKaJVbrpCqWIUjR/Q=",
+			"size": 5584
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/meshtoon.glsl.js",
+			"hash": "FwmN5/lDm+l9VvVE2Lg7bnCZBcUELxUKV6t5Wee5mwA=",
+			"size": 2992
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/points.glsl.js",
+			"hash": "lWj0nrurREWXmxAn8fqrD6PSwUpH00SzbpcyPs7mfhM=",
+			"size": 1760
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/shadow.glsl.js",
+			"hash": "sHQYGEkI9LGBnk1ZVYfz1Rd4WUX4yWh5ynTKAOyoRzY=",
+			"size": 1223
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/sprite.glsl.js",
+			"hash": "7Gl/+5EBpD1ArSI/HGkt+rFTKTU+7nYDxPdLdQI/bvg=",
+			"size": 1834
+		},
+		{
+			"name": "/src/renderers/shaders/ShaderLib/vsm.glsl.js",
+			"hash": "p6HVUWIeMIPXqtsA9VYM1u3Q9vAFDqHqjsHM8WaFzo0=",
+			"size": 1206
+		},
+		{
+			"name": "/src/renderers/shaders/UniformsLib.js",
+			"hash": "fw0W7aX3aolOyeIRx7EjgtQ1JS1Q90tLQF4jFRSyGZc=",
+			"size": 4655
+		},
+		{
+			"name": "/src/renderers/shaders/UniformsUtils.js",
+			"hash": "QokoN0nHJNawpMVPz8A3nKBDcIhJhB2rhVGHDKUKya8=",
+			"size": 1899
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLAnimation.js",
+			"hash": "2Ms5eJLg6xkMJgd35Z+DE+LPxifSRCjeWytCW9BaYZI=",
+			"size": 767
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLAttributes.js",
+			"hash": "S6ETxLjM0lN3yDOnmRKz9APTnLYchgY4eQ1PNqkCTHM=",
+			"size": 4973
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLBackground.js",
+			"hash": "yHjJ4z8ksOPJQbmqn3xLcDKsbfvUjTznmQZz2vh/TP8=",
+			"size": 7444
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLBindingStates.js",
+			"hash": "RUXVzKD9Q9d6Qac+2mP4MSzHU/RGgx5/mBKG7bqL2hc=",
+			"size": 12434
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLBufferRenderer.js",
+			"hash": "P2YxMAnlYqi1d6GrpUgivHT/kxcthI8ysvBjZNn4Jw0=",
+			"size": 1705
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLCapabilities.js",
+			"hash": "TOig7hi8qKiuRXY09Fo0iUSUWb6kPHFL+1KinVXzYqg=",
+			"size": 3954
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLClipping.js",
+			"hash": "Vyj07j81Fn57JY4VGb/396Q/IZxTdg/tsRMWQxBjnX0=",
+			"size": 3372
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLCubeMaps.js",
+			"hash": "AasjO/9QPKr0bFApUwho4KM2/PASy/2mOKtSOmm+bSg=",
+			"size": 1909
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLCubeUVMaps.js",
+			"hash": "GfXwj+9zMegIgmr8aM5EW4eZA2yExNSZOPD4VinfyZk=",
+			"size": 2938
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLExtensions.js",
+			"hash": "c9/sr6//nPk1BSWKUp1v7iwgEgQH2EWPjVGbFUaZfRw=",
+			"size": 1914
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLGeometries.js",
+			"hash": "rLt4VFnlpqgdLA0eS1z3yYR5Dx/Tq0mf6ovV0rUAYGU=",
+			"size": 3893
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLIndexedBufferRenderer.js",
+			"hash": "BRnTTYhpwdYsoqeyvhA3bvrxgbLX+1yHCZ9M+EVpF2Y=",
+			"size": 1962
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLInfo.js",
+			"hash": "5sVqAurtKJJM4xt2pn1868cXgY8atbh7wHMg+XXevd0=",
+			"size": 1025
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLLights.js",
+			"hash": "lrm2ipuRCMb5igHp0exRdEU8nWbyFYQlkkwzOjzqxYw=",
+			"size": 13221
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLMaterials.js",
+			"hash": "fziLF/6ynVv6wH1vn82jvAzLni6lyO1yp5VQ+iAAc5U=",
+			"size": 13988
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLMorphtargets.js",
+			"hash": "LOkKf76NgXsq3ewucAR8XCQN02a6K1pP+1Ks9bV1iQc=",
+			"size": 4569
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLObjects.js",
+			"hash": "bML9YbwFiW5CD6ztwnNtyWYlAQlzwrWuPUKujY+g8zY=",
+			"size": 1578
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLProgram.js",
+			"hash": "SBWwAVKDvBqXsnqQHISNtj7KxLVyXH43EH3b/eNRzy0=",
+			"size": 31449
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLPrograms.js",
+			"hash": "OvReY0vW3y113Y8QCPTXPCgoHBbfoPJQX3N6n7DTtCs=",
+			"size": 21102
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLProperties.js",
+			"hash": "/vtxPTDi34Zbhn5yVZLolJxXNYBafYljuY60ccBsFYk=",
+			"size": 639
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLRenderLists.js",
+			"hash": "YDVc+t7VnFDiqEbrMHArgL8bhK4gEwBoWgiJQRsDL3M=",
+			"size": 4054
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLRenderStates.js",
+			"hash": "GiP+NReiUk97Jr3RokBYtsnQKcVNIO54ntWifAy3ccM=",
+			"size": 1667
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLShader.js",
+			"hash": "GafcBQY8E2f9cYgGAo7/bzDEtMXKv+wh7/ChHqRFn5g=",
+			"size": 196
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLShaderCache.js",
+			"hash": "LFvJqPo7WNsjyPtnXIYAEDasmOKSD/rU6JrA38AkIz8=",
+			"size": 1975
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLShadowMap.js",
+			"hash": "eH49hwMhaw9QFR0vovmJztrcCiS7lHA6MrouJ2fZav0=",
+			"size": 11590
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLState.js",
+			"hash": "5SspJ1KBsLaV6Xkm58Cb3e/UIi/7hSfDWAivTx1Ov/4=",
+			"size": 25832
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLTextures.js",
+			"hash": "uEXZE1l5kvM0HuB1tljowGiDyFbHpqk79TEXSWtUl9Q=",
+			"size": 61614
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLUniforms.js",
+			"hash": "XYVsvLH6lG2C/RrVyu6YWkASiloJrmPZiXIhuXF1tr4=",
+			"size": 20800
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLUniformsGroups.js",
+			"hash": "Y6q6hVMF0UMRQAl6gkmMfz5KuadBbmNU1fiz8qRndVQ=",
+			"size": 8595
+		},
+		{
+			"name": "/src/renderers/webgl/WebGLUtils.js",
+			"hash": "h5b6aLuQU7YU3ZIaRiNojj96XW0hVmqK+rKeXkwxVWA=",
+			"size": 9612
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/nodes/GLSLNodeBuilder.js",
+			"hash": "HMcStgJnUVXydmRt8rEa87pLW0Aha22k6ISpADtA56Q=",
+			"size": 20525
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/utils/WebGLAttributeUtils.js",
+			"hash": "ZjFK+5aYfWJOAD2vCj0htNE1DhnQiXHutRKB5kumE/M=",
+			"size": 5675
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/utils/WebGLCapabilities.js",
+			"hash": "24UlUprHiT0w57aym2LdlzWM2TGNr562m9bsf2i7ouk=",
+			"size": 628
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/utils/WebGLConstants.js",
+			"hash": "bkwJqRdLiq2D2STUbTdZ+4/TXTxS7c2ohUm77Td5SpI=",
+			"size": 573
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/utils/WebGLExtensions.js",
+			"hash": "QsNUoSnx2y9XVkyQn+g2OQpRhZJG2RcVllcrmGKrhaw=",
+			"size": 522
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/utils/WebGLState.js",
+			"hash": "H+eR430JpkYUI5fKswd52bDNZDHznw9YCeXJGBfHOWM=",
+			"size": 15166
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/utils/WebGLTextureUtils.js",
+			"hash": "cfJxarTRUfPXnETPX6UmOMMbMxIRwOPWb5p25zQ+/I8=",
+			"size": 26476
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/utils/WebGLUtils.js",
+			"hash": "QE8ImoaNI6w2kGdfKTyY8+95J8joGBj7z/mS74paPjs=",
+			"size": 9927
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/WebGLBackend.js",
+			"hash": "je3kIkanTLbH9maZaeTYCMExwImNYZl8mbntm6b3f58=",
+			"size": 35281
+		},
+		{
+			"name": "/src/renderers/webgl-fallback/WebGLBufferRenderer.js",
+			"hash": "1gc8BdmI5AnO9mJJ9m4iaHD/w7c5LeSosrF9DtLI0EY=",
+			"size": 2513
+		},
+		{
+			"name": "/src/renderers/WebGL3DRenderTarget.js",
+			"hash": "gGskcI6zHVt5c88W4q/WDy4MYopaMDcdbO97rbnQCeU=",
+			"size": 493
+		},
+		{
+			"name": "/src/renderers/WebGLArrayRenderTarget.js",
+			"hash": "Br6kC53Za/j46RKiN6tPaYXeiA+MzEpcBDXN1aZH0kg=",
+			"size": 511
+		},
+		{
+			"name": "/src/renderers/WebGLCubeRenderTarget.js",
+			"hash": "oPlDSr4Cnfgy4zwhOiLEjDm0V/2orvhUQO4al+ZgFJw=",
+			"size": 4090
+		},
+		{
+			"name": "/src/renderers/WebGLRenderer.js",
+			"hash": "XhyZR3Ze5YKQeSmjr4SDGpmDUrHGUiqurFCVVw5A028=",
+			"size": 76688
+		},
+		{
+			"name": "/src/renderers/WebGLRenderTarget.js",
+			"hash": "xcrgMAsZJ/5nmPvLHjxJo6nmgCBG8tGyZx2kQHh1r/A=",
+			"size": 269
+		},
+		{
+			"name": "/src/renderers/webgpu/nodes/BasicNodeLibrary.js",
+			"hash": "BYJc6AgiUEV1UzqFQzTtHVHUW8rv3fbycrTR5v5Z+s4=",
+			"size": 2824
+		},
+		{
+			"name": "/src/renderers/webgpu/nodes/StandardNodeLibrary.js",
+			"hash": "ypG9tSweGaPyxD3xpwWx8OPWIakMsuNszMS7oGMaIhw=",
+			"size": 6163
+		},
+		{
+			"name": "/src/renderers/webgpu/nodes/WGSLNodeBuilder.js",
+			"hash": "WShluk1Aydcx2c/KHCmLuVixME46u0zFhPPXYdw7s1o=",
+			"size": 32332
+		},
+		{
+			"name": "/src/renderers/webgpu/nodes/WGSLNodeFunction.js",
+			"hash": "vCNtS7LSsrjmiNZ6/+mvY+tK0EYFlEs6LG3sXncjGZg=",
+			"size": 3319
+		},
+		{
+			"name": "/src/renderers/webgpu/nodes/WGSLNodeParser.js",
+			"hash": "S8PCRasCUpZjjXq+QTBK3yOH01PlTSed8vux8XpHgY4=",
+			"size": 266
+		},
+		{
+			"name": "/src/renderers/webgpu/utils/WebGPUAttributeUtils.js",
+			"hash": "K0KsS8hPAowqLrvS29vrRyQt+w/aTi7hCptgbQSv5gM=",
+			"size": 7204
+		},
+		{
+			"name": "/src/renderers/webgpu/utils/WebGPUBindingUtils.js",
+			"hash": "Bo1AAMVNRSvshibMK49t/3GxLniuCAzFh4p8l5YCabI=",
+			"size": 6959
+		},
+		{
+			"name": "/src/renderers/webgpu/utils/WebGPUConstants.js",
+			"hash": "AmtLFXAaMzqg4JgPjDtsp+9sMfs9h1+n15w1r2fN75Q=",
+			"size": 7806
+		},
+		{
+			"name": "/src/renderers/webgpu/utils/WebGPUPipelineUtils.js",
+			"hash": "SKgMCi0Jr1tNWwMLWxYBXlarysdUp8cxEBSxNFNnet4=",
+			"size": 14825
+		},
+		{
+			"name": "/src/renderers/webgpu/utils/WebGPUTexturePassUtils.js",
+			"hash": "Tm/5Nm/evdVy+V6eTeRC8a5UHU2D+kDidUg8guPMrjI=",
+			"size": 7773
+		},
+		{
+			"name": "/src/renderers/webgpu/utils/WebGPUTextureUtils.js",
+			"hash": "Io7say7+cwg/CXUnpPx3MmELS8BumPqvRf6do8D4Jj0=",
+			"size": 34406
+		},
+		{
+			"name": "/src/renderers/webgpu/utils/WebGPUUtils.js",
+			"hash": "T84bZpVkgBiIVQY3OG/7b7oFdZpF3D6JXO+QqlwIUDo=",
+			"size": 2385
+		},
+		{
+			"name": "/src/renderers/webgpu/WebGPUBackend.js",
+			"hash": "+ZCipSzY49Gk1K7f4SPYvytkaDQI8sY9P+iAvngGIiQ=",
+			"size": 36355
+		},
+		{
+			"name": "/src/renderers/webgpu/WebGPURenderer.js",
+			"hash": "d2Oq6vjZJl3BKPgcLotY73b4wSZgZW4sBogG7CfWu8I=",
+			"size": 1079
+		},
+		{
+			"name": "/src/renderers/webgpu/WebGPURenderer.Nodes.js",
+			"hash": "mpb5iox4zX5/YLtXylwAb8oKiR/RxDpEIcJZkwa9htE=",
+			"size": 824
+		},
+		{
+			"name": "/src/renderers/webxr/WebXRController.js",
+			"hash": "NK7yS1ke5uu/r8BJ66zfkr0IEWfT+1e/8hsf8DJCsp0=",
+			"size": 6520
+		},
+		{
+			"name": "/src/renderers/webxr/WebXRDepthSensing.js",
+			"hash": "S6KhK4Kwj73gBUyp7wN4vefbaaBOsC92NdiFsnwAPGM=",
+			"size": 2000
+		},
+		{
+			"name": "/src/renderers/webxr/WebXRManager.js",
+			"hash": "uDAKC5M5FZH78L1P6WSjn+7d64aI3vkmBBMVleoG43s=",
+			"size": 20051
+		},
+		{
+			"name": "/src/scenes/Fog.js",
+			"hash": "PY9GlAh3XNJYWPkqsTv4FLnKFjPFpaubVybS3W5k2nc=",
+			"size": 462
+		},
+		{
+			"name": "/src/scenes/FogExp2.js",
+			"hash": "2b9wC7rmJPBxeM+YOyLaAfLpIT23Ba7RCtP4SL+o2sc=",
+			"size": 447
+		},
+		{
+			"name": "/src/scenes/Scene.js",
+			"hash": "krgEd/2giZbCNooyN/GG9/E3y7AOLurSbzOy8JLX7AE=",
+			"size": 2017
+		},
+		{
+			"name": "/src/textures/CanvasTexture.js",
+			"hash": "45rUsZDJL4U7hv3obPigA+elWvJs6Hmaw2molWHzGh0=",
+			"size": 361
+		},
+		{
+			"name": "/src/textures/CompressedArrayTexture.js",
+			"hash": "HUIlIgJ4+xCXSv7BrqiRk3rS87Gzi3gPcmTCRGPxlh8=",
+			"size": 603
+		},
+		{
+			"name": "/src/textures/CompressedCubeTexture.js",
+			"hash": "fOtQoXfkiWQTguAUy5rNtMVN7bUIpnn8zCRe7DaLSvU=",
+			"size": 448
+		},
+		{
+			"name": "/src/textures/CompressedTexture.js",
+			"hash": "9khLTxjZHBGFGnF4iDaUIPztYYWaXJ8MqPfgls/0ARg=",
+			"size": 703
+		},
+		{
+			"name": "/src/textures/CubeTexture.js",
+			"hash": "gL+u6PZ3RzRS+4y8ncA9bQp+xbeBRM/cN5Iy221ZSVI=",
+			"size": 642
+		},
+		{
+			"name": "/src/textures/Data3DTexture.js",
+			"hash": "uIPWcC1913kXaZanN5HTEdnOxav94YuGSbQtDxkTSxk=",
+			"size": 793
+		},
+		{
+			"name": "/src/textures/DataArrayTexture.js",
+			"hash": "YhFuZU+EgK0XxQwOYNYw9f+a5XjCAgzLhNYMI79nSg0=",
+			"size": 713
+		},
+		{
+			"name": "/src/textures/DataTexture.js",
+			"hash": "k9NCyhQtKsMMIo3AfDJGMGj5OIWsrQdoltvxoaF9maM=",
+			"size": 603
+		},
+		{
+			"name": "/src/textures/DepthTexture.js",
+			"hash": "qBBz/Kz8+sbmQur4RWQP/cDP6diDoFklAeyZgAcHT6o=",
+			"size": 1374
+		},
+		{
+			"name": "/src/textures/FramebufferTexture.js",
+			"hash": "ei3Gqk0OL2aod/YOcTOsPCrSgfMvp8BB5y1RlwSwBrA=",
+			"size": 403
+		},
+		{
+			"name": "/src/textures/Source.js",
+			"hash": "W2nLOV0WhEyBCQrkluzWM1jAoP//YcBRVapDNRDPfBo=",
+			"size": 1953
+		},
+		{
+			"name": "/src/textures/Texture.js",
+			"hash": "miJnXP3QxYyPuakl/nqnmP7eLYMo15kWA/7P58AHj4A=",
+			"size": 6101
+		},
+		{
+			"name": "/src/textures/VideoTexture.js",
+			"hash": "F+sX/Mfui63aGBIO1//pamcTaqvKiYuGuFdSnPAfX8k=",
+			"size": 1111
+		},
+		{
+			"name": "/src/Three.js",
+			"hash": "EHp2kPVm1L5qvhbZd6nbBeFWNBh5llZvPR4cGzEO4gc=",
+			"size": 9728
+		},
+		{
+			"name": "/src/Three.Legacy.js",
+			"hash": "G/TyDh+FDOEb6gxYgvE+GOf7KDaOx0kMn1w/Bt63KiA=",
+			"size": 552
+		},
+		{
+			"name": "/src/Three.WebGPU.js",
+			"hash": "UGdZN556++cG9q9rgFEykLP1MhbpOCS+xi1n2Ec0eFk=",
+			"size": 10867
+		},
+		{
+			"name": "/src/Three.WebGPU.Nodes.js",
+			"hash": "9cVgXYJzKIBQWCoGPHDIcCERBsmtAU+pSbpK3Bepe7Y=",
+			"size": 10797
+		},
+		{
+			"name": "/src/utils.js",
+			"hash": "fa51L+FdTscOgExbafN4KDlsgEQLtdEsyOwtBphEvYs=",
+			"size": 2683
+		}
+	],
+	"links": {
+		"stats": "https://data.jsdelivr.com/v1/stats/packages/npm/three@0.169.0",
+		"entrypoints": "https://data.jsdelivr.com/v1/packages/npm/three@0.169.0/entrypoints"
+	}
+}

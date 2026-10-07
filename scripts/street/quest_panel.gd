@@ -2,14 +2,25 @@ class_name QuestPanel
 extends Control
 ## 任务面板（和纸风全屏弹窗）：顶部等级 + XP 条，下面是任务卡片列表。
 ## 卡片可「接取 / 追踪」，跑腿任务接取后 HUD 立即出现路线指引。
+## open(giver) 带 NPC id 时 = 「TA 的委托」模式：标题下显示 NPC 名，
+## 该 NPC 的任务卡片排最前并加朱红边框；不带时与旧版行为完全一致。
 
 signal closed
+
+const NPCS_PATH := "res://data/npcs.json"
+
+# NPC 显示名缓存：角色表由 NPC 接入会话稍后创建，运行期只尝试读一次，
+# 读不到（文件缺失/格式错）就全程回退 npc_id —— 面板绝不能因角色表没上线而打不开
+static var _npc_names := {}
+static var _npc_names_tried := false
 
 var _root_panel: PanelContainer
 var _list: VBoxContainer
 var _level_label: Label
 var _xp_bar: ProgressBar
 var _xp_text: Label
+var _giver_label: Label
+var _giver := ""   # 本次打开时指定的发布者 NPC id（空 = 普通打开，无过滤无高亮）
 
 
 func _ready() -> void:
@@ -34,7 +45,7 @@ func _ready() -> void:
 	add_child(blocker)
 
 	_root_panel = PanelContainer.new()
-	_root_panel.add_theme_stylebox_override("panel", UiKit.panel_style(UiKit.PAPER, 22))
+	_root_panel.add_theme_stylebox_override("panel", UiKit.panel_style(Color(UiKit.PAPER, 0.88), 22))
 	_root_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_root_panel)
 
@@ -61,6 +72,11 @@ func _ready() -> void:
 	close_btn.custom_minimum_size = Vector2(56, 48)
 	close_btn.pressed.connect(close)
 	top.add_child(close_btn)
+
+	# ---- giver 副标题（默认隐藏）：点击 NPC 进入时显示「○○ の依頼」----
+	_giver_label = UiKit.label("", 20, UiKit.VERMILION)
+	_giver_label.visible = false
+	root.add_child(_giver_label)
 
 	# ---- 等级 + XP 条 ----
 	var lv_row := HBoxContainer.new()
@@ -90,7 +106,13 @@ func _ready() -> void:
 	Game.xp_changed.connect(func(_t, _l): _refresh_if_open())
 
 
-func open() -> void:
+## giver 非空 = 从 NPC 点击进入：显示「TA の依頼」并把 TA 的任务排前高亮；
+## giver 为空 = 左上「任务」按钮进入，行为与旧版完全一致。
+func open(giver := "") -> void:
+	_giver = giver
+	# 副标题先于 _layout 刷新：面板最小尺寸要把这一行算进去，否则窗口会偏矮
+	_giver_label.text = "" if giver.is_empty() else "%s の依頼" % npc_display_name(giver)
+	_giver_label.visible = not giver.is_empty()
 	_layout()
 	visible = true
 	_refresh()
@@ -103,6 +125,24 @@ func close() -> void:
 	visible = false
 	Game.play_sfx("click")
 	closed.emit()
+
+
+## NPC 显示名：查 data/npcs.json（{"npcs": {"chef": {"name": "シェフ", ...}}}）。
+## 文件不存在 / 条目缺失时优雅降级回 npc_id —— 角色表由 NPC 接入会话稍后创建，
+## 在那之前面板必须照常能打开，只是名字显示成 id。
+static func npc_display_name(npc_id: String) -> String:
+	if not _npc_names_tried:
+		_npc_names_tried = true
+		var f := FileAccess.open(NPCS_PATH, FileAccess.READ)
+		if f != null:
+			var d: Variant = JSON.parse_string(f.get_as_text())
+			if d is Dictionary and (d as Dictionary).get("npcs") is Dictionary:
+				var npcs: Dictionary = (d as Dictionary)["npcs"]
+				for id_key: String in npcs:
+					var entry: Variant = npcs[id_key]
+					if entry is Dictionary:
+						_npc_names[id_key] = String(entry.get("name", id_key))
+	return String(_npc_names.get(npc_id, npc_id))
 
 
 func _layout() -> void:
@@ -147,11 +187,23 @@ func _refresh() -> void:
 
 	for c in _list.get_children():
 		c.queue_free()
+	# 卡片顺序：指定 giver 时把 TA 的任务排最前（组内仍保持目录顺序），其余任务照旧排后。
+	# giver 为空时两个容器都不命中，列表顺序与旧版逐字节一致。
+	var ordered: Array = []
+	var giver_ids := {}
+	if not _giver.is_empty():
+		for q: Dictionary in Quests.quests_by_giver(_giver):
+			ordered.append(q)
+			giver_ids[String(q.get("id", ""))] = true
 	for q: Dictionary in Quests.catalog():
-		_list.add_child(_make_card(q))
+		if giver_ids.has(String(q.get("id", ""))):
+			continue   # giver 自己的任务上面已排过，避免重复出现
+		ordered.append(q)
+	for q: Dictionary in ordered:
+		_list.add_child(_make_card(q, giver_ids.has(String(q.get("id", "")))))
 
 
-func _make_card(q: Dictionary) -> Control:
+func _make_card(q: Dictionary, highlight := false) -> Control:
 	var id := String(q.get("id", ""))
 	var done := Quests.is_done(id)
 	var active := Quests.is_active(id)
@@ -160,8 +212,10 @@ func _make_card(q: Dictionary) -> Control:
 	var style := StyleBoxFlat.new()
 	style.bg_color = UiKit.WHITE if not done else Color("eee9db")
 	style.set_corner_radius_all(16)
-	style.set_border_width_all(2)
-	style.border_color = UiKit.GOLD if active else Color("c9c2b0")
+	# 朱红边框 = 「这是当前 NPC 的委托」。进行中（金）/完成（灰）的状态色仍由右侧
+	# chip 和进度条表达，边框只负责「归属」这一个信息，点击 NPC 后一眼锁定 TA 的任务
+	style.set_border_width_all(3 if highlight else 2)
+	style.border_color = UiKit.VERMILION if highlight else (UiKit.GOLD if active else Color("c9c2b0"))
 	style.content_margin_left = 16
 	style.content_margin_right = 16
 	style.content_margin_top = 12
@@ -224,6 +278,8 @@ func _ratio(q: Dictionary) -> float:
 			if steps.is_empty():
 				return 0.0
 			return float(Quests.errand_step(q)) / float(steps.size())
+		"talk", "photo", "visit":
+			return 1.0 if Quests.is_done(id) else 0.0
 	return 0.0
 
 

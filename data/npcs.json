@@ -1,0 +1,112 @@
+{
+  "npcs": {
+    "chef": {
+      "glb": "chef",
+      "name": "シェフ",
+      "zh": "厨师",
+      "height": 1.75
+    },
+    "musician": {
+      "glb": "musician",
+      "name": "音楽家",
+      "zh": "音乐家",
+      "height": 1.72
+    },
+    "office-worker": {
+      "glb": "office-worker",
+      "name": "会社員",
+      "zh": "上班族",
+      "height": 1.74
+    },
+    "young-lady": {
+      "glb": "young-lady",
+      "name": "お嬢さん",
+      "zh": "小姐",
+      "height": 1.62
+    },
+    "oldwoman": {
+      "glb": "oldwoman",
+      "name": "おばあさん",
+      "zh": "老奶奶",
+      "height": 1.5
+    },
+    "scout": {
+      "glb": "scout",
+      "name": "スカウト",
+      "zh": "童子军",
+      "height": 1.45
+    },
+    "diver": {
+      "glb": "diver",
+      "name": "ダイバー",
+      "zh": "潜水员",
+      "height": 1.78
+    },
+    "mountainman": {
+      "glb": "mountainman",
+      "name": "山男",
+      "zh": "山民",
+      "height": 1.8
+    },
+    "boss": {
+      "glb": "boss",
+      "name": "店長",
+      "zh": "店长",
+      "height": 1.76
+    },
+    "factory-worker-a": {
+      "glb": "factory-worker-a",
+      "name": "工場作業員",
+      "zh": "工人",
+      "height": 1.73
+    },
+    "threekid": {
+      "glb": "threekid",
+      "name": "子どもたち",
+      "zh": "孩子们",
+      "height": 1.25
+    },
+    "fox": {
+      "glb": "fox",
+      "name": "きつね",
+      "zh": "狐狸",
+      "height": 0.7
+    },
+    "caveman": {
+      "glb": "caveman",
+      "name": "原始人",
+      "zh": "原始人",
+      "height": 1.6
+    },
+    "female-scientist": {
+      "glb": "female-scientist",
+      "name": "科学者",
+      "zh": "科学家",
+      "height": 1.65
+    },
+    "linpo": {
+      "glb": "oldwoman",
+      "name": "林婆",
+      "zh": "林婆",
+      "height": 1.42
+    },
+    "aqiang": {
+      "glb": "boss",
+      "name": "阿強",
+      "zh": "阿强",
+      "height": 1.7
+    },
+    "hebo": {
+      "glb": "mountainman",
+      "name": "何伯",
+      "zh": "何伯",
+      "height": 1.74
+    },
+    "sheng": {
+      "glb": "scout",
+      "name": "陳安生",
+      "zh": "陈安生",
+      "height": 1.65
+    }
+  }
+}

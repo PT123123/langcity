@@ -105,6 +105,11 @@ func _build_from_model() -> bool:
 		var inst := packed.instantiate()
 		if inst == null:
 			continue
+		# 【贴图补全】Quaternius 的动物模型材质只有 baseColorFactor（全纯色），
+		# 这里没走 ModelUtil.spawn 就等于完全没补图 —— 狐狸会是一只塑料玩具。
+		# 语义不明的材质名（Main / Main_Light / Eyes）会落到低对比噪声，
+		# 表面有颗粒但看不出图案，不会把毛贴成墙砖。
+		ModelUtil.attach_textures(inst, p)
 		_model = inst
 		_model.rotation = Vector3(0, MODEL_YAW, 0)
 		_root.add_child(_model)
@@ -486,8 +491,16 @@ func _build_leg(x: float, y: float, z: float, upper_mat: StandardMaterial3D,
 # ============================================================ 动画
 
 ## turn_rate：身体转向速率（rad/s），用来做转弯侧倾
-func animate(delta: float, gait: float, turn_rate: float) -> void:
+## climbing：贴墙攀爬中（此时"上"是墙面法线，身体横过来，动画要换成攀爬姿态）
+## climb_phase：攀爬的累计相位，供四肢交替
+## 【为什么加默认参数】street.gd 里还有别处调 animate(delta, gait, turn)（NPC 等），
+## 给了默认值就不必全仓改一遍 —— 新参数不传时行为与之前完全一致。
+func animate(delta: float, gait: float, turn_rate: float,
+		climbing := false, climb_phase := 0.0) -> void:
 	_idle_t += delta
+	if climbing:
+		_climb_pose(delta, climb_phase)
+		return
 	if _model != null:
 		_animate_model(delta, gait, turn_rate)
 		return
@@ -496,6 +509,39 @@ func animate(delta: float, gait: float, turn_rate: float) -> void:
 	_tail_animate(delta, gait)
 	_head_animate(delta, gait)
 	_blink_animate(delta)
+
+
+## 攀爬姿态：身体贴墙、四肢交替上够。
+## 【只在程序化猫上做】GLB 有骨骼动画，硬改 _root 的旋转会和骨骼动画打架，
+## 所以模型模式下退化为"切到 idle + 姿态归零"。
+## 幅度刻意小：贴墙攀爬主要靠速度反馈表达，姿态做过头会显得像在抽搐。
+func _climb_pose(delta: float, phase: float) -> void:
+	if _model != null:
+		# 模型模式：切换到 idle 动画（若存在），停止走跑动画，避免"贴着墙小跑"。
+		_drive_anim(0.0)
+		_root.rotation.x = lerpf(_root.rotation.x, 0.0, 1.0 - exp(-8.0 * delta))
+		_root.rotation.z = lerpf(_root.rotation.z, 0.0, 1.0 - exp(-8.0 * delta))
+		return
+	# 前肢交替上够：0左前 1右前 2左后 3右后（见 _build_leg 调用顺序）。
+	# 【不能用 leg["phase"]<PI 判前后】那个 phase 是对角小跑的相位标记（0 或 PI），
+	# 前左+后右同为 0 —— 按 phase 分会把"前左"和"后右"当成同侧。
+	for i in _legs.size():
+		var leg: Dictionary = _legs[i]
+		var root: Node3D = leg["root"]
+		var lower: Node3D = leg["lower"]
+		var is_front: bool = i < 2
+		var s := sin(phase + leg["phase"])
+		var amp := 0.7
+		# 前爪上够幅度大、后爪蹬踏幅度小（视觉上前爪在"抓"，后爪在"撑"）
+		var k := amp if is_front else amp * 0.6
+		root.rotation.x = s * k
+		# 下爪在相位的后半段折叠（收爪）
+		lower.rotation.x = -maxf(0.0, sin(phase + leg["phase"] - 0.75)) * 0.9 * (amp if is_front else 0.5)
+	# 身体沿墙面轻微起伏（往上够的时候身体被拉长一点）
+	var bob := absf(sin(phase)) * 0.016
+	_root.position.y = _base_y + bob
+	_root.rotation.x = lerpf(_root.rotation.x, -0.28, 1.0 - exp(-8.0 * delta))
+	_tail_animate(delta, 0.6)
 
 
 ## GLB 模式：四肢/尾巴交给骨骼动画，这里只做「整体位移」——
